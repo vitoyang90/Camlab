@@ -61,7 +61,7 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    // First multi-scene review: Design/StyleCalibration/comparison.html.
+    // Second multi-scene review: Design/StyleCalibration/comparison.html.
     // Keep values in the existing recipe format so saved custom recipes are unchanged.
     var adjustment: RecipeAdjustment {
         let values: [AdjustmentParameter: Int]
@@ -73,21 +73,21 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         case .japanese:
             values = [.exposure: 4, .brightness: 4, .contrast: -14, .shadows: 12, .saturation: -10, .warmth: -4, .highlights: -20]
         case .cinema:
-            values = [.warmth: -18, .tint: -4, .saturation: -18, .contrast: 22, .blackPoint: 10, .highlights: -24, .shadows: 14, .vignette: 16]
+            values = [.warmth: -18, .tint: -4, .saturation: -18, .contrast: 22, .blackPoint: 8, .highlights: -24, .shadows: 20, .vignette: 12]
         case .mono:
             values = [.saturation: -100, .contrast: 22, .blackPoint: 6, .highlights: -18, .shadows: 18]
         case .portrait:
-            values = [.warmth: 6, .tint: 4, .contrast: -12, .highlights: -18, .shadows: 16, .saturation: -4, .brightness: 3]
+            values = [.warmth: 4, .tint: 4, .contrast: -12, .highlights: -20, .shadows: 22, .saturation: -4, .brightness: 3]
         case .sunset:
-            values = [.warmth: 32, .tint: 6, .vibrance: 12, .saturation: 4, .highlights: -24, .contrast: 8, .shadows: 6]
+            values = [.warmth: 26, .tint: 4, .vibrance: 10, .saturation: 2, .highlights: -24, .contrast: 8, .shadows: 6]
         case .cool:
             values = [.warmth: -26, .contrast: 6, .brightness: 2, .vibrance: 6, .highlights: -14, .shadows: 6]
         case .vivid:
-            values = [.saturation: 18, .vibrance: 16, .contrast: 14, .blackPoint: 4, .highlights: -22, .shadows: 8]
+            values = [.saturation: 12, .vibrance: 18, .contrast: 14, .blackPoint: 4, .highlights: -22, .shadows: 8]
         case .faded:
             values = [.saturation: -24, .contrast: -16, .blackPoint: -26, .highlights: -16, .warmth: -4, .brightness: 2, .shadows: 4]
         case .street:
-            values = [.contrast: 28, .blackPoint: 14, .saturation: -14, .warmth: -6, .highlights: -20, .shadows: 12]
+            values = [.contrast: 28, .blackPoint: 12, .saturation: -14, .warmth: -6, .highlights: -20, .shadows: 18]
         case .cafe:
             values = [.warmth: 30, .tint: 4, .saturation: -16, .contrast: 16, .blackPoint: 6, .highlights: -22, .shadows: 10, .vignette: 18]
         }
