@@ -1,0 +1,180 @@
+[
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : -24,
+        "contrast" : 8,
+        "highlights" : -18,
+        "saturation" : -22,
+        "shadows" : 8,
+        "tint" : 4,
+        "vignette" : 12,
+        "warmth" : 28
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000001",
+    "name" : "復古"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : -12,
+        "contrast" : 12,
+        "highlights" : -22,
+        "saturation" : -10,
+        "shadows" : 6,
+        "tint" : 4,
+        "warmth" : 18
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000002",
+    "name" : "暖調底片"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "brightness" : 4,
+        "contrast" : -14,
+        "exposure" : 4,
+        "highlights" : -20,
+        "saturation" : -10,
+        "shadows" : 12,
+        "warmth" : -4
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000003",
+    "name" : "日系清透"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : 10,
+        "contrast" : 22,
+        "highlights" : -24,
+        "saturation" : -18,
+        "shadows" : 14,
+        "tint" : -4,
+        "vignette" : 16,
+        "warmth" : -18
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000004",
+    "name" : "電影"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : 6,
+        "contrast" : 22,
+        "highlights" : -18,
+        "saturation" : -100,
+        "shadows" : 18
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000005",
+    "name" : "經典黑白"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "brightness" : 3,
+        "contrast" : -12,
+        "highlights" : -18,
+        "saturation" : -4,
+        "shadows" : 16,
+        "tint" : 4,
+        "warmth" : 6
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000006",
+    "name" : "柔光人像"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "contrast" : 8,
+        "highlights" : -24,
+        "saturation" : 4,
+        "shadows" : 6,
+        "tint" : 6,
+        "vibrance" : 12,
+        "warmth" : 32
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000007",
+    "name" : "夕陽"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "brightness" : 2,
+        "contrast" : 6,
+        "highlights" : -14,
+        "shadows" : 6,
+        "vibrance" : 6,
+        "warmth" : -26
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000008",
+    "name" : "冷調"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : 4,
+        "contrast" : 14,
+        "highlights" : -22,
+        "saturation" : 18,
+        "shadows" : 8,
+        "vibrance" : 16
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000009",
+    "name" : "鮮明"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : -26,
+        "brightness" : 2,
+        "contrast" : -16,
+        "highlights" : -16,
+        "saturation" : -24,
+        "shadows" : 4,
+        "warmth" : -4
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000010",
+    "name" : "霧感"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : 14,
+        "contrast" : 28,
+        "highlights" : -20,
+        "saturation" : -14,
+        "shadows" : 12,
+        "warmth" : -6
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000011",
+    "name" : "城市街拍"
+  },
+  {
+    "adjustment" : {
+      "values" : {
+        "blackPoint" : 6,
+        "contrast" : 16,
+        "highlights" : -22,
+        "saturation" : -16,
+        "shadows" : 10,
+        "tint" : 4,
+        "vignette" : 18,
+        "warmth" : 30
+      }
+    },
+    "id" : "CAAB0000-0000-4000-8000-000000000012",
+    "name" : "咖啡暖棕"
+  }
+]
