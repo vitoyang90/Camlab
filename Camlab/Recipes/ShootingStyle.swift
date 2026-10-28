@@ -61,33 +61,35 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    // First multi-scene review: Design/StyleCalibration/comparison.html.
+    // Keep values in the existing recipe format so saved custom recipes are unchanged.
     var adjustment: RecipeAdjustment {
         let values: [AdjustmentParameter: Int]
         switch self {
         case .vintage:
-            values = [.warmth: 38, .saturation: -26, .blackPoint: -32, .highlights: -24, .contrast: 12, .vignette: 18]
+            values = [.warmth: 28, .tint: 4, .saturation: -22, .blackPoint: -24, .highlights: -18, .contrast: 8, .shadows: 8, .vignette: 12]
         case .film:
-            values = [.warmth: 24, .tint: 6, .saturation: -12, .blackPoint: -16, .highlights: -32, .contrast: 18]
+            values = [.warmth: 18, .tint: 4, .saturation: -10, .blackPoint: -12, .highlights: -22, .contrast: 12, .shadows: 6]
         case .japanese:
-            values = [.exposure: 8, .brightness: 8, .contrast: -18, .shadows: 16, .saturation: -14, .warmth: -8, .tint: -6]
+            values = [.exposure: 4, .brightness: 4, .contrast: -14, .shadows: 12, .saturation: -10, .warmth: -4, .highlights: -20]
         case .cinema:
-            values = [.warmth: -24, .tint: -10, .saturation: -24, .contrast: 32, .blackPoint: 18, .highlights: -28, .vignette: 24]
+            values = [.warmth: -18, .tint: -4, .saturation: -18, .contrast: 22, .blackPoint: 10, .highlights: -24, .shadows: 14, .vignette: 16]
         case .mono:
-            values = [.saturation: -100, .contrast: 30, .blackPoint: 16, .highlights: -18, .shadows: 8]
+            values = [.saturation: -100, .contrast: 22, .blackPoint: 6, .highlights: -18, .shadows: 18]
         case .portrait:
-            values = [.warmth: 12, .tint: 8, .contrast: -20, .highlights: -22, .shadows: 12, .saturation: -8, .brightness: 6]
+            values = [.warmth: 6, .tint: 4, .contrast: -12, .highlights: -18, .shadows: 16, .saturation: -4, .brightness: 3]
         case .sunset:
-            values = [.warmth: 60, .tint: 12, .vibrance: 22, .saturation: 12, .highlights: -30, .contrast: 12]
+            values = [.warmth: 32, .tint: 6, .vibrance: 12, .saturation: 4, .highlights: -24, .contrast: 8, .shadows: 6]
         case .cool:
-            values = [.warmth: -42, .tint: 4, .contrast: 8, .brightness: 5, .vibrance: 10]
+            values = [.warmth: -26, .contrast: 6, .brightness: 2, .vibrance: 6, .highlights: -14, .shadows: 6]
         case .vivid:
-            values = [.saturation: 32, .vibrance: 28, .contrast: 22, .blackPoint: 8, .highlights: -12]
+            values = [.saturation: 18, .vibrance: 16, .contrast: 14, .blackPoint: 4, .highlights: -22, .shadows: 8]
         case .faded:
-            values = [.saturation: -32, .contrast: -26, .blackPoint: -40, .highlights: -18, .warmth: -6, .brightness: 4]
+            values = [.saturation: -24, .contrast: -16, .blackPoint: -26, .highlights: -16, .warmth: -4, .brightness: 2, .shadows: 4]
         case .street:
-            values = [.contrast: 42, .blackPoint: 24, .saturation: -18, .warmth: -10, .highlights: -20, .shadows: 6]
+            values = [.contrast: 28, .blackPoint: 14, .saturation: -14, .warmth: -6, .highlights: -20, .shadows: 12]
         case .cafe:
-            values = [.warmth: 48, .tint: 4, .saturation: -20, .contrast: 22, .blackPoint: 12, .highlights: -26, .vignette: 30]
+            values = [.warmth: 30, .tint: 4, .saturation: -16, .contrast: 16, .blackPoint: 6, .highlights: -22, .shadows: 10, .vignette: 18]
         }
         var result = RecipeAdjustment()
         for (parameter, value) in values { result[parameter] = value }
