@@ -51,8 +51,65 @@ nonisolated enum RecipeColorPipeline {
         }
         """)
 
+    static let shadowDenoiseKernel = CIColorKernel(source: """
+        kernel vec4 shadowDenoise(__sample original, __sample filtered, __sample blurred,
+                                 float amount, float manual) {
+            vec4 c = unpremultiply(original);
+            vec3 f = unpremultiply(filtered).rgb;
+            vec3 b = unpremultiply(blurred).rgb;
+            vec3 weights = vec3(0.2126, 0.7152, 0.0722);
+            float y = dot(c.rgb, weights);
+            float fy = dot(mix(f, b, 0.25), weights);
+            float by = dot(b, weights);
+            float dark = 1.0 - smoothstep(0.12, 0.55, y);
+            float region = mix(dark, 0.25 + 0.75 * dark, manual);
+            // Limit smoothing where the candidate differs across a strong edge.
+            float edge = 1.0 - smoothstep(0.025, 0.08, abs(y - by));
+            vec3 chromaDelta = (b - vec3(by)) - (c.rgb - vec3(y));
+            float colorEdge = 1.0 - smoothstep(0.06, 0.16, length(chromaDelta));
+            float chromaMix = amount * region * edge * colorEdge;
+            float lumaMix = amount * region * edge * mix(0.40, 0.80, manual);
+            vec3 result = c.rgb + vec3((fy - y) * lumaMix) + chromaDelta * chromaMix;
+            return premultiply(vec4(max(result, vec3(0.0)), c.a));
+        }
+        """)
+
+    static let shadowToeKernel = CIColorKernel(source: """
+        kernel vec4 shadowToe(__sample mask, __sample source) {
+            float y = dot(unpremultiply(source).rgb, vec3(0.2126, 0.7152, 0.0722));
+            float toe = 0.25 + 0.75 * smoothstep(0.0, 0.08, y);
+            return vec4(mask.rgb * toe, 1.0);
+        }
+        """)
+
+    // Work on the original signal before exposure and shadow gain amplify noise.
+    // Automatic processing is confined to shadows; the explicit slider can also
+    // reduce noise in brighter regions. A zero recipe stays an exact bypass.
+    static func denoising(_ source: CIImage, amount: Double, shadowLift: Double) -> CIImage {
+        let manual = min(1, max(0, amount))
+        let strength = max(manual, min(0.60, max(0, shadowLift) * 3.0))
+        guard strength > 0 else { return source }
+        let perceptual = source.applyingFilter("CILinearToSRGBToneCurve")
+        let candidate = perceptual.clampedToExtent().applyingFilter("CINoiseReduction", parameters: [
+            "inputNoiseLevel": 0.012 + strength * 0.06,
+            "inputSharpness": 0
+        ]).cropped(to: source.extent)
+        // A narrow chroma neighborhood suppresses colored speckles while the
+        // reconstruction keeps most original luminance texture. Pixel-sized noise
+        // uses a pixel-sized radius rather than scaling with the export resolution.
+        let chroma = perceptual.clampedToExtent().applyingFilter("CIGaussianBlur", parameters: [
+            kCIInputRadiusKey: 0.8
+        ]).cropped(to: source.extent)
+        let result = shadowDenoiseKernel?.apply(extent: source.extent, arguments: [
+            perceptual, candidate, chroma, strength, manual
+        ]) ?? perceptual
+        return result.applyingFilter("CISRGBToneCurveToLinear").cropped(to: source.extent)
+    }
+
     static func applying(_ recipe: RecipeAdjustment, to source: CIImage, mapping: Mapping = mapping) -> CIImage {
-        var image = source
+        let lift = max(0, Double(recipe[.shadows]) / 100 * mapping.shadowEV
+            + Double(recipe[.brilliance]) / 100 * mapping.brillianceShadowEV)
+        var image = denoising(source, amount: Double(recipe[.noiseReduction]) / 100, shadowLift: lift)
         let needsSkinMask = recipe[.saturation] > 0 || recipe[.vibrance] > 0
             || recipe[.warmth] != 0 || recipe[.tint] != 0
         let skinMask = needsSkinMask ? skinMaskKernel?.apply(extent: source.extent, arguments: [
@@ -155,9 +212,17 @@ nonisolated enum RecipeColorPipeline {
         let regional = luminance.applyingFilter("CIDissolveTransition", parameters: [
             kCIInputTargetImageKey: surround, kCIInputTimeKey: 0.2
         ])
-        let shadowMask = polynomial(regional, coefficients: CIVector(x: 1, y: -2, z: 1, w: 0))
+        var shadowMask = polynomial(regional, coefficients: CIVector(x: 1, y: -2, z: 1, w: 0))
         let highlightMask = polynomial(regional, coefficients: CIVector(x: 0, y: 0, z: 1, w: 0))
-        let shadowGain = pow(2, shadows * mapping.shadowEV + brilliance * mapping.brillianceShadowEV)
+        var shadowGain = pow(2, shadows * mapping.shadowEV + brilliance * mapping.brillianceShadowEV)
+        if shadowGain > 1 {
+            // More useful separation in ordinary shadows, bounded at the existing
+            // combined maximum. Fade the lift near black rather than lifting noise
+            // at the floor as strongly as recoverable shadow detail.
+            let delta = shadowGain - 1
+            shadowGain += 0.15 * delta * max(0, 1 - delta / (pow(2, 1.9) - 1))
+            shadowMask = shadowToeKernel?.apply(extent: extent, arguments: [shadowMask, perceptual]) ?? shadowMask
+        }
         let highlightGain = pow(2, highlights * 0.8 - brilliance * mapping.brillianceHighlightEV)
         var image = blend(gain(perceptual, shadowGain), over: perceptual, mask: shadowMask)
         if highlightGain < 1 {

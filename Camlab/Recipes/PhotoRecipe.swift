@@ -72,12 +72,8 @@ nonisolated struct RecipeAdjustment: Codable, Equatable, Sendable {
         // borders. Scale detail radii with image size for preview/export parity.
         let extent = source.extent
         let detailScale = max(0.1, min(extent.width, extent.height) / 1080)
-        if self[.noiseReduction] > 0 {
-            image = image.clampedToExtent().applyingFilter("CINoiseReduction", parameters: [
-                "inputNoiseLevel": Double(self[.noiseReduction]) / 100 * 0.08,
-                "inputSharpness": 0
-            ]).cropped(to: extent)
-        }
+        // Noise reduction now runs before color/tone amplification in the shared
+        // pipeline; do not smooth a second time after lifting the shadows.
         if self[.definition] > 0 {
             // Broad local contrast gives structure without duplicating the
             // fine-edge sharpening control.
