@@ -1,0 +1,92 @@
+[
+  {
+    "id": "portrait",
+    "title": "自然光人像",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Portrait_with_natural_light_%28Creative_Commons%29.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Portrait_with_natural_light_(Creative_Commons).jpg",
+    "author": "Wendelin Jacober; model: Sheila Rizzo",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "original_sha256": "1a1f9327f56115b8b1bfda0c299b8bf7a72060def7d8f772590447957f2d7ea1",
+    "original_size": [
+      2538,
+      1692
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  },
+  {
+    "id": "portrait_studio",
+    "title": "棚燈人像",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Mae_Jemison_-_Official_portrait_of_1987_astronaut_candidate.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Mae_Jemison_-_Official_portrait_of_1987_astronaut_candidate.jpg",
+    "author": "NASA, S87-45893",
+    "license": "Public domain (US federal government)",
+    "license_url": "https://commons.wikimedia.org/wiki/Template:PD-USGov-NASA",
+    "original_sha256": "c700b2b542123c5599c920b93a1e9bc1c0b75715fa989a0b615cdbfd16fc5318",
+    "original_size": [
+      3684,
+      4605
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  },
+  {
+    "id": "daylight",
+    "title": "湖景與天空",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Lake_Louise_17092005_1.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Lake_Louise_17092005_1.jpg",
+    "author": "Gorgo / Wikimedia Commons",
+    "license": "Public domain",
+    "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "original_sha256": "654e1cd79a773cca343d8e9bb394f189480f7ca56211660d193f1732b6cd789a",
+    "original_size": [
+      2048,
+      1536
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  },
+  {
+    "id": "interior",
+    "title": "咖啡館室內",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Balat_Antique_Cafe_Interior_Traditional_Decor_Istanbul.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Balat_Antique_Cafe_Interior_Traditional_Decor_Istanbul.jpg",
+    "author": "Tolga Bakı",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "original_sha256": "e0db725d9d28a7e20db3259f8cb143002c09380f76f87351c5b572614087c46f",
+    "original_size": [
+      1095,
+      1600
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  },
+  {
+    "id": "night",
+    "title": "台北夜間街景",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Traffic_on_Nanjing_West_Road_in_Taipei_at_night.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Traffic_on_Nanjing_West_Road_in_Taipei_at_night.jpg",
+    "author": "Benlisquare",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "original_sha256": "98e611c2711e2656c0824fbd07ef8f7f108088c99acad83df805127e3186bea7",
+    "original_size": [
+      6000,
+      4000
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  },
+  {
+    "id": "sunset",
+    "title": "海灘夕陽",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Beach_at_Sunset_-_50134955282.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Beach_at_Sunset_-_50134955282.jpg",
+    "author": "Alabama Extension / Bruce Dupree",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "original_sha256": "19238d982993a9dce843afe421fb5c472f4f99cc3e2243e144a6eb4226a52646",
+    "original_size": [
+      2256,
+      1504
+    ],
+    "changes": "EXIF orientation normalized; converted/assumed sRGB; resized to max 1200px. Rendered variants apply Camlab color recipes. Night derivatives retain CC BY-SA 4.0."
+  }
+]

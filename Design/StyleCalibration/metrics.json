@@ -1,0 +1,3602 @@
+[
+  {
+    "scene": "portrait",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 50.46181903166667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.57616313529799,
+    "rgb_change": 7.693316459655762
+  },
+  {
+    "scene": "portrait",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 50.74539032,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.89681085567929,
+    "rgb_change": 6.021587371826172
+  },
+  {
+    "scene": "portrait",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 50.74539032,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.89681085567929,
+    "rgb_change": 6.021587371826172
+  },
+  {
+    "scene": "portrait",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 50.612104751249994,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.7617936552916,
+    "rgb_change": 5.767705917358398
+  },
+  {
+    "scene": "portrait",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 50.62947172041667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.8420325409584,
+    "rgb_change": 5.720281600952148
+  },
+  {
+    "scene": "portrait",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 45.64041975729166,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 22.633058426979414,
+    "rgb_change": 6.763976573944092
+  },
+  {
+    "scene": "portrait",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 47.36541322520833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.296554407626104,
+    "rgb_change": 4.746777057647705
+  },
+  {
+    "scene": "portrait",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 47.36541322520833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.296554407626104,
+    "rgb_change": 4.746777057647705
+  },
+  {
+    "scene": "portrait",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 47.23129292020833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.130039913665254,
+    "rgb_change": 4.571476459503174
+  },
+  {
+    "scene": "portrait",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 47.26651069520833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.19588217876508,
+    "rgb_change": 4.528650760650635
+  },
+  {
+    "scene": "portrait",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 61.34465630979167,
+    "newly_clipped_channel_percent": 2.6000347222222224,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.538733521468856,
+    "rgb_change": 12.457674980163574
+  },
+  {
+    "scene": "portrait",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 52.97163885458334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.939967984912826,
+    "rgb_change": 9.215867042541504
+  },
+  {
+    "scene": "portrait",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 52.97163885458334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.939967984912826,
+    "rgb_change": 9.215867042541504
+  },
+  {
+    "scene": "portrait",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 52.972616438958326,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.073475385256145,
+    "rgb_change": 9.447810173034668
+  },
+  {
+    "scene": "portrait",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 53.05476861937501,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.22512100370951,
+    "rgb_change": 9.513815879821777
+  },
+  {
+    "scene": "portrait",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 39.23582120062499,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.000625,
+    "shadow_mean": 13.089627892583698,
+    "rgb_change": 9.594422340393066
+  },
+  {
+    "scene": "portrait",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 42.44875339770833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0004166666666666667,
+    "shadow_mean": 17.790583630652332,
+    "rgb_change": 6.504831790924072
+  },
+  {
+    "scene": "portrait",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 43.193028820416664,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0003125,
+    "shadow_mean": 18.75378133643692,
+    "rgb_change": 5.91581392288208
+  },
+  {
+    "scene": "portrait",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 43.335897509166664,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.00125,
+    "shadow_mean": 19.043892714873472,
+    "rgb_change": 5.829607009887695
+  },
+  {
+    "scene": "portrait",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 43.475763128958334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.00020833333333333335,
+    "shadow_mean": 19.2506282826081,
+    "rgb_change": 5.706556797027588
+  },
+  {
+    "scene": "portrait",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 42.09385208333333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.04125,
+    "shadow_mean": 15.626771555465597,
+    "rgb_change": 7.483539581298828
+  },
+  {
+    "scene": "portrait",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 44.570792708333336,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0032291666666666666,
+    "shadow_mean": 19.69697594849498,
+    "rgb_change": 5.594038486480713
+  },
+  {
+    "scene": "portrait",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 44.570792708333336,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0032291666666666666,
+    "shadow_mean": 19.69697594849498,
+    "rgb_change": 5.594038486480713
+  },
+  {
+    "scene": "portrait",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 44.591791666666666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0032291666666666666,
+    "shadow_mean": 19.75512734180073,
+    "rgb_change": 5.656093120574951
+  },
+  {
+    "scene": "portrait",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 44.695005208333335,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0022916666666666667,
+    "shadow_mean": 19.9245018625417,
+    "rgb_change": 5.610215663909912
+  },
+  {
+    "scene": "portrait",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 53.86121991708333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.37781734946887,
+    "rgb_change": 11.923460006713867
+  },
+  {
+    "scene": "portrait",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 51.91266563666666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.842135907157065,
+    "rgb_change": 8.472583770751953
+  },
+  {
+    "scene": "portrait",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 52.215365980208325,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.67588552589069,
+    "rgb_change": 9.3694486618042
+  },
+  {
+    "scene": "portrait",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 52.18923794375,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.759098853670785,
+    "rgb_change": 9.576268196105957
+  },
+  {
+    "scene": "portrait",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 52.26359861666666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.011314408326754,
+    "rgb_change": 9.638484001159668
+  },
+  {
+    "scene": "portrait",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 46.00511227124999,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.09971008536163,
+    "rgb_change": 9.123449325561523
+  },
+  {
+    "scene": "portrait",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 46.408845045,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.391924037492164,
+    "rgb_change": 6.145415782928467
+  },
+  {
+    "scene": "portrait",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 46.18688101395833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.164665003678373,
+    "rgb_change": 5.6166582107543945
+  },
+  {
+    "scene": "portrait",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 45.928056124375,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.832792017734043,
+    "rgb_change": 5.110917568206787
+  },
+  {
+    "scene": "portrait",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 45.958751742708344,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.893681665349717,
+    "rgb_change": 5.0732011795043945
+  },
+  {
+    "scene": "portrait",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 47.987327102916666,
+    "newly_clipped_channel_percent": 0.5400694444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 22.766507350130592,
+    "rgb_change": 6.094056129455566
+  },
+  {
+    "scene": "portrait",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 46.40514983166668,
+    "newly_clipped_channel_percent": 0.00017361111111111112,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.279851485557028,
+    "rgb_change": 4.61844539642334
+  },
+  {
+    "scene": "portrait",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 46.40514983166668,
+    "newly_clipped_channel_percent": 0.00017361111111111112,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.279851485557028,
+    "rgb_change": 4.61844539642334
+  },
+  {
+    "scene": "portrait",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 46.801084673958336,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.945115356529797,
+    "rgb_change": 3.9684858322143555
+  },
+  {
+    "scene": "portrait",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 46.82987568125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.003260018216707,
+    "rgb_change": 3.9914586544036865
+  },
+  {
+    "scene": "portrait",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 43.44055701687499,
+    "newly_clipped_channel_percent": 0.0021180555555555558,
+    "newly_crushed_pixel_percent": 0.0004166666666666667,
+    "shadow_mean": 17.488823225914437,
+    "rgb_change": 5.620933532714844
+  },
+  {
+    "scene": "portrait",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 44.33305143249999,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 20.838517756230853,
+    "rgb_change": 4.697169780731201
+  },
+  {
+    "scene": "portrait",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 44.33367422270834,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 20.855831823967428,
+    "rgb_change": 4.668719291687012
+  },
+  {
+    "scene": "portrait",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 44.367384701041665,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 20.956047850778685,
+    "rgb_change": 4.6483259201049805
+  },
+  {
+    "scene": "portrait",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 44.40290333125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.00020833333333333335,
+    "shadow_mean": 21.00973780979109,
+    "rgb_change": 4.615215301513672
+  },
+  {
+    "scene": "portrait",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 60.91047277124999,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.65073015565944,
+    "rgb_change": 19.08262825012207
+  },
+  {
+    "scene": "portrait",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 55.707352008125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.15441188873795,
+    "rgb_change": 12.641880989074707
+  },
+  {
+    "scene": "portrait",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 55.707352008125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.15441188873795,
+    "rgb_change": 12.641880989074707
+  },
+  {
+    "scene": "portrait",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 55.727785202499994,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.28173849447465,
+    "rgb_change": 12.813477516174316
+  },
+  {
+    "scene": "portrait",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 55.73838820458333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.289883416567086,
+    "rgb_change": 12.814867973327637
+  },
+  {
+    "scene": "portrait",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 39.609407116458335,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.05427083333333333,
+    "shadow_mean": 11.732443973889383,
+    "rgb_change": 9.00786304473877
+  },
+  {
+    "scene": "portrait",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 42.16453528354167,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.008020833333333333,
+    "shadow_mean": 16.19346700362388,
+    "rgb_change": 6.539284706115723
+  },
+  {
+    "scene": "portrait",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 42.828498741875,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0032291666666666666,
+    "shadow_mean": 17.060408987688152,
+    "rgb_change": 5.940351963043213
+  },
+  {
+    "scene": "portrait",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 42.93394739916666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0030208333333333333,
+    "shadow_mean": 17.241581876321003,
+    "rgb_change": 5.947940349578857
+  },
+  {
+    "scene": "portrait",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 43.02139658208333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0032291666666666666,
+    "shadow_mean": 17.391508921905594,
+    "rgb_change": 5.879427909851074
+  },
+  {
+    "scene": "portrait",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 43.50804486083332,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 19.486082570735714,
+    "rgb_change": 7.745891571044922
+  },
+  {
+    "scene": "portrait",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 45.242247535833336,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 21.711975380585194,
+    "rgb_change": 5.540838718414307
+  },
+  {
+    "scene": "portrait",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 45.242247535833336,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 21.711975380585194,
+    "rgb_change": 5.540838718414307
+  },
+  {
+    "scene": "portrait",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 44.994011794375,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 21.38936565916849,
+    "rgb_change": 5.399319648742676
+  },
+  {
+    "scene": "portrait",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 45.071735873749994,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 21.504083290062162,
+    "rgb_change": 5.308366775512695
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 87.15465608229167,
+    "newly_clipped_channel_percent": 0.0002025462962962963,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 40.74996389288464,
+    "rgb_change": 9.584674835205078
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 89.84619564600693,
+    "newly_clipped_channel_percent": 0.00043402777777777775,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.373075388192106,
+    "rgb_change": 6.757193088531494
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 89.84619564600693,
+    "newly_clipped_channel_percent": 0.00043402777777777775,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.373075388192106,
+    "rgb_change": 6.757193088531494
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 90.60083429218751,
+    "newly_clipped_channel_percent": 0.00026041666666666666,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.45245313625019,
+    "rgb_change": 6.504729270935059
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 90.88026088281251,
+    "newly_clipped_channel_percent": 0.0002314814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.657878796196215,
+    "rgb_change": 6.419614791870117
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 83.32184631597222,
+    "newly_clipped_channel_percent": 0.00026041666666666666,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.046206242953446,
+    "rgb_change": 8.876115798950195
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 87.17474132604166,
+    "newly_clipped_channel_percent": 0.000462962962962963,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.83714836442239,
+    "rgb_change": 5.262531757354736
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 87.17474132604166,
+    "newly_clipped_channel_percent": 0.000462962962962963,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.83714836442239,
+    "rgb_change": 5.262531757354736
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 88.18432381163194,
+    "newly_clipped_channel_percent": 0.00026041666666666666,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.9794249842546,
+    "rgb_change": 4.6083831787109375
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 88.39306571284722,
+    "newly_clipped_channel_percent": 0.000318287037037037,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.13868808248257,
+    "rgb_change": 4.499838829040527
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 108.12229105677083,
+    "newly_clipped_channel_percent": 1.8511284722222223,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 58.99301959582922,
+    "rgb_change": 16.843826293945312
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 99.1971045170139,
+    "newly_clipped_channel_percent": 0.00017361111111111112,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.447499597228806,
+    "rgb_change": 10.945032119750977
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 99.1971045170139,
+    "newly_clipped_channel_percent": 0.00017361111111111112,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.447499597228806,
+    "rgb_change": 10.945032119750977
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 99.92496897829861,
+    "newly_clipped_channel_percent": 0.00017361111111111112,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.65591245091712,
+    "rgb_change": 11.63405990600586
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 100.27269695364583,
+    "newly_clipped_channel_percent": 0.00011574074074074075,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 53.04469428578092,
+    "rgb_change": 11.933821678161621
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 75.92116733802082,
+    "newly_clipped_channel_percent": 0.0006076388888888889,
+    "newly_crushed_pixel_percent": 0.010590277777777777,
+    "shadow_mean": 25.38398911273705,
+    "rgb_change": 15.066288948059082
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 83.48833987673612,
+    "newly_clipped_channel_percent": 0.0005787037037037037,
+    "newly_crushed_pixel_percent": 0.0008680555555555555,
+    "shadow_mean": 32.28402220606645,
+    "rgb_change": 7.605162143707275
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 85.50883049097223,
+    "newly_clipped_channel_percent": 0.000636574074074074,
+    "newly_crushed_pixel_percent": 0.00017361111111111112,
+    "shadow_mean": 33.80258566818807,
+    "rgb_change": 6.178622722625732
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 86.72391187743057,
+    "newly_clipped_channel_percent": 0.000462962962962963,
+    "newly_crushed_pixel_percent": 0.00034722222222222224,
+    "shadow_mean": 34.06040777706071,
+    "rgb_change": 5.729034900665283
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 87.4759379987847,
+    "newly_clipped_channel_percent": 0.00043402777777777775,
+    "newly_crushed_pixel_percent": 0.00043402777777777775,
+    "shadow_mean": 34.64058838261708,
+    "rgb_change": 5.488235950469971
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 80.93357725694445,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.011024305555555555,
+    "shadow_mean": 28.77558724506061,
+    "rgb_change": 19.04561996459961
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 86.75488888888889,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0009548611111111111,
+    "shadow_mean": 34.71746922843658,
+    "rgb_change": 15.868683815002441
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 86.75488888888889,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0009548611111111111,
+    "shadow_mean": 34.71746922843658,
+    "rgb_change": 15.868683815002441
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 87.69268489583334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0006944444444444445,
+    "shadow_mean": 34.886551485510346,
+    "rgb_change": 15.631131172180176
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 88.36430381944444,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0005208333333333333,
+    "shadow_mean": 35.39727779548865,
+    "rgb_change": 15.458983421325684
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 99.98487779687498,
+    "newly_clipped_channel_percent": 0.00014467592592592592,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 55.05402109105895,
+    "rgb_change": 12.97671890258789
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 97.47615213854166,
+    "newly_clipped_channel_percent": 0.0002314814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.97736088298642,
+    "rgb_change": 9.396952629089355
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 98.48979304270831,
+    "newly_clipped_channel_percent": 0.0002314814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.203426795169854,
+    "rgb_change": 10.550511360168457
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 99.16909330052083,
+    "newly_clipped_channel_percent": 0.0002025462962962963,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.373667752645616,
+    "rgb_change": 11.275819778442383
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 99.8169468142361,
+    "newly_clipped_channel_percent": 0.0002314814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 53.105512215319294,
+    "rgb_change": 11.858699798583984
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 85.4620105359375,
+    "newly_clipped_channel_percent": 0.0035011574074074073,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.45372431867132,
+    "rgb_change": 9.301712036132812
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 87.8978497470486,
+    "newly_clipped_channel_percent": 0.0018807870370370371,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.25718301518556,
+    "rgb_change": 5.310304164886475
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 87.81649369982638,
+    "newly_clipped_channel_percent": 0.0013599537037037037,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.14477687953409,
+    "rgb_change": 4.871274471282959
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 88.80428366788195,
+    "newly_clipped_channel_percent": 0.0006076388888888889,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.25477606621621,
+    "rgb_change": 4.246420860290527
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 88.9855955065972,
+    "newly_clipped_channel_percent": 0.0006655092592592594,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.3952632265238,
+    "rgb_change": 4.200253009796143
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 88.4800488486111,
+    "newly_clipped_channel_percent": 0.5136863425925926,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.39942317022914,
+    "rgb_change": 7.855939865112305
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 88.31443682482639,
+    "newly_clipped_channel_percent": 0.0021412037037037038,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.73648603285929,
+    "rgb_change": 5.3905439376831055
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 88.31443682482639,
+    "newly_clipped_channel_percent": 0.0021412037037037038,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.73648603285929,
+    "rgb_change": 5.3905439376831055
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 89.08052967569444,
+    "newly_clipped_channel_percent": 0.0017071759259259258,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.96127025558087,
+    "rgb_change": 5.280578136444092
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 89.26692462065971,
+    "newly_clipped_channel_percent": 0.0016782407407407408,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.11709757793001,
+    "rgb_change": 5.289122581481934
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 81.29116798107638,
+    "newly_clipped_channel_percent": 0.017621527777777778,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.759388642318967,
+    "rgb_change": 12.6077241897583
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 84.98866955902777,
+    "newly_clipped_channel_percent": 0.0033564814814814816,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.862606186969806,
+    "rgb_change": 7.883918762207031
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 84.90221780260417,
+    "newly_clipped_channel_percent": 0.0028356481481481483,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.730114746246365,
+    "rgb_change": 7.685027122497559
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 85.96294185694444,
+    "newly_clipped_channel_percent": 0.0017939814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.916669048044845,
+    "rgb_change": 7.223477840423584
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 86.23778305642361,
+    "newly_clipped_channel_percent": 0.0017939814814814815,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.12516371871331,
+    "rgb_change": 7.140570640563965
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 99.30602002899305,
+    "newly_clipped_channel_percent": 2.8935185185185186e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 57.8577628742934,
+    "rgb_change": 14.646817207336426
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 96.13921133506945,
+    "newly_clipped_channel_percent": 2.8935185185185186e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.05380482003593,
+    "rgb_change": 10.245872497558594
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 96.13921133506945,
+    "newly_clipped_channel_percent": 2.8935185185185186e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.05380482003593,
+    "rgb_change": 10.245872497558594
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 96.7457545487847,
+    "newly_clipped_channel_percent": 2.8935185185185186e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.214888863920876,
+    "rgb_change": 10.636604309082031
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 96.85488963697915,
+    "newly_clipped_channel_percent": 2.8935185185185186e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 52.31491762473855,
+    "rgb_change": 10.707019805908203
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 76.02225449027779,
+    "newly_clipped_channel_percent": 0.003096064814814815,
+    "newly_crushed_pixel_percent": 0.01154513888888889,
+    "shadow_mean": 23.403899237222898,
+    "rgb_change": 15.14671802520752
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 82.11643435347223,
+    "newly_clipped_channel_percent": 0.0014756944444444444,
+    "newly_crushed_pixel_percent": 0.00017361111111111112,
+    "shadow_mean": 30.00175710175804,
+    "rgb_change": 9.132525444030762
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 84.10170618090277,
+    "newly_clipped_channel_percent": 0.0014467592592592594,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.40942476265269,
+    "rgb_change": 7.705219268798828
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 85.21006810850695,
+    "newly_clipped_channel_percent": 0.0010127314814814814,
+    "newly_crushed_pixel_percent": 0.00034722222222222224,
+    "shadow_mean": 31.601484284925625,
+    "rgb_change": 7.200084686279297
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 85.90313308263889,
+    "newly_clipped_channel_percent": 0.0011284722222222221,
+    "newly_crushed_pixel_percent": 0.00034722222222222224,
+    "shadow_mean": 32.09719901017813,
+    "rgb_change": 6.885169982910156
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 81.97814228194444,
+    "newly_clipped_channel_percent": 0.000636574074074074,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.70828716419535,
+    "rgb_change": 11.922550201416016
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 86.57911032222222,
+    "newly_clipped_channel_percent": 0.0006944444444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.63301145954015,
+    "rgb_change": 6.759395599365234
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 86.57911032222222,
+    "newly_clipped_channel_percent": 0.0006944444444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.63301145954015,
+    "rgb_change": 6.759395599365234
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 87.58886357638889,
+    "newly_clipped_channel_percent": 0.00034722222222222224,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.74068152228848,
+    "rgb_change": 6.168023109436035
+  },
+  {
+    "scene": "portrait_studio",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 87.94181265034722,
+    "newly_clipped_channel_percent": 0.00034722222222222224,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.00555718728861,
+    "rgb_change": 6.002357482910156
+  },
+  {
+    "scene": "daylight",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 88.23704078907406,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.423364639978367,
+    "rgb_change": 11.386397361755371
+  },
+  {
+    "scene": "daylight",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 90.06223789314815,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.228348284524955,
+    "rgb_change": 8.556132316589355
+  },
+  {
+    "scene": "daylight",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 90.06223789314815,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.228348284524955,
+    "rgb_change": 8.556132316589355
+  },
+  {
+    "scene": "daylight",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 90.8268761962963,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.307008691439805,
+    "rgb_change": 8.28147029876709
+  },
+  {
+    "scene": "daylight",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 90.9997230711111,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.43856499540925,
+    "rgb_change": 8.219767570495605
+  },
+  {
+    "scene": "daylight",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 84.26283626574073,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.448529379094353,
+    "rgb_change": 8.29711627960205
+  },
+  {
+    "scene": "daylight",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 87.45863124777779,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.513107376739836,
+    "rgb_change": 5.371921539306641
+  },
+  {
+    "scene": "daylight",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 87.45863124777779,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.513107376739836,
+    "rgb_change": 5.371921539306641
+  },
+  {
+    "scene": "daylight",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 88.32738786555555,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.574034618179358,
+    "rgb_change": 4.873864650726318
+  },
+  {
+    "scene": "daylight",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 88.497471085,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.686912909857995,
+    "rgb_change": 4.788782596588135
+  },
+  {
+    "scene": "daylight",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 105.11514327944444,
+    "newly_clipped_channel_percent": 0.6498456790123457,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.74889251679988,
+    "rgb_change": 14.503217697143555
+  },
+  {
+    "scene": "daylight",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 96.16983344685184,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.759635401704486,
+    "rgb_change": 10.001847267150879
+  },
+  {
+    "scene": "daylight",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 96.16983344685184,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.759635401704486,
+    "rgb_change": 10.001847267150879
+  },
+  {
+    "scene": "daylight",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 96.76680593666666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.91417212993787,
+    "rgb_change": 10.221598625183105
+  },
+  {
+    "scene": "daylight",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 97.03902873277778,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 40.15775043062902,
+    "rgb_change": 10.37805461883545
+  },
+  {
+    "scene": "daylight",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 78.68192364518518,
+    "newly_clipped_channel_percent": 3.08641975308642e-05,
+    "newly_crushed_pixel_percent": 0.000925925925925926,
+    "shadow_mean": 16.36036333823388,
+    "rgb_change": 12.61417293548584
+  },
+  {
+    "scene": "daylight",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 84.24462835444444,
+    "newly_clipped_channel_percent": 3.08641975308642e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 21.750426705195146,
+    "rgb_change": 6.839991569519043
+  },
+  {
+    "scene": "daylight",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 85.83176199962963,
+    "newly_clipped_channel_percent": 3.08641975308642e-05,
+    "newly_crushed_pixel_percent": 9.259259259259259e-05,
+    "shadow_mean": 22.918392627766416,
+    "rgb_change": 5.683962821960449
+  },
+  {
+    "scene": "daylight",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 86.74765131462962,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.021077950893083,
+    "rgb_change": 5.457036018371582
+  },
+  {
+    "scene": "daylight",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 87.31385700888887,
+    "newly_clipped_channel_percent": 3.08641975308642e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.36415603077772,
+    "rgb_change": 5.2749714851379395
+  },
+  {
+    "scene": "daylight",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 83.16847037037037,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.009722222222222222,
+    "shadow_mean": 19.18416783547662,
+    "rgb_change": 21.699155807495117
+  },
+  {
+    "scene": "daylight",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 87.29487777777777,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0002777777777777778,
+    "shadow_mean": 23.953416586398994,
+    "rgb_change": 19.457456588745117
+  },
+  {
+    "scene": "daylight",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 87.29487777777777,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0002777777777777778,
+    "shadow_mean": 23.953416586398994,
+    "rgb_change": 19.457456588745117
+  },
+  {
+    "scene": "daylight",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 88.065525,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0002777777777777778,
+    "shadow_mean": 24.043460015433926,
+    "rgb_change": 19.279199600219727
+  },
+  {
+    "scene": "daylight",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 88.56825277777777,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0008333333333333334,
+    "shadow_mean": 24.344846815485745,
+    "rgb_change": 19.143037796020508
+  },
+  {
+    "scene": "daylight",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 96.37487402962962,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.39983099683999,
+    "rgb_change": 13.196431159973145
+  },
+  {
+    "scene": "daylight",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 94.57415053592592,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.48417073412531,
+    "rgb_change": 8.994338035583496
+  },
+  {
+    "scene": "daylight",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 95.35396755777776,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.4912092051529,
+    "rgb_change": 9.603081703186035
+  },
+  {
+    "scene": "daylight",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 95.89352844759259,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.556978497839815,
+    "rgb_change": 9.8070650100708
+  },
+  {
+    "scene": "daylight",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 96.4159810624074,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 40.0545273946522,
+    "rgb_change": 10.147597312927246
+  },
+  {
+    "scene": "daylight",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 83.37962062333334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.197314198083717,
+    "rgb_change": 9.471994400024414
+  },
+  {
+    "scene": "daylight",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 86.18177132333332,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.495662457824267,
+    "rgb_change": 5.705599784851074
+  },
+  {
+    "scene": "daylight",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 86.29868842203703,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.355344491384606,
+    "rgb_change": 5.295924663543701
+  },
+  {
+    "scene": "daylight",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 87.17681776462963,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.444264551543114,
+    "rgb_change": 4.8688483238220215
+  },
+  {
+    "scene": "daylight",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 87.32726701611111,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.5432766429525,
+    "rgb_change": 4.804365634918213
+  },
+  {
+    "scene": "daylight",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 87.97766194277779,
+    "newly_clipped_channel_percent": 1.0648456790123457,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.837963872788414,
+    "rgb_change": 9.44355583190918
+  },
+  {
+    "scene": "daylight",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 87.25101850666667,
+    "newly_clipped_channel_percent": 0.006080246913580247,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.700250913361607,
+    "rgb_change": 6.454165458679199
+  },
+  {
+    "scene": "daylight",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 87.25101850666667,
+    "newly_clipped_channel_percent": 0.006080246913580247,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.700250913361607,
+    "rgb_change": 6.454165458679199
+  },
+  {
+    "scene": "daylight",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 87.8377054087037,
+    "newly_clipped_channel_percent": 0.002901234567901234,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.811805796734088,
+    "rgb_change": 6.451717376708984
+  },
+  {
+    "scene": "daylight",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 87.96657417185185,
+    "newly_clipped_channel_percent": 0.0026851851851851854,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.904399382643028,
+    "rgb_change": 6.451776504516602
+  },
+  {
+    "scene": "daylight",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 81.10010506851852,
+    "newly_clipped_channel_percent": 1.8166975308641975,
+    "newly_crushed_pixel_percent": 0.00037037037037037035,
+    "shadow_mean": 20.02787274166202,
+    "rgb_change": 15.191506385803223
+  },
+  {
+    "scene": "daylight",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 83.64186667833333,
+    "newly_clipped_channel_percent": 0.014753086419753085,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.376896294731626,
+    "rgb_change": 9.798030853271484
+  },
+  {
+    "scene": "daylight",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 83.39580359277778,
+    "newly_clipped_channel_percent": 0.007561728395061728,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.30413514484794,
+    "rgb_change": 9.699031829833984
+  },
+  {
+    "scene": "daylight",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 84.2405080062963,
+    "newly_clipped_channel_percent": 0.00404320987654321,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 24.39390067481172,
+    "rgb_change": 9.502874374389648
+  },
+  {
+    "scene": "daylight",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 84.44485238777777,
+    "newly_clipped_channel_percent": 0.003981481481481482,
+    "newly_crushed_pixel_percent": 9.259259259259259e-05,
+    "shadow_mean": 24.527322851783634,
+    "rgb_change": 9.418974876403809
+  },
+  {
+    "scene": "daylight",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 96.95867621037037,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.348647580985855,
+    "rgb_change": 17.20709800720215
+  },
+  {
+    "scene": "daylight",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 94.11680833185186,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 41.05989008454861,
+    "rgb_change": 12.13076400756836
+  },
+  {
+    "scene": "daylight",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 94.11680833185186,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 41.05989008454861,
+    "rgb_change": 12.13076400756836
+  },
+  {
+    "scene": "daylight",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 94.65433448333333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 41.14245372019535,
+    "rgb_change": 12.1276273727417
+  },
+  {
+    "scene": "daylight",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 94.74759527055555,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 41.23264051630419,
+    "rgb_change": 12.16366195678711
+  },
+  {
+    "scene": "daylight",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 79.6880526238889,
+    "newly_clipped_channel_percent": 0.0023765432098765433,
+    "newly_crushed_pixel_percent": 0.02435185185185185,
+    "shadow_mean": 14.637865735561673,
+    "rgb_change": 12.497804641723633
+  },
+  {
+    "scene": "daylight",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 83.7783552024074,
+    "newly_clipped_channel_percent": 0.000462962962962963,
+    "newly_crushed_pixel_percent": 0.0044444444444444444,
+    "shadow_mean": 20.016846298392956,
+    "rgb_change": 7.947226524353027
+  },
+  {
+    "scene": "daylight",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 85.29423829407408,
+    "newly_clipped_channel_percent": 0.0005864197530864197,
+    "newly_crushed_pixel_percent": 0.003148148148148148,
+    "shadow_mean": 21.05045362387414,
+    "rgb_change": 7.039144515991211
+  },
+  {
+    "scene": "daylight",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 86.17414612740741,
+    "newly_clipped_channel_percent": 0.0002777777777777778,
+    "newly_crushed_pixel_percent": 0.002777777777777778,
+    "shadow_mean": 21.12716060856977,
+    "rgb_change": 6.929178237915039
+  },
+  {
+    "scene": "daylight",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 86.67597045944443,
+    "newly_clipped_channel_percent": 0.00040123456790123454,
+    "newly_crushed_pixel_percent": 0.0025,
+    "shadow_mean": 21.41283790830897,
+    "rgb_change": 6.758672714233398
+  },
+  {
+    "scene": "daylight",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 83.61608437,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 23.13681043705043,
+    "rgb_change": 11.78600025177002
+  },
+  {
+    "scene": "daylight",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 86.94002630037036,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.066836216773403,
+    "rgb_change": 7.35193395614624
+  },
+  {
+    "scene": "daylight",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 86.94002630037036,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.066836216773403,
+    "rgb_change": 7.35193395614624
+  },
+  {
+    "scene": "daylight",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 87.8509620375926,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.19748719265931,
+    "rgb_change": 7.0332159996032715
+  },
+  {
+    "scene": "daylight",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 88.10786928888888,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.338151908117453,
+    "rgb_change": 6.940735816955566
+  },
+  {
+    "scene": "interior",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 66.24233795818108,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.619635355406295,
+    "rgb_change": 6.084278106689453
+  },
+  {
+    "scene": "interior",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 67.67780832155907,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.719787069293474,
+    "rgb_change": 4.512044906616211
+  },
+  {
+    "scene": "interior",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 67.67780832155907,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.719787069293474,
+    "rgb_change": 4.512044906616211
+  },
+  {
+    "scene": "interior",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 67.76884853024767,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.64783648961315,
+    "rgb_change": 4.87030029296875
+  },
+  {
+    "scene": "interior",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 67.9439893315063,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.80999063988309,
+    "rgb_change": 4.836536884307861
+  },
+  {
+    "scene": "interior",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 62.01373077994316,
+    "newly_clipped_channel_percent": 3.383407768304236e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.75974921056625,
+    "rgb_change": 6.008033752441406
+  },
+  {
+    "scene": "interior",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 64.66609285424279,
+    "newly_clipped_channel_percent": 0.00016917038841521179,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.07585058654044,
+    "rgb_change": 3.6868643760681152
+  },
+  {
+    "scene": "interior",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 64.66609285424279,
+    "newly_clipped_channel_percent": 0.00016917038841521179,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.07585058654044,
+    "rgb_change": 3.6868643760681152
+  },
+  {
+    "scene": "interior",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 64.95423378339423,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.0986733010284,
+    "rgb_change": 3.4873764514923096
+  },
+  {
+    "scene": "interior",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 65.09859262768981,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.22525884113828,
+    "rgb_change": 3.4201343059539795
+  },
+  {
+    "scene": "interior",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 81.46994817986194,
+    "newly_clipped_channel_percent": 0.1313100554878874,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.144449443602525,
+    "rgb_change": 14.995847702026367
+  },
+  {
+    "scene": "interior",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 73.98893515550142,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.06636608397204,
+    "rgb_change": 9.931997299194336
+  },
+  {
+    "scene": "interior",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 73.98893515550142,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.06636608397204,
+    "rgb_change": 9.931997299194336
+  },
+  {
+    "scene": "interior",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 74.31291134754363,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.23171961683099,
+    "rgb_change": 10.214241027832031
+  },
+  {
+    "scene": "interior",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 74.5893175950061,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.558365174278286,
+    "rgb_change": 10.424036026000977
+  },
+  {
+    "scene": "interior",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 54.72278363438895,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.01177425903369874,
+    "shadow_mean": 19.49302858841554,
+    "rgb_change": 12.77939510345459
+  },
+  {
+    "scene": "interior",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 60.322366933211526,
+    "newly_clipped_channel_percent": 3.383407768304236e-05,
+    "newly_crushed_pixel_percent": 0.0008120178643930166,
+    "shadow_mean": 25.497356302269452,
+    "rgb_change": 7.524998188018799
+  },
+  {
+    "scene": "interior",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 61.780423044254974,
+    "newly_clipped_channel_percent": 3.383407768304236e-05,
+    "newly_crushed_pixel_percent": 0.0003045066991473812,
+    "shadow_mean": 26.780078176288505,
+    "rgb_change": 6.602773189544678
+  },
+  {
+    "scene": "interior",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 62.35492112017864,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0003045066991473812,
+    "shadow_mean": 27.030597633465753,
+    "rgb_change": 6.116678714752197
+  },
+  {
+    "scene": "interior",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 62.874982320138045,
+    "newly_clipped_channel_percent": 3.383407768304236e-05,
+    "newly_crushed_pixel_percent": 0.00020300446609825416,
+    "shadow_mean": 27.509666207662132,
+    "rgb_change": 5.930585861206055
+  },
+  {
+    "scene": "interior",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 58.557908038976855,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.035728786033292735,
+    "shadow_mean": 22.552345849937947,
+    "rgb_change": 20.934246063232422
+  },
+  {
+    "scene": "interior",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 62.95837088915956,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.002639058059277304,
+    "shadow_mean": 27.7358187763621,
+    "rgb_change": 19.857501983642578
+  },
+  {
+    "scene": "interior",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 62.95837088915956,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.002639058059277304,
+    "shadow_mean": 27.7358187763621,
+    "rgb_change": 19.857501983642578
+  },
+  {
+    "scene": "interior",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 63.32961733658141,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.00243605359317905,
+    "shadow_mean": 27.84865531212516,
+    "rgb_change": 19.91921043395996
+  },
+  {
+    "scene": "interior",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 63.79332115306537,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0020300446609825416,
+    "shadow_mean": 28.26246619311036,
+    "rgb_change": 19.942522048950195
+  },
+  {
+    "scene": "interior",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 75.10763689849776,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 46.68475498387871,
+    "rgb_change": 11.762429237365723
+  },
+  {
+    "scene": "interior",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 72.5686363233861,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.74736713710474,
+    "rgb_change": 8.305389404296875
+  },
+  {
+    "scene": "interior",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 73.44467387373122,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.81761867907309,
+    "rgb_change": 9.241972923278809
+  },
+  {
+    "scene": "interior",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 73.7321489183922,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.945199052887375,
+    "rgb_change": 9.606969833374023
+  },
+  {
+    "scene": "interior",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 74.26136725375558,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.56517268216222,
+    "rgb_change": 10.019657135009766
+  },
+  {
+    "scene": "interior",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 63.859038449654896,
+    "newly_clipped_channel_percent": 0.05893896332385979,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.054498060664265,
+    "rgb_change": 9.778743743896484
+  },
+  {
+    "scene": "interior",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 65.04064750812017,
+    "newly_clipped_channel_percent": 0.004973609419407226,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.90268420737525,
+    "rgb_change": 5.678461074829102
+  },
+  {
+    "scene": "interior",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 64.83895852902964,
+    "newly_clipped_channel_percent": 0.0018608742725673298,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.64042680935721,
+    "rgb_change": 4.840851783752441
+  },
+  {
+    "scene": "interior",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 65.03807497360943,
+    "newly_clipped_channel_percent": 0.0007781837867099743,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.62056639496426,
+    "rgb_change": 4.118188381195068
+  },
+  {
+    "scene": "interior",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 65.1681946952903,
+    "newly_clipped_channel_percent": 0.0009811882528082286,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.742283295186894,
+    "rgb_change": 4.099752902984619
+  },
+  {
+    "scene": "interior",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 65.01801317011774,
+    "newly_clipped_channel_percent": 0.03336040059547977,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 30.91817412944011,
+    "rgb_change": 6.263728618621826
+  },
+  {
+    "scene": "interior",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 64.68357012850183,
+    "newly_clipped_channel_percent": 6.766815536608472e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.787168726990007,
+    "rgb_change": 3.987172842025757
+  },
+  {
+    "scene": "interior",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 64.68357012850183,
+    "newly_clipped_channel_percent": 6.766815536608472e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.787168726990007,
+    "rgb_change": 3.987172842025757
+  },
+  {
+    "scene": "interior",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 65.30798598375965,
+    "newly_clipped_channel_percent": 0.00020300446609825416,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.079668678137615,
+    "rgb_change": 3.434541940689087
+  },
+  {
+    "scene": "interior",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 65.46902488428745,
+    "newly_clipped_channel_percent": 0.00016917038841521179,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 32.23846348357001,
+    "rgb_change": 3.417968511581421
+  },
+  {
+    "scene": "interior",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 59.67252692224929,
+    "newly_clipped_channel_percent": 0.16460278792800107,
+    "newly_crushed_pixel_percent": 0.00020300446609825416,
+    "shadow_mean": 24.606041780222473,
+    "rgb_change": 9.695354461669922
+  },
+  {
+    "scene": "interior",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 62.32495033739342,
+    "newly_clipped_channel_percent": 0.0177290567059142,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.826870082175944,
+    "rgb_change": 5.859640121459961
+  },
+  {
+    "scene": "interior",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 62.29146374624442,
+    "newly_clipped_channel_percent": 0.0097442143727162,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.799017322847742,
+    "rgb_change": 5.522490978240967
+  },
+  {
+    "scene": "interior",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 62.74000908769793,
+    "newly_clipped_channel_percent": 0.006597645148193261,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.942004082812065,
+    "rgb_change": 5.039775371551514
+  },
+  {
+    "scene": "interior",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 62.92670735688185,
+    "newly_clipped_channel_percent": 0.00730816077953715,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.105323108425267,
+    "rgb_change": 4.973705768585205
+  },
+  {
+    "scene": "interior",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 77.6183467362972,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 51.01354658043701,
+    "rgb_change": 18.136966705322266
+  },
+  {
+    "scene": "interior",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 73.36656972574094,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.816900690377736,
+    "rgb_change": 12.3239164352417
+  },
+  {
+    "scene": "interior",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 73.36656972574094,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.816900690377736,
+    "rgb_change": 12.3239164352417
+  },
+  {
+    "scene": "interior",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 73.67726199167682,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.94849587332472,
+    "rgb_change": 12.387735366821289
+  },
+  {
+    "scene": "interior",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 73.7582663725132,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.03891475487537,
+    "rgb_change": 12.422945022583008
+  },
+  {
+    "scene": "interior",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 54.78715128481527,
+    "newly_clipped_channel_percent": 0.0006766815536608471,
+    "newly_crushed_pixel_percent": 0.04526999593991068,
+    "shadow_mean": 17.734833909791472,
+    "rgb_change": 12.345871925354004
+  },
+  {
+    "scene": "interior",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 59.343721872513186,
+    "newly_clipped_channel_percent": 0.0003045066991473812,
+    "newly_crushed_pixel_percent": 0.0018270401948842876,
+    "shadow_mean": 23.535914835118003,
+    "rgb_change": 7.852356910705566
+  },
+  {
+    "scene": "interior",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 60.72722299614291,
+    "newly_clipped_channel_percent": 0.00043984300987955067,
+    "newly_crushed_pixel_percent": 0.0009135200974421438,
+    "shadow_mean": 24.711679428988383,
+    "rgb_change": 6.989482879638672
+  },
+  {
+    "scene": "interior",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 61.222195715387734,
+    "newly_clipped_channel_percent": 0.0003045066991473812,
+    "newly_crushed_pixel_percent": 0.0010150223304912708,
+    "shadow_mean": 24.872774537721316,
+    "rgb_change": 6.86799430847168
+  },
+  {
+    "scene": "interior",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 61.68821906658546,
+    "newly_clipped_channel_percent": 0.0003045066991473812,
+    "newly_crushed_pixel_percent": 0.0009135200974421438,
+    "shadow_mean": 25.272912504339544,
+    "rgb_change": 6.68960428237915
+  },
+  {
+    "scene": "interior",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 60.28066623426715,
+    "newly_clipped_channel_percent": 0.00016917038841521179,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 26.61068863485649,
+    "rgb_change": 7.920008659362793
+  },
+  {
+    "scene": "interior",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 63.468606363377994,
+    "newly_clipped_channel_percent": 0.00013533631073216944,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.79976928245202,
+    "rgb_change": 4.616405010223389
+  },
+  {
+    "scene": "interior",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 63.468606363377994,
+    "newly_clipped_channel_percent": 0.00013533631073216944,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.79976928245202,
+    "rgb_change": 4.616405010223389
+  },
+  {
+    "scene": "interior",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 63.612194522939504,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.732732917568352,
+    "rgb_change": 4.323545932769775
+  },
+  {
+    "scene": "interior",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 63.84386161591555,
+    "newly_clipped_channel_percent": 3.383407768304236e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.941300033884843,
+    "rgb_change": 4.208011150360107
+  },
+  {
+    "scene": "night",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 83.79893595229167,
+    "newly_clipped_channel_percent": 0.0033333333333333335,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 36.286962703277794,
+    "rgb_change": 8.09758186340332
+  },
+  {
+    "scene": "night",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 86.02264266937499,
+    "newly_clipped_channel_percent": 0.0065625,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.76892114183891,
+    "rgb_change": 5.909264087677002
+  },
+  {
+    "scene": "night",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 86.02264266937499,
+    "newly_clipped_channel_percent": 0.0065625,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.76892114183891,
+    "rgb_change": 5.909264087677002
+  },
+  {
+    "scene": "night",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 86.22843516624998,
+    "newly_clipped_channel_percent": 0.0038194444444444443,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.595273487812214,
+    "rgb_change": 5.708223819732666
+  },
+  {
+    "scene": "night",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 86.44612324479166,
+    "newly_clipped_channel_percent": 0.0037847222222222223,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.77032862487886,
+    "rgb_change": 5.677961826324463
+  },
+  {
+    "scene": "night",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 79.69489194270832,
+    "newly_clipped_channel_percent": 0.0038541666666666663,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.526136224974582,
+    "rgb_change": 8.691187858581543
+  },
+  {
+    "scene": "night",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 83.21063434729166,
+    "newly_clipped_channel_percent": 0.009444444444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.14415077590925,
+    "rgb_change": 5.571488857269287
+  },
+  {
+    "scene": "night",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 83.21063434729166,
+    "newly_clipped_channel_percent": 0.009444444444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.14415077590925,
+    "rgb_change": 5.571488857269287
+  },
+  {
+    "scene": "night",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 83.63765414958334,
+    "newly_clipped_channel_percent": 0.005798611111111111,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.079136750066944,
+    "rgb_change": 5.222469329833984
+  },
+  {
+    "scene": "night",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 83.798746715625,
+    "newly_clipped_channel_percent": 0.005659722222222222,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.215940903414754,
+    "rgb_change": 5.142858505249023
+  },
+  {
+    "scene": "night",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 103.00442113229167,
+    "newly_clipped_channel_percent": 0.500625,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 54.19339927254804,
+    "rgb_change": 16.30198860168457
+  },
+  {
+    "scene": "night",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 94.15121351979167,
+    "newly_clipped_channel_percent": 0.004131944444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.72631070918271,
+    "rgb_change": 11.392818450927734
+  },
+  {
+    "scene": "night",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 94.15121351979167,
+    "newly_clipped_channel_percent": 0.004131944444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.72631070918271,
+    "rgb_change": 11.392818450927734
+  },
+  {
+    "scene": "night",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 94.47658912791665,
+    "newly_clipped_channel_percent": 0.0018055555555555555,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.944096079105066,
+    "rgb_change": 11.99020004272461
+  },
+  {
+    "scene": "night",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 94.813894181875,
+    "newly_clipped_channel_percent": 0.001840277777777778,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.328355502214336,
+    "rgb_change": 12.276928901672363
+  },
+  {
+    "scene": "night",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 72.76512359708332,
+    "newly_clipped_channel_percent": 0.010347222222222221,
+    "newly_crushed_pixel_percent": 0.0059375,
+    "shadow_mean": 20.61681148473654,
+    "rgb_change": 14.69852352142334
+  },
+  {
+    "scene": "night",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 79.16216472625,
+    "newly_clipped_channel_percent": 0.009895833333333333,
+    "newly_crushed_pixel_percent": 0.0005208333333333333,
+    "shadow_mean": 27.13813121527128,
+    "rgb_change": 8.615035057067871
+  },
+  {
+    "scene": "night",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 80.83307583374999,
+    "newly_clipped_channel_percent": 0.010347222222222221,
+    "newly_crushed_pixel_percent": 0.00020833333333333335,
+    "shadow_mean": 28.481630517438706,
+    "rgb_change": 7.532161235809326
+  },
+  {
+    "scene": "night",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 81.59771709437501,
+    "newly_clipped_channel_percent": 0.0059375,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.868984282772658,
+    "rgb_change": 7.213530540466309
+  },
+  {
+    "scene": "night",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 82.22137047708333,
+    "newly_clipped_channel_percent": 0.005763888888888889,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 29.407570486302813,
+    "rgb_change": 6.948327541351318
+  },
+  {
+    "scene": "night",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 77.35474895833333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.025729166666666668,
+    "shadow_mean": 23.841192736854328,
+    "rgb_change": 16.487489700317383
+  },
+  {
+    "scene": "night",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 82.29206145833334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0023958333333333336,
+    "shadow_mean": 29.509500712049874,
+    "rgb_change": 13.347338676452637
+  },
+  {
+    "scene": "night",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 82.29206145833334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0023958333333333336,
+    "shadow_mean": 29.509500712049874,
+    "rgb_change": 13.347338676452637
+  },
+  {
+    "scene": "night",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 82.79509270833333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0023958333333333336,
+    "shadow_mean": 29.641423057146444,
+    "rgb_change": 13.307952880859375
+  },
+  {
+    "scene": "night",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 83.35242083333333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0017708333333333335,
+    "shadow_mean": 30.107212674250807,
+    "rgb_change": 13.139399528503418
+  },
+  {
+    "scene": "night",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 94.71925710229166,
+    "newly_clipped_channel_percent": 0.0009375,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.4588600690487,
+    "rgb_change": 13.819588661193848
+  },
+  {
+    "scene": "night",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 92.430830333125,
+    "newly_clipped_channel_percent": 0.004930555555555555,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 46.260508592226444,
+    "rgb_change": 10.059303283691406
+  },
+  {
+    "scene": "night",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 93.28469623083332,
+    "newly_clipped_channel_percent": 0.006527777777777777,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.394012429713214,
+    "rgb_change": 11.149177551269531
+  },
+  {
+    "scene": "night",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 93.604901184375,
+    "newly_clipped_channel_percent": 0.0015277777777777776,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.541864202966195,
+    "rgb_change": 11.692828178405762
+  },
+  {
+    "scene": "night",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 94.24606184749999,
+    "newly_clipped_channel_percent": 0.001736111111111111,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.28500784510724,
+    "rgb_change": 12.236207962036133
+  },
+  {
+    "scene": "night",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 82.04652246854165,
+    "newly_clipped_channel_percent": 0.044756944444444446,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.92895017167392,
+    "rgb_change": 11.274417877197266
+  },
+  {
+    "scene": "night",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 83.92698440124998,
+    "newly_clipped_channel_percent": 0.02989583333333333,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.2069835785423,
+    "rgb_change": 6.894565105438232
+  },
+  {
+    "scene": "night",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 83.79275972687499,
+    "newly_clipped_channel_percent": 0.02347222222222222,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.02613230573834,
+    "rgb_change": 6.229898452758789
+  },
+  {
+    "scene": "night",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 84.10239873041665,
+    "newly_clipped_channel_percent": 0.008611111111111111,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.886606295421316,
+    "rgb_change": 5.4878411293029785
+  },
+  {
+    "scene": "night",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 84.27834003166666,
+    "newly_clipped_channel_percent": 0.008715277777777778,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.051195488376166,
+    "rgb_change": 5.449913024902344
+  },
+  {
+    "scene": "night",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 85.10957317708333,
+    "newly_clipped_channel_percent": 0.2059375,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 33.36325955485627,
+    "rgb_change": 7.075014114379883
+  },
+  {
+    "scene": "night",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 84.28403289250001,
+    "newly_clipped_channel_percent": 0.03319444444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.358911558429554,
+    "rgb_change": 5.259532928466797
+  },
+  {
+    "scene": "night",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 84.28403289250001,
+    "newly_clipped_channel_percent": 0.03319444444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.358911558429554,
+    "rgb_change": 5.259532928466797
+  },
+  {
+    "scene": "night",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 84.9884068025,
+    "newly_clipped_channel_percent": 0.02743055555555556,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 34.85249050402705,
+    "rgb_change": 4.791727066040039
+  },
+  {
+    "scene": "night",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 85.174928266875,
+    "newly_clipped_channel_percent": 0.02802083333333333,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 35.035098845792035,
+    "rgb_change": 4.788644790649414
+  },
+  {
+    "scene": "night",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 78.57658373895833,
+    "newly_clipped_channel_percent": 0.14895833333333333,
+    "newly_crushed_pixel_percent": 0.0008333333333333334,
+    "shadow_mean": 26.202965632042005,
+    "rgb_change": 11.429939270019531
+  },
+  {
+    "scene": "night",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 81.280538423125,
+    "newly_clipped_channel_percent": 0.05065972222222222,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 30.88472961440307,
+    "rgb_change": 7.345643043518066
+  },
+  {
+    "scene": "night",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 81.26231721479166,
+    "newly_clipped_channel_percent": 0.04569444444444445,
+    "newly_crushed_pixel_percent": 0.00010416666666666667,
+    "shadow_mean": 30.87600165489395,
+    "rgb_change": 7.226820945739746
+  },
+  {
+    "scene": "night",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 81.855092354375,
+    "newly_clipped_channel_percent": 0.021493055555555557,
+    "newly_crushed_pixel_percent": 0.00010416666666666667,
+    "shadow_mean": 31.05728204473237,
+    "rgb_change": 6.933061122894287
+  },
+  {
+    "scene": "night",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 82.07926622854167,
+    "newly_clipped_channel_percent": 0.021701388888888888,
+    "newly_crushed_pixel_percent": 0.00010416666666666667,
+    "shadow_mean": 31.244276180569212,
+    "rgb_change": 6.829604148864746
+  },
+  {
+    "scene": "night",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 95.12614318416666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 53.8523764509349,
+    "rgb_change": 16.23299217224121
+  },
+  {
+    "scene": "night",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 91.873978074375,
+    "newly_clipped_channel_percent": 0.00045138888888888887,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.76792479758116,
+    "rgb_change": 11.479632377624512
+  },
+  {
+    "scene": "night",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 91.873978074375,
+    "newly_clipped_channel_percent": 0.00045138888888888887,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.76792479758116,
+    "rgb_change": 11.479632377624512
+  },
+  {
+    "scene": "night",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 92.24184627229167,
+    "newly_clipped_channel_percent": 0.00020833333333333335,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 47.9604406207274,
+    "rgb_change": 11.741284370422363
+  },
+  {
+    "scene": "night",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 92.33592992729166,
+    "newly_clipped_channel_percent": 0.0001388888888888889,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.04984665265473,
+    "rgb_change": 11.80224895477295
+  },
+  {
+    "scene": "night",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 73.10689966291667,
+    "newly_clipped_channel_percent": 0.043263888888888886,
+    "newly_crushed_pixel_percent": 0.0278125,
+    "shadow_mean": 18.555785025863642,
+    "rgb_change": 15.209646224975586
+  },
+  {
+    "scene": "night",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 78.19158898854165,
+    "newly_clipped_channel_percent": 0.02611111111111111,
+    "newly_crushed_pixel_percent": 0.003125,
+    "shadow_mean": 24.921894142708535,
+    "rgb_change": 9.996626853942871
+  },
+  {
+    "scene": "night",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 79.78573734270834,
+    "newly_clipped_channel_percent": 0.027118055555555555,
+    "newly_crushed_pixel_percent": 0.00125,
+    "shadow_mean": 26.13878521021466,
+    "rgb_change": 8.944540977478027
+  },
+  {
+    "scene": "night",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 80.44852297895834,
+    "newly_clipped_channel_percent": 0.02,
+    "newly_crushed_pixel_percent": 0.0011458333333333333,
+    "shadow_mean": 26.366720803941043,
+    "rgb_change": 8.754080772399902
+  },
+  {
+    "scene": "night",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 81.01626031791668,
+    "newly_clipped_channel_percent": 0.020069444444444445,
+    "newly_crushed_pixel_percent": 0.0011458333333333333,
+    "shadow_mean": 26.81747050312662,
+    "rgb_change": 8.492243766784668
+  },
+  {
+    "scene": "night",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 78.488209778125,
+    "newly_clipped_channel_percent": 0.010277777777777778,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 27.974672998263117,
+    "rgb_change": 11.59430980682373
+  },
+  {
+    "scene": "night",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 82.36384139520834,
+    "newly_clipped_channel_percent": 0.011041666666666667,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.68222106861981,
+    "rgb_change": 7.262287616729736
+  },
+  {
+    "scene": "night",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 82.36384139520834,
+    "newly_clipped_channel_percent": 0.011041666666666667,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.68222106861981,
+    "rgb_change": 7.262287616729736
+  },
+  {
+    "scene": "night",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 82.66376691854167,
+    "newly_clipped_channel_percent": 0.006631944444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.48779110376024,
+    "rgb_change": 6.911370754241943
+  },
+  {
+    "scene": "night",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 82.961101920625,
+    "newly_clipped_channel_percent": 0.006631944444444445,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.739383421204156,
+    "rgb_change": 6.766656875610352
+  },
+  {
+    "scene": "sunset",
+    "style": "復古",
+    "phase": "before",
+    "mean_luma": 116.21620124729166,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.65499754801281,
+    "rgb_change": 6.450332164764404
+  },
+  {
+    "scene": "sunset",
+    "style": "復古",
+    "phase": "round1",
+    "mean_luma": 118.396529740625,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 51.36191419045078,
+    "rgb_change": 4.757161617279053
+  },
+  {
+    "scene": "sunset",
+    "style": "復古",
+    "phase": "round2",
+    "mean_luma": 118.396529740625,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 51.36191419045078,
+    "rgb_change": 4.757161617279053
+  },
+  {
+    "scene": "sunset",
+    "style": "復古",
+    "phase": "round3",
+    "mean_luma": 118.72243409125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 51.554500794878635,
+    "rgb_change": 4.85574197769165
+  },
+  {
+    "scene": "sunset",
+    "style": "復古",
+    "phase": "after",
+    "mean_luma": 118.93047492187502,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 51.77710995132035,
+    "rgb_change": 4.825331211090088
+  },
+  {
+    "scene": "sunset",
+    "style": "暖調底片",
+    "phase": "before",
+    "mean_luma": 112.60222813833333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.068083402240596,
+    "rgb_change": 9.082531929016113
+  },
+  {
+    "scene": "sunset",
+    "style": "暖調底片",
+    "phase": "round1",
+    "mean_luma": 116.36150872145832,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.097475330088024,
+    "rgb_change": 5.5428619384765625
+  },
+  {
+    "scene": "sunset",
+    "style": "暖調底片",
+    "phase": "round2",
+    "mean_luma": 116.36150872145832,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.097475330088024,
+    "rgb_change": 5.5428619384765625
+  },
+  {
+    "scene": "sunset",
+    "style": "暖調底片",
+    "phase": "round3",
+    "mean_luma": 116.973140189375,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.24658335956255,
+    "rgb_change": 4.934655666351318
+  },
+  {
+    "scene": "sunset",
+    "style": "暖調底片",
+    "phase": "after",
+    "mean_luma": 117.10375527500001,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.40298164777274,
+    "rgb_change": 4.85213041305542
+  },
+  {
+    "scene": "sunset",
+    "style": "日系清透",
+    "phase": "before",
+    "mean_luma": 134.99456109250002,
+    "newly_clipped_channel_percent": 0.018020833333333333,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 74.13714661909842,
+    "rgb_change": 15.689152717590332
+  },
+  {
+    "scene": "sunset",
+    "style": "日系清透",
+    "phase": "round1",
+    "mean_luma": 123.72212679895833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 66.64268083822353,
+    "rgb_change": 11.180119514465332
+  },
+  {
+    "scene": "sunset",
+    "style": "日系清透",
+    "phase": "round2",
+    "mean_luma": 123.72212679895833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 66.64268083822353,
+    "rgb_change": 11.180119514465332
+  },
+  {
+    "scene": "sunset",
+    "style": "日系清透",
+    "phase": "round3",
+    "mean_luma": 124.315530948125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 66.90173727393972,
+    "rgb_change": 11.205589294433594
+  },
+  {
+    "scene": "sunset",
+    "style": "日系清透",
+    "phase": "after",
+    "mean_luma": 124.63975009937498,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 67.39642089957322,
+    "rgb_change": 11.39423656463623
+  },
+  {
+    "scene": "sunset",
+    "style": "電影",
+    "phase": "before",
+    "mean_luma": 109.17795030312497,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 31.498985620832222,
+    "rgb_change": 13.747836112976074
+  },
+  {
+    "scene": "sunset",
+    "style": "電影",
+    "phase": "round1",
+    "mean_luma": 114.22603890062499,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 40.499902027207256,
+    "rgb_change": 8.429701805114746
+  },
+  {
+    "scene": "sunset",
+    "style": "電影",
+    "phase": "round2",
+    "mean_luma": 115.772446955625,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.36150508602294,
+    "rgb_change": 7.579102993011475
+  },
+  {
+    "scene": "sunset",
+    "style": "電影",
+    "phase": "round3",
+    "mean_luma": 116.74382105958334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 42.99886821952521,
+    "rgb_change": 6.970324516296387
+  },
+  {
+    "scene": "sunset",
+    "style": "電影",
+    "phase": "after",
+    "mean_luma": 117.29638401166666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.61511081755135,
+    "rgb_change": 6.817265510559082
+  },
+  {
+    "scene": "sunset",
+    "style": "經典黑白",
+    "phase": "before",
+    "mean_luma": 114.49364895833334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.00010416666666666667,
+    "shadow_mean": 35.54203120832222,
+    "rgb_change": 24.126882553100586
+  },
+  {
+    "scene": "sunset",
+    "style": "經典黑白",
+    "phase": "round1",
+    "mean_luma": 117.88654479166667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.45726860496132,
+    "rgb_change": 20.6528377532959
+  },
+  {
+    "scene": "sunset",
+    "style": "經典黑白",
+    "phase": "round2",
+    "mean_luma": 117.88654479166667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.45726860496132,
+    "rgb_change": 20.6528377532959
+  },
+  {
+    "scene": "sunset",
+    "style": "經典黑白",
+    "phase": "round3",
+    "mean_luma": 118.55915625,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 43.715134035742864,
+    "rgb_change": 20.67928123474121
+  },
+  {
+    "scene": "sunset",
+    "style": "經典黑白",
+    "phase": "after",
+    "mean_luma": 119.05483125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 44.31934182448653,
+    "rgb_change": 20.523441314697266
+  },
+  {
+    "scene": "sunset",
+    "style": "柔光人像",
+    "phase": "before",
+    "mean_luma": 122.68432537854169,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 69.74844439850627,
+    "rgb_change": 13.163711547851562
+  },
+  {
+    "scene": "sunset",
+    "style": "柔光人像",
+    "phase": "round1",
+    "mean_luma": 121.91841925395833,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 64.74132800680181,
+    "rgb_change": 9.591514587402344
+  },
+  {
+    "scene": "sunset",
+    "style": "柔光人像",
+    "phase": "round2",
+    "mean_luma": 122.55195631375001,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 66.30854661776473,
+    "rgb_change": 10.47579574584961
+  },
+  {
+    "scene": "sunset",
+    "style": "柔光人像",
+    "phase": "round3",
+    "mean_luma": 123.11890911208332,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 66.5302230261403,
+    "rgb_change": 10.654800415039062
+  },
+  {
+    "scene": "sunset",
+    "style": "柔光人像",
+    "phase": "after",
+    "mean_luma": 123.69827294749999,
+    "newly_clipped_channel_percent": 3.472222222222222e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 67.42648706455054,
+    "rgb_change": 10.970192909240723
+  },
+  {
+    "scene": "sunset",
+    "style": "夕陽",
+    "phase": "before",
+    "mean_luma": 115.00889724020834,
+    "newly_clipped_channel_percent": 0.08041666666666666,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.48830888170178,
+    "rgb_change": 13.71304702758789
+  },
+  {
+    "scene": "sunset",
+    "style": "夕陽",
+    "phase": "round1",
+    "mean_luma": 116.74011518208334,
+    "newly_clipped_channel_percent": 0.003715277777777778,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.55397964390504,
+    "rgb_change": 8.139663696289062
+  },
+  {
+    "scene": "sunset",
+    "style": "夕陽",
+    "phase": "round2",
+    "mean_luma": 116.58802897520832,
+    "newly_clipped_channel_percent": 0.0003819444444444444,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.2989835056015,
+    "rgb_change": 7.296899795532227
+  },
+  {
+    "scene": "sunset",
+    "style": "夕陽",
+    "phase": "round3",
+    "mean_luma": 116.95680806499999,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.35617866897839,
+    "rgb_change": 6.157658100128174
+  },
+  {
+    "scene": "sunset",
+    "style": "夕陽",
+    "phase": "after",
+    "mean_luma": 117.09410728104167,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.53798664910643,
+    "rgb_change": 6.11398458480835
+  },
+  {
+    "scene": "sunset",
+    "style": "冷調",
+    "phase": "before",
+    "mean_luma": 120.641715908125,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 48.493107846092286,
+    "rgb_change": 6.00528621673584
+  },
+  {
+    "scene": "sunset",
+    "style": "冷調",
+    "phase": "round1",
+    "mean_luma": 117.83161189729165,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.11669237463324,
+    "rgb_change": 4.370449542999268
+  },
+  {
+    "scene": "sunset",
+    "style": "冷調",
+    "phase": "round2",
+    "mean_luma": 117.83161189729165,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.11669237463324,
+    "rgb_change": 4.370449542999268
+  },
+  {
+    "scene": "sunset",
+    "style": "冷調",
+    "phase": "round3",
+    "mean_luma": 118.96322213104166,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.53039684382502,
+    "rgb_change": 3.4927566051483154
+  },
+  {
+    "scene": "sunset",
+    "style": "冷調",
+    "phase": "after",
+    "mean_luma": 119.12828864291667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 50.76157102760735,
+    "rgb_change": 3.4511725902557373
+  },
+  {
+    "scene": "sunset",
+    "style": "鮮明",
+    "phase": "before",
+    "mean_luma": 115.754165995,
+    "newly_clipped_channel_percent": 0.7444791666666667,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.417628767671374,
+    "rgb_change": 12.565671920776367
+  },
+  {
+    "scene": "sunset",
+    "style": "鮮明",
+    "phase": "round1",
+    "mean_luma": 115.62081790291667,
+    "newly_clipped_channel_percent": 0.008923611111111111,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.60362813216857,
+    "rgb_change": 8.181998252868652
+  },
+  {
+    "scene": "sunset",
+    "style": "鮮明",
+    "phase": "round2",
+    "mean_luma": 115.64209866499999,
+    "newly_clipped_channel_percent": 0.0028472222222222223,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.615122293278205,
+    "rgb_change": 7.825412273406982
+  },
+  {
+    "scene": "sunset",
+    "style": "鮮明",
+    "phase": "round3",
+    "mean_luma": 116.38970106333333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.920070290744206,
+    "rgb_change": 6.723011016845703
+  },
+  {
+    "scene": "sunset",
+    "style": "鮮明",
+    "phase": "after",
+    "mean_luma": 116.57816598874997,
+    "newly_clipped_channel_percent": 3.472222222222222e-05,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 46.123522649373164,
+    "rgb_change": 6.6108012199401855
+  },
+  {
+    "scene": "sunset",
+    "style": "霧感",
+    "phase": "before",
+    "mean_luma": 120.84443700479164,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 69.25190230994932,
+    "rgb_change": 17.02586555480957
+  },
+  {
+    "scene": "sunset",
+    "style": "霧感",
+    "phase": "round1",
+    "mean_luma": 119.96795087729164,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 63.81618745532141,
+    "rgb_change": 12.382702827453613
+  },
+  {
+    "scene": "sunset",
+    "style": "霧感",
+    "phase": "round2",
+    "mean_luma": 119.96795087729164,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 63.81618745532141,
+    "rgb_change": 12.382702827453613
+  },
+  {
+    "scene": "sunset",
+    "style": "霧感",
+    "phase": "round3",
+    "mean_luma": 120.62051321375,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 64.10880676180314,
+    "rgb_change": 12.217602729797363
+  },
+  {
+    "scene": "sunset",
+    "style": "霧感",
+    "phase": "after",
+    "mean_luma": 120.70290384208333,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 64.21072453054147,
+    "rgb_change": 12.258415222167969
+  },
+  {
+    "scene": "sunset",
+    "style": "城市街拍",
+    "phase": "before",
+    "mean_luma": 111.71310911354165,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 28.32743398106162,
+    "rgb_change": 14.106152534484863
+  },
+  {
+    "scene": "sunset",
+    "style": "城市街拍",
+    "phase": "round1",
+    "mean_luma": 114.67156740749999,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 37.195151198986395,
+    "rgb_change": 9.196918487548828
+  },
+  {
+    "scene": "sunset",
+    "style": "城市街拍",
+    "phase": "round2",
+    "mean_luma": 116.10642958083332,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 38.9606868885036,
+    "rgb_change": 8.511637687683105
+  },
+  {
+    "scene": "sunset",
+    "style": "城市街拍",
+    "phase": "round3",
+    "mean_luma": 116.99933031937499,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.339683426913844,
+    "rgb_change": 8.485978126525879
+  },
+  {
+    "scene": "sunset",
+    "style": "城市街拍",
+    "phase": "after",
+    "mean_luma": 117.49534181437501,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 39.91618276407041,
+    "rgb_change": 8.350214004516602
+  },
+  {
+    "scene": "sunset",
+    "style": "咖啡暖棕",
+    "phase": "before",
+    "mean_luma": 113.13274309166667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 40.02376690517471,
+    "rgb_change": 10.522316932678223
+  },
+  {
+    "scene": "sunset",
+    "style": "咖啡暖棕",
+    "phase": "round1",
+    "mean_luma": 116.44789256083334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.55591554881302,
+    "rgb_change": 6.465016841888428
+  },
+  {
+    "scene": "sunset",
+    "style": "咖啡暖棕",
+    "phase": "round2",
+    "mean_luma": 116.44789256083334,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.55591554881302,
+    "rgb_change": 6.465016841888428
+  },
+  {
+    "scene": "sunset",
+    "style": "咖啡暖棕",
+    "phase": "round3",
+    "mean_luma": 116.77208276291667,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 45.60017334022406,
+    "rgb_change": 5.889748573303223
+  },
+  {
+    "scene": "sunset",
+    "style": "咖啡暖棕",
+    "phase": "after",
+    "mean_luma": 117.08145174541666,
+    "newly_clipped_channel_percent": 0.0,
+    "newly_crushed_pixel_percent": 0.0,
+    "shadow_mean": 46.05787795212056,
+    "rgb_change": 5.746365070343018
+  }
+]

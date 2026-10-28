@@ -1,0 +1,38 @@
+[
+  {
+    "scene": "chart",
+    "phase": "round3",
+    "luma_rmse": 5.082035133998428,
+    "chroma_rmse": 1.4775351781054686
+  },
+  {
+    "scene": "chart",
+    "phase": "after",
+    "luma_rmse": 4.4346268655759005,
+    "chroma_rmse": 1.1924847046134417
+  },
+  {
+    "scene": "portrait",
+    "phase": "round3",
+    "luma_rmse": 3.8469471693099972,
+    "chroma_rmse": 1.258393781052696
+  },
+  {
+    "scene": "portrait",
+    "phase": "after",
+    "luma_rmse": 3.5267472592495497,
+    "chroma_rmse": 1.193187229604356
+  },
+  {
+    "scene": "night",
+    "phase": "round3",
+    "luma_rmse": 4.110034144171793,
+    "chroma_rmse": 1.5904325713290839
+  },
+  {
+    "scene": "night",
+    "phase": "after",
+    "luma_rmse": 3.794796012687374,
+    "chroma_rmse": 1.500642650802849
+  }
+]
