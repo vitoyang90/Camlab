@@ -13,9 +13,11 @@ struct CameraLiveAdjustmentTests {
         buffer.enqueue(.iso(200))
         buffer.enqueue(.shutter(0.008))
         buffer.enqueue(.iso(400))
+        #expect(!buffer.isEmpty)
         #expect(buffer.next() == .zoom(999))
         #expect(buffer.next() == .shutter(0.008))
         #expect(buffer.next() == .iso(400))
+        #expect(buffer.isEmpty)
         #expect(buffer.next() == nil)
     }
 

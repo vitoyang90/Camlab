@@ -79,6 +79,7 @@ nonisolated enum CameraLiveAdjustment: Sendable, Equatable {
 
 nonisolated struct CameraAdjustmentBuffer {
     private var pending: [CameraLiveAdjustment] = []
+    var isEmpty: Bool { pending.isEmpty }
     mutating func enqueue(_ adjustment: CameraLiveAdjustment) {
         // Keep each control's latest value in chronological order. Switching
         // controls must not lose another control's final slider position.

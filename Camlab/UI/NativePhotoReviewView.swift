@@ -15,6 +15,11 @@ final class NativePhotoReviewModel {
     var notice: String?
     var shareURL: URL?
     var canShare: Bool { content != nil && !busy && errorMessage == nil }
+    var deletionTarget: PhotoDeletionTarget? {
+        if let pending { return .pending(pending) }
+        guard content != nil else { return nil }
+        return assetIdentifier.map(PhotoDeletionTarget.library)
+    }
 
     init(loadCurrent: @escaping (String) async throws -> NativePhotoContent = { try await PhotoLibrarySaver.loadCurrent($0) }) {
         self.loadCurrent = loadCurrent
@@ -111,11 +116,13 @@ final class NativePhotoReviewModel {
 struct NativePhotoReviewView: View {
     let source: PhotoEditorSource
     let recipe: RecipeAdjustment
+    let deletePhoto: (PhotoDeletionTarget) async throws -> Void
     @State private var model = NativePhotoReviewModel()
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @State private var showPicker = false
     @State private var sharing = false
+    @State private var deleting = false
     private let accent = Color(red: 0.98, green: 0.81, blue: 0.30)
 
     var body: some View {
@@ -125,7 +132,12 @@ struct NativePhotoReviewView: View {
                 HStack {
                     Label("原生照片流程", systemImage: "photo.on.rectangle").font(.headline)
                     Spacer()
+                    if let target = model.deletionTarget {
+                        PhotoDeleteButton(target: target, deleting: $deleting, errorMessage: $model.errorMessage, delete: deletePhoto)
+                            .disabled(model.busy)
+                    }
                     Button("完成") { dismiss() }.frame(minWidth: 44, minHeight: 44)
+                        .disabled(model.busy)
                         .accessibilityIdentifier("closeNativePhoto")
                 }
                 let layout = landscape ? AnyLayout(HStackLayout(spacing: 12)) : AnyLayout(VStackLayout(spacing: 12))
@@ -151,9 +163,10 @@ struct NativePhotoReviewView: View {
         .background(.black).foregroundStyle(.white).tint(accent).preferredColorScheme(.dark)
         .task { await model.load(source) }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active && !sharing && !showPicker { Task { await model.refresh() } }
+            if phase == .active && !sharing && !showPicker && !deleting { Task { await model.refresh() } }
         }
-        .interactiveDismissDisabled(model.busy)
+        .disabled(deleting)
+        .interactiveDismissDisabled(model.busy || deleting)
         .onDisappear { model.clearExport() }
         .sheet(isPresented: $showPicker) {
             PhotoImportPicker { result in

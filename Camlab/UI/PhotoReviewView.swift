@@ -6,6 +6,8 @@ struct PhotoEditorSource: Identifiable {
     var original: Data?
     var adjustment: RecipeAdjustment?
     var assetIdentifier: String?
+    // An imported asset can be deleted even when saving an edit creates a new asset.
+    var importedLibraryIdentifier: String?
     var pending: SavedPhoto?
 }
 
@@ -26,8 +28,16 @@ final class PhotoEditorModel {
     var errorMessage: String?
     var notice: String?
     var shareURL: URL?
+    var deletionTarget: PhotoDeletionTarget? {
+        if let staged { return .pending(staged) }
+        guard original != nil else { return nil }
+        return (assetIdentifier ?? source.importedLibraryIdentifier ?? source.assetIdentifier).map(PhotoDeletionTarget.library)
+    }
 
-    init(source: PhotoEditorSource) { self.source = source }
+    init(source: PhotoEditorSource) {
+        self.source = source
+        staged = source.pending
+    }
 
     func load(recipes: RecipeStore) async {
         do {
@@ -133,11 +143,14 @@ struct PhotoReviewView: View {
     @State private var showOriginal = false
     @State private var showRecipes = false
     @State private var sharing = false
+    @State private var deleting = false
+    let deletePhoto: (PhotoDeletionTarget) async throws -> Void
     private let accent = Color(red: 0.98, green: 0.81, blue: 0.30)
 
-    init(source: PhotoEditorSource, recipes: RecipeStore) {
+    init(source: PhotoEditorSource, recipes: RecipeStore, deletePhoto: @escaping (PhotoDeletionTarget) async throws -> Void) {
         self.source = source
         self.recipes = recipes
+        self.deletePhoto = deletePhoto
         _editor = State(initialValue: PhotoEditorModel(source: source))
     }
 
@@ -162,7 +175,8 @@ struct PhotoReviewView: View {
         .task(id: recipes.draft) { await editor.refresh(recipes.draft) }
         .onChange(of: recipes.draft) { _, _ in showOriginal = false }
         .onDisappear { editor.clearExport() }
-        .interactiveDismissDisabled(editor.isSaving)
+        .disabled(deleting)
+        .interactiveDismissDisabled(editor.isSaving || deleting)
         .sheet(isPresented: $sharing) {
             if let url = editor.shareURL { PhotoShareSheet(url: url) }
         }
@@ -198,6 +212,10 @@ struct PhotoReviewView: View {
             .accessibilityLabel("選擇配方").accessibilityIdentifier("editorRecipes")
             Spacer(minLength: 0)
             if compact { comparisonButton }
+            if let target = editor.deletionTarget {
+                PhotoDeleteButton(target: target, deleting: $deleting, errorMessage: $editor.errorMessage, delete: deletePhoto)
+                    .disabled(editor.isLoading || editor.isSaving)
+            }
             Button("完成") { dismiss() }
                 .font(.subheadline.weight(.semibold)).frame(minWidth: 48, minHeight: 44)
                 .fixedSize(horizontal: true, vertical: false)

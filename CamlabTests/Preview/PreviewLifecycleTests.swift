@@ -4,7 +4,7 @@ import Testing
 
 struct PreviewLifecycleTests {
     @MainActor @Test func rotationDuringStartupKeepsTheSameMetalView() async throws {
-        let host = UIHostingController(rootView: ContentView())
+        let host = UIHostingController(rootView: ContentView().environment(\.scenePhase, .active))
         let scene = try #require(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
         let window = UIWindow(windowScene: scene)
         window.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
@@ -37,5 +37,13 @@ struct PreviewLifecycleTests {
             #expect(previews(in: host.view).first === preview)
             #expect(preview.bounds.size == portraitSize)
         }
+
+        host.rootView = ContentView().environment(\.scenePhase, .background)
+        try await resize(CGSize(width: 390, height: 844))
+        #expect(previews(in: host.view).isEmpty)
+        host.rootView = ContentView().environment(\.scenePhase, .active)
+        try await resize(CGSize(width: 390, height: 844))
+        let resumed = try #require(previews(in: host.view).first)
+        #expect(resumed !== preview)
     }
 }

@@ -7,6 +7,12 @@
   },
   {
     "scene": "chart",
+    "phase": "round4",
+    "luma_rmse": 4.4346268655759005,
+    "chroma_rmse": 1.1924847046134417
+  },
+  {
+    "scene": "chart",
     "phase": "after",
     "luma_rmse": 4.4346268655759005,
     "chroma_rmse": 1.1924847046134417
@@ -19,9 +25,15 @@
   },
   {
     "scene": "portrait",
-    "phase": "after",
+    "phase": "round4",
     "luma_rmse": 3.5267472592495497,
     "chroma_rmse": 1.193187229604356
+  },
+  {
+    "scene": "portrait",
+    "phase": "after",
+    "luma_rmse": 3.543960060333618,
+    "chroma_rmse": 1.1906434016485512
   },
   {
     "scene": "night",
@@ -31,8 +43,14 @@
   },
   {
     "scene": "night",
-    "phase": "after",
+    "phase": "round4",
     "luma_rmse": 3.794796012687374,
     "chroma_rmse": 1.500642650802849
+  },
+  {
+    "scene": "night",
+    "phase": "after",
+    "luma_rmse": 3.8234332173647174,
+    "chroma_rmse": 1.5042441813900453
   }
 ]

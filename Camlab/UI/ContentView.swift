@@ -25,7 +25,11 @@ struct ContentView: View {
     @AppStorage("Camlab.ShowGrid") private var showGrid = false
     @AppStorage("Camlab.ShowLevel") private var showLevel = true
     @State private var expanded = false
-    @State private var recipeMenu = false
+    @State private var showStyleWheel = false
+    @State private var lensTurns = 0.0
+    @State private var lensFlipID: UUID?
+    @State private var outgoingPreview: CameraSnapshot?
+    @State private var cameraPageVisible = false
     @State private var colorControls = true
     @State private var parameter = AdjustmentParameter.saturation
     @State private var shootingControl = ShootingControl.brightness
@@ -50,36 +54,43 @@ struct ContentView: View {
                     .aspectRatio(landscape ? 4 / 3 : 3 / 4, contentMode: .fit)
                 let panelLayout = landscape ? AnyLayout(HStackLayout(spacing: 12)) : AnyLayout(VStackLayout(spacing: 12))
                 panelLayout {
-                    if expanded {
+                    if expanded && camera.photoToEdit == nil {
                         controls(compact: landscape)
                             .frame(width: landscape ? (numericText == nil
                                    ? min(164, max(140, geometry.size.width * 0.19))
                                    : min(184, max(164, geometry.size.width * 0.21))) : nil)
                             .frame(maxHeight: landscape ? .infinity : nil)
                             .transition(InterfaceMotion.reveal(reduceMotion: reduceMotion, horizontal: landscape))
-                    } else if !landscape { recipeShortcuts.transition(.opacity) }
+                    }
                     actions(landscape: landscape).frame(width: landscape ? 72 : nil)
                 }
-                .padding(landscape ? 0 : 14)
-                .background(landscape ? Color.clear : Color(white: 0.075), in: RoundedRectangle(cornerRadius: 24))
-                .overlay(RoundedRectangle(cornerRadius: 24).stroke(.white.opacity(landscape ? 0 : 0.08)))
+                .padding(landscape ? 0 : 16)
+                .background(landscape || !expanded ? Color.clear : Color(white: 0.075), in: RoundedRectangle(cornerRadius: 24))
                 .padding(.horizontal, landscape ? 0 : 10).padding(.bottom, landscape ? 0 : 6)
             }
             .padding(.horizontal, landscape ? 8 : 0).padding(.vertical, landscape ? 8 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background { dismissStyleBackdrop }
+            .accessibilityHidden(camera.photoToEdit != nil)
             // Animate structural UI changes only, not frame delivery or slider values.
+            .onChange(of: expanded) { _, isExpanded in
+                if !isExpanded { compareOriginal = false }
+            }
             .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: expanded)
             .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: numericText == nil)
             .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: colorControls)
-            .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: recipeMenu)
+            .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: showStyleWheel)
         }
         .background(Color.black.ignoresSafeArea()).foregroundStyle(.white)
         .tint(accent).preferredColorScheme(.dark)
         .statusBarHidden()
-        .task { await camera.restoreLastPhoto() }
+        .onAppear {
+            cameraPageVisible = true
+            camera.setSceneActive(scenePhase == .active)
+            updateCameraVisibility()
+            if showLevel && scenePhase == .active { level.start() }
+        }
         .task {
-            await camera.resume()
-            if showLevel { level.start() }
             if let error = camera.recipes.loadError { camera.errorMessage = error }
             while !Task.isCancelled {
                 do { try await Task.sleep(for: .seconds(1)) } catch { break }
@@ -87,34 +98,47 @@ struct ContentView: View {
             }
         }
         .onChange(of: showLevel) { _, value in if value { level.start() } else { level.stop() } }
+        .onChange(of: colorControls) { _, _ in compareOriginal = false }
+        .onChange(of: numericText != nil) { _, _ in compareOriginal = false }
         .onChange(of: camera.recipes.draft) { _, _ in compareOriginal = false }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .background { level.stop(); Task { await camera.deactivate() } }
+            camera.setSceneActive(phase == .active)
+            updateCameraVisibility()
+            if phase == .background { level.stop() }
             else if phase == .active {
                 if showLevel { level.start() }
-                if camera.photoToEdit == nil { Task { await camera.resume() } }
             }
         }
         .onChange(of: camera.photoToEdit?.id) { _, id in
-            Task {
-                if id != nil { await camera.deactivate() }
-                else { await camera.restoreLastPhoto(); await camera.resume() }
-            }
+            updateCameraVisibility()
+            if id == nil { Task { await camera.restoreLastPhoto() } }
         }
-        .onDisappear { level.stop(); Task { await camera.deactivate() } }
+        .onDisappear {
+            cameraPageVisible = false
+            level.stop()
+            updateCameraVisibility()
+        }
         .sheet(isPresented: $showPhotoPicker, onDismiss: {
             photoPickerDismissed = true
             presentImportedPhoto()
         }) {
-            PhotoImportPicker { result in
+            PhotoLibraryView(openPhoto: { identifier in
                 showPhotoPicker = false
-                if let result { Task { await importPhoto(result) } }
-            }.ignoresSafeArea()
+                Task {
+                    do {
+                        importedPhoto = try await libraryPhotoSource(identifier)
+                        presentImportedPhoto()
+                    } catch { camera.errorMessage = error.localizedDescription }
+                }
+            }, importPhoto: { result in
+                showPhotoPicker = false
+                Task { await importPhoto(result) }
+            }, delete: camera.deleteLibraryPhotos)
         }
         .fullScreenCover(item: $camera.photoToEdit) { source in
             if source.pending?.nativePhotosWorkflow == true || (source.pending == nil && camera.nativePhotosWorkflow) {
-                NativePhotoReviewView(source: source, recipe: source.pending?.adjustment ?? camera.recipes.draft)
-            } else { PhotoReviewView(source: source, recipes: camera.recipes) }
+                NativePhotoReviewView(source: source, recipe: source.pending?.adjustment ?? camera.recipes.draft, deletePhoto: camera.deletePhoto)
+            } else { PhotoReviewView(source: source, recipes: camera.recipes, deletePhoto: camera.deletePhoto) }
         }
         .sheet(isPresented: $showPending) {
             NavigationStack {
@@ -133,26 +157,24 @@ struct ContentView: View {
                 .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { showPending = false } } }
             }.preferredColorScheme(.dark)
         }
-        .sheet(isPresented: $recipeMenu) {
-            NavigationStack {
-                ScrollView {
-                    RecipePickerView(store: camera.recipes, onSelect: {
-                        camera.activateSelectedShootingStyle()
-                        recipeMenu = false
-                        numericText = nil
-                        compareOriginal = false
-                    }, onError: { camera.errorMessage = $0 })
-                    .padding(20)
-                }.accessibilityIdentifier("shootingStyleList")
-                .navigationTitle("拍攝風格")
-                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("完成") { recipeMenu = false } } }
-            }.preferredColorScheme(.dark)
-        }
         .sheet(isPresented: $showPreferences) {
             NavigationStack {
                 Form {
-                    Toggle("九宮格", isOn: $showGrid)
-                    Toggle("水平線", isOn: $showLevel)
+                    NavigationLink("管理配方") {
+                        ScrollView {
+                            RecipePickerView(store: camera.recipes, onSelect: {
+                                camera.activateSelectedShootingStyle()
+                                compareOriginal = false
+                                numericText = nil
+                                showPreferences = false
+                            }, onError: { camera.errorMessage = $0 })
+                            .padding(20)
+                        }.navigationTitle("管理配方")
+                    }
+                    Section("構圖輔助") {
+                        Toggle("九宮格", isOn: $showGrid).accessibilityIdentifier("gridToggle")
+                        Toggle("水平線", isOn: $showLevel).accessibilityIdentifier("levelToggle")
+                    }
                     Text("照片由系統相簿管理。儲存失敗時會暫留照片，供你重試。")
                     Toggle("使用原生照片調整流程", isOn: $camera.nativePhotosWorkflow)
                         .accessibilityIdentifier("nativePhotosWorkflow")
@@ -166,118 +188,214 @@ struct ContentView: View {
         }
     }
 
+    private func updateCameraVisibility() {
+        if !cameraPageVisible || camera.photoToEdit != nil || scenePhase == .background {
+            camera.setCameraVisible(false)
+            if lensFlipID != nil {
+                var transaction = Transaction(animation: nil)
+                transaction.disablesAnimations = true
+                withTransaction(transaction) {
+                    lensFlipID = nil
+                    outgoingPreview = nil
+                    lensTurns = 0
+                }
+            }
+        } else if scenePhase == .active {
+            camera.setCameraVisible(true)
+        }
+    }
+
     private func viewfinder(landscape: Bool) -> some View {
         GeometryReader { geometry in
             let ratio: CGFloat = landscape ? 4 / 3 : 3 / 4
             let width = min(geometry.size.width, geometry.size.height * ratio)
+            let loading = camera.startupState == .starting || camera.startupState == .waitingForPreview
+            let showChrome = !loading || lensFlipID != nil
+            let displayed = outgoingPreview ?? camera.snapshot
             ZStack {
-                Color(white: 0.06)
-                CameraPreview(service: camera.service, device: camera.snapshot?.rotationDevice,
-                              startupID: camera.snapshot?.previewID, startupBegan: camera.snapshot?.previewBegan,
-                              style: compareOriginal ? StyleAdjustment() : camera.previewStyle, running: camera.canPreview,
-                              onFocus: { point in Task { await camera.focus(at: point) } })
-                if showGrid { GridOverlay().allowsHitTesting(false).transition(.opacity) }
-                if showLevel && level.available { LevelOverlay(angle: level.angle).allowsHitTesting(false).transition(.opacity) }
-                if !camera.previewReady || !camera.canPreview { connection.transition(.opacity) }
+                Color.black
+                if let id = camera.visibilityID {
+                    CameraPreview(service: camera.service, device: displayed?.rotationDevice,
+                                  startupID: displayed?.previewID, startupBegan: displayed?.previewBegan,
+                                  style: compareOriginal ? StyleAdjustment() : camera.previewStyle,
+                                  running: scenePhase == .active && outgoingPreview == nil && camera.canPreview,
+                                  zoom: Double(camera.draft.zoom) ?? 1,
+                                  zoomRange: camera.canAdjust ? camera.snapshot?.capabilities.zoom : nil,
+                                  onZoom: { camera.adjustLive(.zoom($0)) },
+                                  onFocus: { point in Task { await camera.focus(at: point) } })
+                        .id(id)
+                        .id(displayed?.rotationDevice.position == .front)
+                }
+                if outgoingPreview == nil && (!camera.previewReady || !camera.canPreview) {
+                    cameraAvailability.transition(.identity)
+                }
             }
-            .animation(InterfaceMotion.fade, value: showGrid)
-            .animation(InterfaceMotion.fade, value: showLevel && level.available)
-            .animation(InterfaceMotion.fade, value: !camera.previewReady || !camera.canPreview)
+            .modifier(ViewfinderFlip(turns: lensTurns, reduceMotion: reduceMotion))
+            .background(.black)
             .frame(width: max(0, width), height: max(0, width / ratio))
             .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(alignment: .top) { if landscape { topControls } }
-            .overlay(alignment: .bottom) { bottomControls(width: width) }
+            .overlay {
+                if showChrome {
+                    ZStack {
+                        if showGrid { GridOverlay().transition(.opacity) }
+                        if showLevel && level.available { LevelOverlay(angle: level.angle).transition(.opacity) }
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .allowsHitTesting(false)
+                    .animation(InterfaceMotion.fade, value: showGrid)
+                    .animation(InterfaceMotion.fade, value: showLevel && level.available)
+                }
+            }
+            .overlay {
+                if scenePhase == .active && camera.canPreview {
+                    Color.black
+                        .keyframeAnimator(initialValue: 0.0, trigger: camera.singleShotFlashCount) { color, opacity in
+                            color.opacity(opacity)
+                        } keyframes: { _ in
+                            MoveKeyframe(reduceMotion ? 0.65 : 1.0)
+                            LinearKeyframe(reduceMotion ? 0.65 : 1.0, duration: 0.05)
+                            CubicKeyframe(0.0, duration: 0.13)
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .allowsHitTesting(false).accessibilityHidden(true)
+                }
+            }
+            .overlay { dismissStyleBackdrop }
+            .overlay(alignment: .top) { if landscape && showChrome { topControls } }
+            .overlay(alignment: .leading) {
+                if showChrome {
+                    styleSelector(width: width, height: width / ratio, landscape: landscape)
+                        .padding(.leading, 4)
+                }
+            }
+            .overlay(alignment: .bottom) { if showChrome { bottomControls(width: width) } }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
         .accessibilityElement(children: .contain).accessibilityIdentifier("cameraViewfinder")
     }
 
-    private var topControls: some View {
-        HStack(alignment: .top, spacing: 6) {
-            VStack(alignment: .leading, spacing: 4) {
-                Button { recipeMenu.toggle() } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "camera.filters")
-                        Text("風格 · \(camera.recipes.name)").lineLimit(1)
-                        if camera.recipes.isModified { Text("•").foregroundStyle(accent) }
-                        Image(systemName: "chevron.down")
-                            .rotationEffect(.degrees(recipeMenu ? 180 : 0))
-                            .animation(InterfaceMotion.layout(reduceMotion: reduceMotion), value: recipeMenu)
-                    }.font(.subheadline.weight(.medium)).padding(.horizontal, 12).frame(minHeight: 40)
-                        .background(.white.opacity(0.07), in: Capsule())
-                }.accessibilityLabel("選擇配方").accessibilityIdentifier("openRecipes")
-                    .accessibilityValue(camera.recipes.name)
-            }
-            .animation(reduceMotion ? InterfaceMotion.fade : nil, value: recipeMenu)
-            Spacer(minLength: 0)
-            HStack(spacing: 4) {
-                Button { showLevel.toggle() } label: {
-                    Text("水平").font(.caption2).foregroundStyle(showLevel ? accent : .white).frame(width: 44, height: 40)
-                }
-                    .accessibilityLabel(showLevel ? "關閉水平線" : "開啟水平線")
-                Button { showGrid.toggle() } label: { Image(systemName: "grid").foregroundStyle(showGrid ? accent : .white).frame(width: 38, height: 40) }
-                    .accessibilityLabel(showGrid ? "關閉九宮格" : "開啟九宮格")
-                Button { showPreferences = true } label: {
-                    Image(systemName: "gearshape").frame(width: 36, height: 40)
-                }.accessibilityLabel("相機設定")
-            }.background(.white.opacity(0.07), in: Capsule())
-        }.padding(8)
+    @ViewBuilder private var dismissStyleBackdrop: some View {
+        if showStyleWheel {
+            Color.clear.contentShape(Rectangle())
+                .onTapGesture { showStyleWheel = false }
+                .accessibilityHidden(true)
+        }
     }
 
-    private var recipeShortcuts: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(camera.recipes.selectedStyle?.detail ?? "選擇風格，即時預覽並直接拍照")
-                    .font(.caption2).foregroundStyle(.secondary).lineLimit(1)
-                Spacer(minLength: 0)
-                Button("全部風格") { recipeMenu = true }
-                    .font(.caption2).accessibilityIdentifier("allShootingStyles")
+    private func styleSelector(width: CGFloat, height: CGFloat, landscape: Bool) -> some View {
+        HStack(spacing: 2) {
+            Button {
+                showStyleWheel.toggle()
+            } label: {
+                Image(systemName: showStyleWheel ? "chevron.left" : "camera.filters")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(accent)
+                    .frame(width: 34, height: 34)
+                    .background(.black.opacity(0.72), in: Circle())
+                    .overlay(alignment: .topTrailing) {
+                        if camera.recipes.isModified {
+                            Circle().fill(accent).frame(width: 6, height: 6)
+                        }
+                    }
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
-            ScrollViewReader { scroll in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        recipeShortcut("原色", id: nil).id("original")
-                        ForEach(ShootingStyle.allCases) { style in
-                            recipeShortcut(style.name, id: style.id, symbol: style.symbol).id(style.id.uuidString)
-                        }
-                        ForEach(camera.recipes.recipes) { recipe in
-                            recipeShortcut(recipe.name, id: recipe.id).id(recipe.id.uuidString)
-                        }
-                        Button { expanded = true; colorControls = true } label: {
-                            Label("新配方", systemImage: "plus").font(.caption)
-                                .padding(.horizontal, 12).frame(height: 44)
-                                .background(.white.opacity(0.05), in: Capsule())
-                        }.accessibilityLabel("調整新配方")
-                    }
-                }.accessibilityIdentifier("recipeShortcuts")
-                    .onAppear { scroll.scrollTo(camera.recipes.selectedID?.uuidString ?? "original", anchor: .center) }
-                    .onChange(of: camera.recipes.selectedID) { _, id in
-                        withAnimation(InterfaceMotion.fade) { scroll.scrollTo(id?.uuidString ?? "original", anchor: .center) }
-                    }
+            .buttonStyle(.plain)
+            .accessibilityLabel(showStyleWheel ? "收合拍攝風格" : "選擇配方")
+            .accessibilityValue(camera.recipes.name)
+            .accessibilityIdentifier("openRecipes")
+            if showStyleWheel {
+                ShootingStylePicker(options:
+                    [.init(id: nil, name: "原色", scene: "日常紀錄")]
+                    + camera.recipes.recipes.map { .init(id: $0.id, name: $0.name, scene: "同系列續拍") }
+                    + ShootingStyle.allCases.map { .init(id: $0.id, name: $0.name, scene: $0.suggestedScene) },
+                    selection: Binding(get: { camera.recipes.selectedID }, set: { id in
+                        camera.selectShootingRecipe(id)
+                        compareOriginal = false
+                        numericText = nil
+                    }))
+                .frame(width: min(208, max(60, width - 60)),
+                       height: min(224, max(44, height - (landscape ? 128 : 96))))
+                .clipped()
+                .contentShape(Rectangle())
+                .background(.black.opacity(0.8), in: RoundedRectangle(cornerRadius: 16))
+                .accessibilityIdentifier("shootingStyleWheel")
+                .transition(InterfaceMotion.reveal(reduceMotion: reduceMotion, horizontal: true))
             }
         }
     }
 
-    private func recipeShortcut(_ name: String, id: UUID?, symbol: String = "camera.filters") -> some View {
-        let selected = camera.recipes.selectedID == id
-        return Button {
-            camera.selectShootingRecipe(id)
-            compareOriginal = false
+    private var topControls: some View {
+        HStack(spacing: 4) {
+            guideButton("九宮格", symbol: "grid", enabled: $showGrid, id: "quickGrid")
+            guideButton("水平線", symbol: "level", enabled: $showLevel, id: "quickLevel")
+            Text(camera.recipes.name)
+                .font(.subheadline.weight(.semibold))
+                .lineLimit(1).truncationMode(.tail)
+                .frame(maxWidth: .infinity)
+                .accessibilityIdentifier("currentStyleName")
+            Button { showStyleWheel = false; expanded.toggle(); numericText = nil } label: {
+                Image(systemName: "slider.horizontal.3")
+                    .foregroundStyle(expanded ? accent : .white)
+                    .frame(width: 44, height: 44)
+                    .background(expanded ? .white.opacity(0.1) : .clear, in: Circle())
+                    .contentShape(Circle())
+            }
+            .accessibilityLabel("調整參數").accessibilityIdentifier("adjustControls")
+            .accessibilityValue(expanded ? "已展開" : "已收合")
+            Button { showStyleWheel = false; showPreferences = true } label: {
+                Image(systemName: "gearshape").foregroundStyle(.white.opacity(0.7))
+                    .frame(width: 44, height: 44).contentShape(Circle())
+            }.accessibilityLabel("相機設定").accessibilityIdentifier("cameraPreferences")
+        }
+        .padding(8)
+        .background(.black.opacity(0.45), in: RoundedRectangle(cornerRadius: 20))
+    }
+
+    private func guideButton(_ label: String, symbol: String, enabled: Binding<Bool>, id: String) -> some View {
+        Button {
+            showStyleWheel = false
+            enabled.wrappedValue.toggle()
         } label: {
-            Label(name, systemImage: symbol).font(.caption.weight(.medium)).lineLimit(1)
-                .padding(.horizontal, 14).frame(height: 44)
-                .foregroundStyle(selected ? accent : .white.opacity(0.7))
-                .background(selected ? accent.opacity(0.12) : .white.opacity(0.05), in: Capsule())
-                .animation(InterfaceMotion.fade, value: selected)
-        }.accessibilityLabel("套用\(name)")
-            .accessibilityAddTraits(selected ? .isSelected : [])
+            Image(systemName: symbol)
+                .foregroundStyle(enabled.wrappedValue ? accent : .white.opacity(0.7))
+                .frame(width: 44, height: 44).contentShape(Rectangle())
+        }
+        .accessibilityLabel(label).accessibilityIdentifier(id)
+        .accessibilityValue(enabled.wrappedValue ? "已開啟" : "已關閉")
+        .accessibilityAddTraits(enabled.wrappedValue ? .isSelected : [])
+    }
+
+    private func compareButton(iconOnly: Bool) -> some View {
+        let title = camera.nativePhotosWorkflow ? "原色預覽 · 原生調整" : (compareOriginal ? "返回效果" : "原圖比較")
+        return Button { compareOriginal.toggle() } label: {
+            Group {
+                if iconOnly { Image(systemName: "circle.lefthalf.filled") }
+                else { Text(title) }
+            }
+            .font(.caption).foregroundStyle(compareOriginal ? accent : .secondary)
+            .frame(minWidth: 44, maxWidth: iconOnly ? nil : .infinity, minHeight: 44)
+            .contentShape(Rectangle())
+        }
+        .accessibilityLabel(title)
+        .disabled(camera.nativePhotosWorkflow).accessibilityIdentifier("comparePreview")
     }
 
     private func bottomControls(width: CGFloat) -> some View {
         VStack(spacing: 6) {
-            if camera.isCapturing {
+            if camera.lastBurstID != nil {
+                Text("連拍 \(camera.burstCount) 張")
+                    .font(.headline.monospacedDigit()).padding(.horizontal, 12).padding(.vertical, 5)
+                    .background(.black.opacity(0.8), in: Capsule())
+                    .accessibilityIdentifier("burstCount")
+            } else if camera.isCapturing {
                 Text(camera.status).font(.caption).padding(8)
                     .background(.black.opacity(0.8), in: Capsule())
+            } else if camera.processingPhotoCount > 0 {
+                Text(camera.photoQueueIsFull ? "正在處理照片，請稍候…" : "正在儲存 \(camera.processingPhotoCount) 張 · 可繼續拍攝")
+                    .font(.caption).padding(8)
+                    .background(.black.opacity(0.8), in: Capsule())
+                    .accessibilityIdentifier("photoSaveProgress")
             }
             if let error = camera.errorMessage, camera.previewReady {
                 Text(error).font(.caption).lineLimit(2).padding(8)
@@ -288,98 +406,66 @@ struct ContentView: View {
                     Label("\(camera.pendingPhotos.count) 張待儲存", systemImage: "exclamationmark.circle")
                 }.font(.caption).padding(8).background(.black.opacity(0.8), in: Capsule())
             }
-            HStack {
-                Button(camera.nativePhotosWorkflow ? "原色預覽 · 原生調整" : (compareOriginal ? "返回效果" : "原圖比較")) { compareOriginal.toggle() }
-                    .font(.caption2).padding(.horizontal, 12).frame(minHeight: 44)
-                    .foregroundStyle(compareOriginal ? accent : .white)
-                    .background(.black.opacity(0.8), in: Capsule())
-                    .disabled(camera.nativePhotosWorkflow).accessibilityIdentifier("comparePreview")
-                Spacer(minLength: 0)
-                Button { expanded.toggle(); numericText = nil } label: {
-                    Label("調整", systemImage: "slider.horizontal.3")
-                        .font(.caption.weight(.medium)).foregroundStyle(accent)
-                        .padding(.horizontal, 12).frame(minHeight: 44)
-                        .background(.black.opacity(0.8), in: Capsule())
-                }.accessibilityLabel("調整參數").accessibilityIdentifier("adjustControls")
-            }
             zoomSelector(width: width)
         }.padding(8)
     }
 
     private func zoomSelector(width: CGFloat) -> some View {
-        let values = camera.snapshot?.capabilities.zoomPresets ?? [1, 2]
-        let current = Double(camera.draft.zoom) ?? 1
-        return ViewThatFits(in: .horizontal) {
-            zoomButtons(values: values, current: current)
-            ScrollView(.horizontal, showsIndicators: false) {
-                zoomButtons(values: values, current: current)
-            }.frame(width: max(44, width - 16), height: 48)
-        }
+        ViewfinderZoomControl(
+            presets: camera.snapshot?.capabilities.zoomPresets ?? [1, 2],
+            current: Double(camera.draft.zoom) ?? 1,
+            availableWidth: max(88, width - 16), canAdjust: camera.canAdjust
+        ) { camera.adjustLive(.zoom($0)) }
+        .id(camera.snapshot?.deviceID)
     }
 
-    private func zoomButtons(values: [Double], current: Double) -> some View {
-        HStack(spacing: 4) {
-            ForEach(values, id: \.self) { value in
-                let selected = abs(current - value) < 0.01
-                Button { camera.adjustLive(.zoom(value)) } label: {
-                    Text("\(CameraSettings.format(value))×")
-                        .font(.system(size: 13, weight: .semibold)).monospacedDigit()
-                        .foregroundStyle(selected ? accent : .white)
-                        .frame(width: 44, height: 44)
-                        .background(selected ? .white.opacity(0.16) : .clear, in: Circle())
+    @ViewBuilder private var cameraAvailability: some View {
+        switch camera.startupState {
+        case .starting:
+            Color.black.allowsHitTesting(false).accessibilityHidden(true)
+        case .waitingForPreview:
+            // The fresh Metal surface is black until it presents its first frame.
+            // Keep it visible so its presentation callback can finish startup.
+            EmptyView()
+        case .interrupted:
+            Text("相機暫時被系統暫停，恢復後會自動開啟")
+                .font(.caption).multilineTextAlignment(.center).padding(14)
+                .background(.black.opacity(0.7), in: RoundedRectangle(cornerRadius: 12))
+        case .permissionRequired, .unavailable, .failed:
+            VStack(spacing: 8) {
+                Text(camera.status).font(.subheadline).accessibilityIdentifier("cameraStatus")
+                if let error = camera.errorMessage {
+                    Text(error).font(.caption).multilineTextAlignment(.center).accessibilityIdentifier("cameraError")
                 }
-                .accessibilityLabel("變焦 \(CameraSettings.format(value)) 倍")
-                .accessibilityAddTraits(selected ? .isSelected : [])
-                .disabled(!camera.canAdjust)
+                if camera.startupState == .permissionRequired {
+                    Button("允許使用相機") { if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) } }
+                } else if camera.startupState.canRetry {
+                    Button("重試開啟相機") { Task { await camera.activate() } }
+                        .accessibilityIdentifier("retryCamera")
+                }
             }
-            Button {
-                colorControls = false; shootingControl = .zoom; expanded = true; numericText = nil
-            } label: {
-                Group {
-                    if values.contains(where: { abs(current - $0) < 0.01 }) {
-                        Image(systemName: "chevron.down")
-                    } else {
-                        Text("\(CameraSettings.format(current))×").monospacedDigit()
-                    }
-                }.font(.caption.weight(.semibold)).foregroundStyle(accent)
-                    .frame(minWidth: 44, minHeight: 44)
-            }.accessibilityLabel("調整變焦倍率").accessibilityIdentifier("openZoom")
-        }.padding(2).background(.black.opacity(0.8), in: Capsule())
+            .padding(14).frame(maxWidth: 290)
+            .background(.black.opacity(0.8), in: RoundedRectangle(cornerRadius: 12))
+        case .ready, .paused:
+            EmptyView()
+        }
     }
 
-    private var connection: some View {
-        VStack(spacing: 8) {
-            Text(camera.status).font(.subheadline).accessibilityIdentifier("cameraStatus")
-            if camera.isBusy { ProgressView() }
-            if let error = camera.errorMessage {
-                Text(error).font(.caption).multilineTextAlignment(.center).accessibilityIdentifier("cameraError")
-            }
-            if camera.needsPermission {
-                Button("開啟設定") { if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) } }
-            } else if !camera.isBusy && !camera.isCapturing {
-                Button("重新連線") { Task { await camera.activate() } }
-            }
+    private func libraryPhotoSource(_ identifier: String) async throws -> PhotoEditorSource {
+        if camera.nativePhotosWorkflow {
+            let current = try await PhotoLibrarySaver.loadCurrent(identifier)
+            return PhotoEditorSource(original: current.data, assetIdentifier: identifier)
         }
-        .padding(14).frame(maxWidth: 290)
-        .background(.black.opacity(0.8), in: RoundedRectangle(cornerRadius: 12))
+        let source = try await PhotoLibrarySaver.load(identifier)
+        return PhotoEditorSource(original: source.original, adjustment: source.adjustment,
+                                 assetIdentifier: source.editableAssetIdentifier, importedLibraryIdentifier: identifier)
     }
 
     private func importPhoto(_ result: PHPickerResult) async {
         do {
-            if camera.nativePhotosWorkflow {
-                if let id = result.assetIdentifier, let current = try? await PhotoLibrarySaver.loadCurrent(id) {
-                    importedPhoto = PhotoEditorSource(original: current.data, assetIdentifier: id)
-                } else {
-                    importedPhoto = PhotoEditorSource(original: try await PhotoImportPicker.imageData(from: result))
-                }
-                presentImportedPhoto()
-                return
-            }
-            if let id = result.assetIdentifier, let source = try? await PhotoLibrarySaver.load(id) {
-                importedPhoto = PhotoEditorSource(original: source.original, adjustment: source.adjustment,
-                                                 assetIdentifier: source.editableAssetIdentifier)
+            if let id = result.assetIdentifier, let source = try? await libraryPhotoSource(id) {
+                importedPhoto = source
             } else {
-                // The picker can deliver an image even with limited library access.
                 importedPhoto = PhotoEditorSource(original: try await PhotoImportPicker.imageData(from: result))
             }
             presentImportedPhoto()
@@ -400,14 +486,19 @@ struct ContentView: View {
                         controlTab(camera.nativePhotosWorkflow ? "配方清單" : "調色", selected: colorControls) { colorControls = true }
                         controlTab("拍攝", selected: !colorControls) { colorControls = false }
                         Spacer(minLength: 0)
-                        Button { expanded = false } label: { Image(systemName: "chevron.down") }
-                            .accessibilityLabel("收起調整")
+                        if colorControls && !compact { compareButton(iconOnly: true) }
+                        if !compact {
+                            Button { expanded = false } label: {
+                                Image(systemName: "chevron.down").frame(width: 44, height: 44)
+                            }.accessibilityLabel("收起調整")
+                        }
                     }.font(.caption)
                     if colorControls {
                         RecipeControlsView(store: camera.recipes, parameter: $parameter, numericText: $numericText,
                                            error: { camera.errorMessage = $0 }, compact: compact)
                             .transition(.opacity)
                     } else { shootingControls(compact: compact).transition(.opacity) }
+                    if colorControls && compact { compareButton(iconOnly: false) }
                 }
                 .transition(.opacity)
             } else {
@@ -433,9 +524,9 @@ struct ContentView: View {
 
     private func controlTab(_ title: String, selected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).font(.caption.weight(.semibold))
+            Text(title).font(.caption.weight(.semibold)).lineLimit(1)
                 .foregroundStyle(selected ? accent : .white.opacity(0.5))
-                .padding(.horizontal, 10).frame(height: 30)
+                .padding(.horizontal, 10).frame(height: 44)
                 .background(selected ? accent.opacity(0.12) : .clear, in: Capsule())
                 .animation(InterfaceMotion.fade, value: selected)
         }
@@ -512,21 +603,50 @@ struct ContentView: View {
         return layout {
             libraryButton
             Spacer(minLength: 0)
-            Button { Task { await camera.capture() } } label: {
-                Circle().fill(camera.isCapturing ? .gray : .white).padding(5)
-                    .overlay(Circle().stroke(.white, lineWidth: 2)).frame(width: landscape ? 60 : 68, height: landscape ? 60 : 68)
-            }.disabled(!camera.canControl).accessibilityLabel("拍照").accessibilityIdentifier("capturePhoto")
+            ShutterButton(diameter: landscape ? 60 : 68,
+                          available: shutterVisible && camera.canPreview,
+                          burstCount: camera.burstCount,
+                          canCapture: { shutterVisible && camera.canCapture }) { burstID, requested in
+                showStyleWheel = false
+                return await camera.capture(burstID: burstID, whileRequested: requested)
+            }
             Spacer(minLength: 0)
-            Button { Task { await camera.flipCamera() } } label: {
+            Button { Task { await flipLens() } } label: {
                 Image(systemName: "arrow.triangle.2.circlepath").font(.system(size: 23, weight: .medium))
                     .frame(width: 50, height: 50).background(.white.opacity(0.12), in: Circle())
                     .frame(width: 64, height: 68)
             }
-            .disabled(!camera.canControl || camera.flipCameraTarget == nil)
+            .disabled(lensFlipID != nil || !camera.canAdjust || camera.flipCameraTarget == nil)
             .accessibilityLabel(camera.flipCameraTarget?.isFront == true ? "切換前置相機" : "切換後置相機")
             .accessibilityIdentifier("cameraLens")
         }
         .frame(maxHeight: landscape ? .infinity : nil)
+    }
+
+    private var shutterVisible: Bool {
+        cameraPageVisible && lensFlipID == nil && camera.photoToEdit == nil && !showPhotoPicker && !showPending && !showPreferences
+    }
+
+    @MainActor private func flipLens() async {
+        guard lensFlipID == nil, camera.canAdjust, camera.flipCameraTarget != nil else { return }
+        let id = UUID()
+        lensFlipID = id
+        outgoingPreview = camera.snapshot
+        showStyleWheel = false
+        async let switched: Void = camera.flipCamera()
+        withAnimation(.easeIn(duration: 0.16)) { lensTurns = 0.5 }
+        try? await Task.sleep(for: .milliseconds(160))
+        await switched
+        guard lensFlipID == id else { return }
+        outgoingPreview = nil
+        withAnimation(.easeOut(duration: 0.20), completionCriteria: .logicallyComplete) {
+            lensTurns = 1
+        } completion: {
+            if lensFlipID == id {
+                lensFlipID = nil
+                lensTurns = 0
+            }
+        }
     }
 
     private var libraryButton: some View {
@@ -535,9 +655,9 @@ struct ContentView: View {
             photoPickerDismissed = false
             showPhotoPicker = true
         } label: {
-            VStack(spacing: 3) {
+            Group {
                 Group {
-                    if let data = camera.lastThumbnail, let thumbnail = UIImage(data: data) {
+                    if let thumbnail = camera.lastThumbnail {
                         Image(uiImage: thumbnail).resizable().scaledToFill()
                     } else {
                         Image(systemName: "photo.on.rectangle.angled")
@@ -547,8 +667,7 @@ struct ContentView: View {
                     }
                 }
                 .frame(width: 48, height: 48).clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.75), lineWidth: 1.5))
-                Text("圖庫").font(.system(size: 11, weight: .medium))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.2), lineWidth: 1))
             }.foregroundStyle(.white).frame(width: 64, height: 68)
         }.accessibilityLabel("匯入相簿照片").accessibilityIdentifier("photoLibrary")
             .contextMenu {

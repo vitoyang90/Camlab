@@ -98,6 +98,7 @@ import Testing
         var recipe = RecipeAdjustment()
         recipe[.warmth] = 40; recipe[.saturation] = 30; recipe[.highlights] = -40
         recipe[.shadows] = 20; recipe[.noiseReduction] = 35
+        recipe[.sharpness] = 80; recipe[.definition] = 60
         let result = recipe.applying(to: source)
         #expect(result.extent == source.extent)
         let defaultContext = CIContext()

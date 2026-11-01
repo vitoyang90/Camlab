@@ -2,6 +2,7 @@ import CoreImage
 import Foundation
 import ImageIO
 import UniformTypeIdentifiers
+import UIKit
 
 nonisolated struct SavedPhoto: Identifiable, Codable, Sendable {
     let id: UUID
@@ -15,6 +16,7 @@ nonisolated struct SavedPhoto: Identifiable, Codable, Sendable {
     var adjustment: RecipeAdjustment? = nil
     var assetIdentifier: String? = nil
     var nativePhotosWorkflow: Bool? = nil
+    var renderStyle: StyleAdjustment? = nil
 }
 
 nonisolated struct RenderedPhoto: Sendable {
@@ -26,6 +28,7 @@ nonisolated struct RenderedPhoto: Sendable {
 
 nonisolated final class PhotoProcessor: @unchecked Sendable {
     private let queue = DispatchQueue(label: "Camlab.photoProcessing", qos: .userInitiated)
+    private let stagingQueue = DispatchQueue(label: "Camlab.photoStaging", qos: .userInitiated)
     private let contextLock = NSLock()
     private var renderContext: CIContext?
     private let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
@@ -52,22 +55,38 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
     }
 
     func process(_ original: Data, style: StyleAdjustment, assetIdentifier: String? = nil, nativePhotosWorkflow: Bool = false) async throws -> SavedPhoto {
+        let staged = try await stage(original, style: style, assetIdentifier: assetIdentifier, nativePhotosWorkflow: nativePhotosWorkflow)
+        return try await processStaged(staged, style: style)
+    }
+
+    /// Persist each untouched original as soon as it is delivered. This queue
+    /// stays independent of full-resolution rendering and Photos delivery.
+    func stage(_ original: Data, style: StyleAdjustment, assetIdentifier: String? = nil, nativePhotosWorkflow: Bool = false, id: UUID = UUID(), createdAt: Date = Date()) async throws -> SavedPhoto {
+        try await perform(on: stagingQueue) {
+            let root = try self.archiveDirectory()
+            let folder = root.appendingPathComponent(id.uuidString, isDirectory: true)
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+            let raw = SavedPhoto(id: id, fileURL: folder.appendingPathComponent("Camlab.jpg"),
+                                 originalURL: folder.appendingPathComponent("Original.jpg"),
+                                 thumbnailURL: folder.appendingPathComponent("Preview.jpg"),
+                                 width: 0, height: 0, styleName: style.name, createdAt: createdAt,
+                                 adjustment: style.recipe, assetIdentifier: assetIdentifier, nativePhotosWorkflow: nativePhotosWorkflow,
+                                 renderStyle: style)
+            // Publish the journal first: any fully written original is then
+            // discoverable after termination between these two atomic writes.
+            try JSONEncoder().encode(raw).write(to: folder.appendingPathComponent("Capture.json"), options: .atomic)
+            try original.write(to: raw.originalURL, options: .atomic)
+            return raw
+        }
+    }
+
+    func processStaged(_ raw: SavedPhoto, style: StyleAdjustment) async throws -> SavedPhoto {
         try await perform {
             try autoreleasepool {
-                let root = try self.archiveDirectory()
-                let id = UUID()
-                let folder = root.appendingPathComponent(id.uuidString, isDirectory: true)
-                try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-                let createdAt = Date()
-                let raw = SavedPhoto(id: id, fileURL: folder.appendingPathComponent("Camlab.jpg"),
-                                       originalURL: folder.appendingPathComponent("Original.jpg"),
-                                       thumbnailURL: folder.appendingPathComponent("Preview.jpg"),
-                                       width: 0, height: 0, styleName: style.name, createdAt: createdAt,
-                                       adjustment: style.recipe, assetIdentifier: assetIdentifier, nativePhotosWorkflow: nativePhotosWorkflow)
-                // Keep the capture before rendering so processing failures can
-                // be retried from the original instead of losing the shot.
-                try original.write(to: raw.originalURL, options: .atomic)
-                try JSONEncoder().encode(raw).write(to: folder.appendingPathComponent("Capture.json"), options: .atomic)
+                let original = try Data(contentsOf: raw.originalURL)
+                let folder = raw.originalURL.deletingLastPathComponent()
+                let root = folder.deletingLastPathComponent()
+                let nativePhotosWorkflow = raw.nativePhotosWorkflow == true
                 let rendered: RenderedPhoto
                 if nativePhotosWorkflow {
                     guard let source = CGImageSourceCreateWithData(original as CFData, nil),
@@ -78,9 +97,10 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
                     }
                     rendered = RenderedPhoto(data: original, thumbnail: try Self.thumbnail(data: original), width: width, height: height)
                 } else { rendered = try self.render(original, style: style) }
-                let photo = SavedPhoto(id: id, fileURL: raw.fileURL, originalURL: raw.originalURL, thumbnailURL: raw.thumbnailURL,
-                                       width: rendered.width, height: rendered.height, styleName: style.name, createdAt: createdAt,
-                                       adjustment: style.recipe, assetIdentifier: assetIdentifier, nativePhotosWorkflow: nativePhotosWorkflow)
+                let photo = SavedPhoto(id: raw.id, fileURL: raw.fileURL, originalURL: raw.originalURL, thumbnailURL: raw.thumbnailURL,
+                                       width: rendered.width, height: rendered.height, styleName: raw.styleName, createdAt: raw.createdAt,
+                                       adjustment: raw.adjustment, assetIdentifier: raw.assetIdentifier, nativePhotosWorkflow: raw.nativePhotosWorkflow,
+                                       renderStyle: style)
                 try rendered.data.write(to: photo.fileURL, options: .atomic)
                 try rendered.thumbnail.write(to: photo.thumbnailURL, options: .atomic)
                 try JSONEncoder().encode(photo).write(to: folder.appendingPathComponent("Capture.json"), options: .atomic)
@@ -88,6 +108,36 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
                 return photo
             }
         }
+    }
+
+    func thumbnail(for photo: SavedPhoto) async -> UIImage? {
+        // Decode once at the size of the 48-point library button, off the main actor.
+        try? await perform {
+            guard let source = CGImageSourceCreateWithURL(photo.thumbnailURL as CFURL, nil),
+                  let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [
+                    kCGImageSourceCreateThumbnailFromImageAlways: true,
+                    kCGImageSourceCreateThumbnailWithTransform: true,
+                    kCGImageSourceShouldCacheImmediately: true,
+                    kCGImageSourceThumbnailMaxPixelSize: 144
+                  ] as CFDictionary) else { return nil }
+            return UIImage(cgImage: image)
+        }
+    }
+
+    func prepareForSaving(_ photo: SavedPhoto) async throws -> SavedPhoto {
+        guard let current = await pending().first(where: { $0.id == photo.id }) else {
+            throw CameraFailure("找不到待儲存原圖，請重新開啟照片確認。")
+        }
+        let hasRenderedFile = try await perform {
+            current.width > 0 && current.height > 0 && FileManager.default.fileExists(atPath: current.fileURL.path)
+        }
+        if hasRenderedFile { return current }
+        let style: StyleAdjustment
+        if let stored = current.renderStyle { style = stored }
+        else if let recipe = current.adjustment { style = StyleAdjustment(recipe: recipe, recipeName: current.styleName) }
+        else if let preset = PhotoStyle(rawValue: current.styleName) { style = preset.adjustment }
+        else { throw CameraFailure("這張舊照片缺少完整調色紀錄，原圖已保留，請開啟照片確認後儲存。") }
+        return try await processStaged(current, style: style)
     }
 
     func latest() async -> SavedPhoto? {
@@ -100,7 +150,7 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
                                    originalURL: folder.appendingPathComponent("Original.jpg"),
                                    thumbnailURL: folder.appendingPathComponent("Preview.jpg"),
                                    width: stored.width, height: stored.height, styleName: stored.styleName, createdAt: stored.createdAt,
-                                   adjustment: stored.adjustment, assetIdentifier: stored.assetIdentifier, nativePhotosWorkflow: stored.nativePhotosWorkflow)
+                                   adjustment: stored.adjustment, assetIdentifier: stored.assetIdentifier, nativePhotosWorkflow: stored.nativePhotosWorkflow, renderStyle: stored.renderStyle)
             guard FileManager.default.fileExists(atPath: photo.fileURL.path) else {
                 throw CameraFailure("找不到上次拍攝的照片。")
             }
@@ -111,12 +161,16 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
     func revise(_ photo: SavedPhoto, style: StyleAdjustment) async throws -> SavedPhoto {
         guard photo.nativePhotosWorkflow != true else { throw CameraFailure("這張原圖請使用原生照片流程儲存。") }
         return try await perform {
+            if var journal = try PhotoLibraryJournal.read(for: photo), journal.phase == .finished {
+                journal.phase = .created
+                try journal.write(for: photo)
+            }
             let original = try Data(contentsOf: photo.originalURL)
             let rendered = try self.render(original, style: style)
             let updated = SavedPhoto(id: photo.id, fileURL: photo.fileURL, originalURL: photo.originalURL,
                                      thumbnailURL: photo.thumbnailURL, width: rendered.width, height: rendered.height,
                                      styleName: style.name, createdAt: photo.createdAt, adjustment: style.recipe,
-                                     assetIdentifier: photo.assetIdentifier)
+                                     assetIdentifier: photo.assetIdentifier, renderStyle: style)
             try rendered.data.write(to: photo.fileURL, options: .atomic)
             try rendered.thumbnail.write(to: photo.thumbnailURL, options: .atomic)
             let metadata = try JSONEncoder().encode(updated)
@@ -143,22 +197,32 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
             let folders = try FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil)
             return folders.compactMap { folder -> SavedPhoto? in
                 guard UUID(uuidString: folder.lastPathComponent) != nil,
+                      FileManager.default.fileExists(atPath: folder.appendingPathComponent("Original.jpg").path),
                       let data = try? Data(contentsOf: folder.appendingPathComponent("Capture.json")),
                       let photo = try? JSONDecoder().decode(SavedPhoto.self, from: data) else { return nil }
                 return SavedPhoto(id: photo.id, fileURL: folder.appendingPathComponent("Camlab.jpg"),
                                   originalURL: folder.appendingPathComponent("Original.jpg"), thumbnailURL: folder.appendingPathComponent("Preview.jpg"),
                                   width: photo.width, height: photo.height, styleName: photo.styleName, createdAt: photo.createdAt,
-                                  adjustment: photo.adjustment, assetIdentifier: photo.assetIdentifier, nativePhotosWorkflow: photo.nativePhotosWorkflow)
+                                  adjustment: photo.adjustment, assetIdentifier: photo.assetIdentifier, nativePhotosWorkflow: photo.nativePhotosWorkflow, renderStyle: photo.renderStyle)
             }.sorted { $0.createdAt > $1.createdAt }
         }) ?? []
     }
 
     /// Call only after Photos confirms both the original and rendered edit.
     func complete(_ photo: SavedPhoto) async throws {
+        try await removeLocalCopy(photo)
+    }
+
+    func removeLocalCopy(_ photo: SavedPhoto) async throws {
         try await perform {
             let root = try self.archiveDirectory()
             let folder = root.appendingPathComponent(photo.id.uuidString, isDirectory: true)
-            if FileManager.default.fileExists(atPath: folder.path) { try FileManager.default.removeItem(at: folder) }
+            if FileManager.default.fileExists(atPath: folder.path) {
+                // Withdraw the entire job from recovery before removing its files.
+                let trash = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+                try FileManager.default.moveItem(at: folder, to: trash)
+                try? FileManager.default.removeItem(at: trash)
+            }
             let latest = root.appendingPathComponent("Latest.json")
             if let data = try? Data(contentsOf: latest),
                let stored = try? JSONDecoder().decode(SavedPhoto.self, from: data), stored.id == photo.id {
@@ -219,9 +283,9 @@ nonisolated final class PhotoProcessor: @unchecked Sendable {
         return data as Data
     }
 
-    private func perform<T: Sendable>(_ operation: @escaping @Sendable () throws -> T) async throws -> T {
+    private func perform<T: Sendable>(on target: DispatchQueue? = nil, _ operation: @escaping @Sendable () throws -> T) async throws -> T {
         try await withCheckedThrowingContinuation { continuation in
-            queue.async { continuation.resume(with: Result { try operation() }) }
+            (target ?? queue).async { continuation.resume(with: Result { try operation() }) }
         }
     }
 }

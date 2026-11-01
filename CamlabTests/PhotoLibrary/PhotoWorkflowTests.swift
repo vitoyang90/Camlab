@@ -54,6 +54,67 @@ struct PhotoWorkflowTests {
         #expect(restored?.fileURL == saved.fileURL)
     }
 
+    @Test func queuedOriginalsSurviveRelaunchBeforeRenderingWithoutChangingQuality() async throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let processor = PhotoProcessor(storageDirectory: folder)
+        let original = try sourcePhoto(width: 640, height: 480, orientation: 6)
+        var recipe = RecipeAdjustment()
+        recipe[.saturation] = -80
+        let firstStyle = StyleAdjustment(recipe: recipe, recipeName: "First")
+        let first = try await processor.stage(original, style: firstStyle)
+        recipe[.saturation] = 60
+        let secondStyle = StyleAdjustment(recipe: recipe, recipeName: "Second")
+        let second = try await processor.stage(original, style: secondStyle)
+        #expect(!FileManager.default.fileExists(atPath: first.fileURL.path))
+        #expect(try Data(contentsOf: first.originalURL) == original)
+        #expect(try Data(contentsOf: second.originalURL) == original)
+
+        let restored = PhotoProcessor(storageDirectory: folder)
+        let pending = await restored.pending()
+        #expect(Set(pending.map(\.id)) == [first.id, second.id])
+        #expect(pending.first { $0.id == first.id }?.adjustment == firstStyle.recipe)
+        #expect(pending.first { $0.id == second.id }?.adjustment == secondStyle.recipe)
+        let rendered = try await restored.processStaged(first, style: firstStyle)
+        let reference = try restored.render(original, style: firstStyle)
+        #expect(rendered.width == 480 && rendered.height == 640)
+        #expect(try Data(contentsOf: rendered.fileURL) == reference.data)
+        try await restored.complete(rendered)
+        #expect(await restored.pending().map(\.id) == [second.id])
+        #expect(try Data(contentsOf: second.originalURL) == original)
+    }
+
+    @Test func renderingFailureKeepsTheQueuedOriginalForRecovery() async throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let processor = PhotoProcessor(storageDirectory: folder)
+        let original = Data("invalid capture".utf8)
+        let staged = try await processor.stage(original, style: StyleAdjustment())
+        await #expect(throws: CameraFailure.self) {
+            try await processor.processStaged(staged, style: StyleAdjustment())
+        }
+        #expect(await processor.pending().map(\.id) == [staged.id])
+        #expect(try Data(contentsOf: staged.originalURL) == original)
+    }
+
+    @Test func journalWithoutOriginalIsHiddenAndCompletedOriginalIsRecoverable() async throws {
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let processor = PhotoProcessor(storageDirectory: folder)
+        let original = try sourcePhoto(width: 80, height: 60, orientation: 1)
+        let staged = try await processor.stage(original, style: StyleAdjustment())
+        // Model termination after the journal, before the atomic original write.
+        try FileManager.default.removeItem(at: staged.originalURL)
+        #expect(await processor.pending().isEmpty)
+        // Once the original is committed, the existing journal must discover it
+        // even though rendering and Latest.json have never been written.
+        try original.write(to: staged.originalURL, options: .atomic)
+        let restored = PhotoProcessor(storageDirectory: folder)
+        #expect(await restored.pending().map(\.id) == [staged.id])
+        #expect(await restored.latest() == nil)
+        #expect(try Data(contentsOf: staged.originalURL) == original)
+    }
+
     @Test func invalidPhotoDataFailsCleanly() {
         #expect(throws: CameraFailure.self) {
             try PhotoProcessor().render(Data("invalid".utf8), style: StyleAdjustment())

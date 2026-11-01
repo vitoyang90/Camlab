@@ -2,7 +2,7 @@
 """Reproducible style review using the shipping Core Image renderer (macOS).
 
 fetch: download the attributed public samples and normalize to 1200px sRGB PNG.
-render LABEL: render frozen before/round1/round2/round3 or current after built-ins for each sample.
+render LABEL: render frozen before/round1/round2/round3/round4 or current after built-ins for each sample.
 report: compare before/after pixels and create offline contact sheets + HTML.
 check: enforce review guardrails for this six-scene corpus (not universal quality).
 Requires Pillow, NumPy, Xcode Swift; does not change any camera presets itself.
@@ -62,8 +62,8 @@ def fetch():
     (OUT / 'sources.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
 
 def render(label):
-    if label not in ('before', 'round1', 'round2', 'round3', 'after'):
-        raise SystemExit('Label must be before, round1, round2, round3 or after')
+    if label not in ('before', 'round1', 'round2', 'round3', 'round4', 'after'):
+        raise SystemExit('Label must be before, round1, round2, round3, round4 or after')
     destination = OUT / label
     destination.mkdir(parents=True, exist_ok=True)
     def source_file(filename):
@@ -125,7 +125,7 @@ def stats(image, original):
 def contact_sheets(phase):
     manifest = json.loads((OUT / 'sources.json').read_text())
     # Review contact sheets: original + 12 styles, no photo cropping.
-    if phase in ['before', 'round1', 'round2', 'round3', 'after']:
+    if phase in ['before', 'round1', 'round2', 'round3', 'round4', 'after']:
         for sample in manifest:
             key = sample['id']
             sheet = Image.new('RGB', (1400, 4 * 255), '#171717')
@@ -142,7 +142,7 @@ def contact_sheets(phase):
 
 def report():
     recipes = json.loads((OUT / 'after/recipes.json').read_text())
-    phases = ['before', 'round1', 'round2', 'round3', 'after']
+    phases = ['before', 'round1', 'round2', 'round3', 'round4', 'after']
     versions = {phase: json.loads((OUT / phase / 'recipes.json').read_text()) for phase in phases}
     manifest = json.loads((OUT / 'sources.json').read_text())
     results = []
@@ -156,9 +156,38 @@ def report():
                 results.append(dict(scene=key, style=recipe['name'], phase=phase, **stats(value, original)))
     (OUT / 'metrics.json').write_text(json.dumps(results, indent=2, ensure_ascii=False) + '\n')
     for phase in phases: contact_sheets(phase)
+    detail_crops()
     payload = json.dumps(dict(samples=manifest, recipes=recipes, versions=versions, metrics=results), ensure_ascii=False).replace('</', '<\\/')
     template = (ROOT / 'Tools/Calibration/style_calibration.html').read_text()
     (OUT / 'comparison.html').write_text(template.replace('/*PAYLOAD*/null', payload))
+
+def detail_crops():
+    # Identical source-pixel crops, enlarged 1.5x with the same interpolation.
+    # The style changes are intentionally subtle; this is visual QA, not a score.
+    crops = [
+        ('portrait_studio', 6, (260, 190, 580, 450), 'Hair / skin - Portrait'),
+        ('portrait_studio', 9, (430, 680, 750, 940), 'Fabric / lettering - Vivid'),
+        ('night', 11, (500, 140, 820, 400), 'Signs / bright edges - Street'),
+        ('daylight', 9, (350, 140, 670, 400), 'Landscape texture - Vivid'),
+    ]
+    sheet = Image.new('RGB', (1440, len(crops) * 425 + 120), '#171717')
+    draw = ImageDraw.Draw(sheet)
+    for row, (key, style, box, title) in enumerate(crops):
+        paths = [OUT / 'sources' / f'{key}.png', OUT / 'round4' / f'{key}-{style}.jpg',
+                 OUT / 'after' / f'{key}-{style}.jpg']
+        for col, (path, label) in enumerate(zip(paths, ['Source', 'Round 4', 'Round 5'])):
+            crop = Image.open(path).convert('RGB').crop(box).resize((480, 390), Image.Resampling.LANCZOS)
+            sheet.paste(crop, (col * 480, row * 425 + 30))
+            draw.text((col * 480 + 8, row * 425 + 7), f'{title} / {label}', fill='white')
+    credits = [
+        'Crops enlarged 1.5x. Same coordinates / interpolation; style processing and JPEG encoding differ. Not real-device validation.',
+        'Portrait: NASA S87-45893, public domain. Landscape: Gorgo, public domain. Night: Benlisquare, CC BY-SA 4.0.',
+        'Night source: https://commons.wikimedia.org/wiki/File:Traffic_on_Nanjing_West_Road_in_Taipei_at_night.jpg',
+        'Composite: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/ | Full source credits / links: sources.json'
+    ]
+    for index, line in enumerate(credits):
+        draw.text((12, len(crops) * 425 + 12 + index * 24), line, fill='#ddd')
+    sheet.save(OUT / 'detail-comparison.jpg', quality=96)
 
 def check():
     rows = json.loads((OUT / 'metrics.json').read_text())
@@ -168,7 +197,7 @@ def check():
         assert row['newly_clipped_channel_percent'] < 0.1, row
         # Dark, contrast-led looks may deepen shadows; flag large losses.
         assert row['newly_crushed_pixel_percent'] < 0.5, row
-        for phase in ['before', 'round1', 'round2', 'round3']:
+        for phase in ['before', 'round1', 'round2', 'round3', 'round4']:
             baseline = next(r for r in rows if r['phase'] == phase and r['scene'] == row['scene'] and r['style'] == row['style'])
             # Allow 0.01 percentage points for encoding and rounding changes.
             assert row['newly_clipped_channel_percent'] <= baseline['newly_clipped_channel_percent'] + 0.01, (phase, row)

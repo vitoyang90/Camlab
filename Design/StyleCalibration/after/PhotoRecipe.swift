@@ -68,26 +68,11 @@ nonisolated struct RecipeAdjustment: Codable, Equatable, Sendable {
     func applying(to source: CIImage) -> CIImage {
         guard AdjustmentParameter.allCases.contains(where: { self[$0] != 0 }) else { return source }
         var image = RecipeColorPipeline.applying(self, to: source)
-        // Spatial filters use extended edge pixels to avoid dark/transparent
-        // borders. Scale detail radii with image size for preview/export parity.
         let extent = source.extent
-        let detailScale = max(0.1, min(extent.width, extent.height) / 1080)
         // Noise reduction now runs before color/tone amplification in the shared
         // pipeline; do not smooth a second time after lifting the shadows.
-        if self[.definition] > 0 {
-            // Broad local contrast gives structure without duplicating the
-            // fine-edge sharpening control.
-            image = image.clampedToExtent().applyingFilter("CIUnsharpMask", parameters: [
-                kCIInputRadiusKey: 10 * detailScale,
-                kCIInputIntensityKey: Double(self[.definition]) / 100 * 0.7
-            ]).cropped(to: extent)
-        }
-        if self[.sharpness] > 0 {
-            image = image.clampedToExtent().applyingFilter("CISharpenLuminance", parameters: [
-                kCIInputSharpnessKey: Double(self[.sharpness]) / 100 * 1.5,
-                kCIInputRadiusKey: 1.5 * detailScale
-            ]).cropped(to: extent)
-        }
+        image = RecipeColorPipeline.enhancingDetails(image, reference: source,
+            sharpness: Double(self[.sharpness]) / 100, definition: Double(self[.definition]) / 100)
         if self[.vignette] != 0 {
             // An explicit radial mask supports both dark and light vignettes,
             // including images whose Core Image extent has a nonzero origin.

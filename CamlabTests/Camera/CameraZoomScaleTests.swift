@@ -2,6 +2,13 @@ import Testing
 @testable import Camlab
 
 struct CameraZoomScaleTests {
+    @Test func pinchPreservesExactLensEndpoints() throws {
+        let range = try #require(PinchZoomRange(1.25...3.77))
+        #expect(range.magnification(clamping: 1) == 1.25)
+        #expect(range.magnification(clamping: 4) == 3.77)
+        #expect(range.magnification(clamping: 2.38) == 2.4)
+        #expect(PinchZoomRange(1...1) == nil)
+    }
     @Test func virtualCameraPresetsUseDisplayMagnification() {
         let triple = CameraZoomScale(hardwareRange: 1...100, displayMultiplier: 0.5)
         #expect(triple.presets(switchOverFactors: [2, 10]) == [0.5, 1, 2, 5])

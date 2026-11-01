@@ -112,14 +112,105 @@ import UIKit
         #expect(try JSONDecoder().decode(RecipeAdjustment.self, from: photoKitData).validated() == store.draft)
     }
 
-    @Test func sharpeningIncreasesDetailAndNoiseReductionSmoothsIt() {
+    @Test func sharpeningEnhancesTextureAndNoiseReductionSmoothsNoise() {
         let source = fixture(noisy: true)
         let original = pixels(source)
-        let sharp = pixels(adjust(.sharpness, 100, source))
         let smooth = pixels(adjust(.noiseReduction, 100, source))
-        #expect(horizontalEnergy(sharp) > horizontalEnergy(original))
         #expect(horizontalEnergy(smooth) < horizontalEnergy(original))
+        let texture = detailFixture(size: 256, color: [0.48, 0.48, 0.48])
+        let sharp = pixels(adjust(.sharpness, 100, texture))
+        #expect(horizontalEnergy(sharp) > horizontalEnergy(pixels(texture)) * 1.03)
         #expect(sharp.allSatisfy { $0.isFinite } && smooth.allSatisfy { $0.isFinite })
+    }
+
+    @Test func detailProtectsSkinAndDoesNotResharpenLiftedDarkNoise() {
+        #expect(RecipeColorPipeline.detailKernel != nil)
+        func gain(_ source: CIImage) -> Double {
+            let original = pixels(source), sharp = pixels(adjust(.sharpness, 100, source))
+            return zip(original, sharp).map { abs(Double($0 - $1)) }.reduce(0, +)
+        }
+        let skin = detailFixture(size: 256, color: [0.68, 0.44, 0.32])
+        let gray = detailFixture(size: 256, color: [0.48236, 0.48236, 0.48236])
+        #expect(gain(gray) > 1)
+        #expect(gain(skin) < gain(gray) * 0.60)
+        let dark = detailFixture(size: 256, color: [0.04, 0.04, 0.04], amplitude: 0.015)
+        let lifted = dark.applyingFilter("CIExposureAdjust", parameters: [kCIInputEVKey: 4])
+        let result = RecipeColorPipeline.enhancingDetails(lifted, reference: dark, sharpness: 1, definition: 1)
+        #expect(zip(pixels(lifted), pixels(result)).allSatisfy { abs($0 - $1) < 0.001 })
+    }
+
+    @Test func detailLimitsHalosAndPreservesFlatColorsAndAlpha() {
+        let left = CIImage(color: CIColor(red: 0.05, green: 0.05, blue: 0.05)).cropped(to: CGRect(x: 0, y: 0, width: 128, height: 256))
+        let right = CIImage(color: CIColor(red: 0.75, green: 0.75, blue: 0.75)).cropped(to: CGRect(x: 128, y: 0, width: 128, height: 256))
+        let source = left.composited(over: right).cropped(to: CGRect(x: 0, y: 0, width: 256, height: 256))
+        var recipe = RecipeAdjustment(); recipe[.sharpness] = 100; recipe[.definition] = 100
+        let result = pixels(recipe.applying(to: source))
+        let original = pixels(source)
+        let lo = original[0], hi = original[200*4]
+        let legacy = pixels(source.clampedToExtent().applyingFilter("CIUnsharpMask", parameters: [
+            kCIInputRadiusKey: 10.0 * 256 / 1080, kCIInputIntensityKey: 0.7
+        ]).cropped(to: source.extent))
+        let overshoot = (112..<144).map { max(0, result[(128*256+$0)*4] - hi, lo - result[(128*256+$0)*4]) }.max()!
+        let oldOvershoot = (112..<144).map { max(0, legacy[(128*256+$0)*4] - hi, lo - legacy[(128*256+$0)*4]) }.max()!
+        #expect(overshoot < 0.025 && overshoot < oldOvershoot * 0.6)
+        let patch = CIImage(color: CIColor(red: 0.4, green: 0.2, blue: 0.1, alpha: 0.6))
+            .cropped(to: CGRect(x: 17, y: 23, width: 256, height: 256))
+        let flat = recipe.applying(to: patch)
+        #expect(flat.extent == patch.extent)
+        #expect(zip(pixels(flat), pixels(patch)).allSatisfy { abs($0 - $1) < 0.001 })
+    }
+
+    @Test func detailScalesBetweenPreviewAndExportWithoutChangingChroma() {
+        let source = detailFixture(size: 256, color: [0.30, 0.50, 0.65])
+        let large = detailFixture(size: 1024, color: [0.30, 0.50, 0.65])
+        var recipe = RecipeAdjustment(); recipe[.sharpness] = 80; recipe[.definition] = 60
+        let small = pixels(recipe.applying(to: source)), original = pixels(source)
+        func reduced(_ image: CIImage) -> [Float] {
+            pixels(image.clampedToExtent().transformed(by: CGAffineTransform(scaleX: 0.25, y: 0.25)).cropped(to: source.extent))
+        }
+        let big = reduced(recipe.applying(to: large)), bigOriginal = reduced(large)
+        var error = 0.0, gain = 0.0, count = 0.0
+        var maxChromaChange: Float = 0
+        for y in 16..<240 { for x in 16..<240 {
+            let i = (y * 256 + x) * 4
+            let delta = small[i] - original[i]
+            error += abs(Double(delta - (big[i] - bigOriginal[i])))
+            gain += abs(Double(delta)); count += 1
+            maxChromaChange = max(maxChromaChange, abs((small[i] - small[i+1]) - (original[i] - original[i+1])))
+        }}
+        #expect(gain / count > 0.0001)
+        #expect(error / count < 0.002)
+        #expect(maxChromaChange < 0.002)
+    }
+
+    @Test func detailPreviewMatchesExportWithinJPEGError() throws {
+        let source = detailFixture(size: 256, color: [0.30, 0.50, 0.65])
+        let bitmap = try #require(CIContext().createCGImage(source, from: source.extent))
+        let input = try #require(UIImage(cgImage: bitmap).pngData())
+        let decoded = try #require(CIImage(data: input))
+        var recipe = RecipeAdjustment(); recipe[.sharpness] = 80; recipe[.definition] = 60
+        let style = StyleAdjustment(recipe: recipe)
+        let preview = pixels(style.applying(to: decoded))
+        let file = try PhotoProcessor().render(input, style: style)
+        let saved = pixels(try #require(CIImage(data: file.data)))
+        let differences = zip(preview, saved).map { abs(Double($0 - $1)) }
+        let meanError = differences.reduce(0.0, +) / Double(differences.count)
+        #expect(meanError < 2.0 / 255)
+        #expect(differences.max()! < 8.0 / 255)
+        #expect(file.width == 256 && file.height == 256)
+    }
+
+    private func detailFixture(size: Int, color: [Double], amplitude: Double = 0.06) -> CIImage {
+        var data = [UInt8](); data.reserveCapacity(size * size * 4)
+        for _ in 0..<size { for x in 0..<size {
+            let coordinate = (Double(x) + 0.5) * 256 / Double(size)
+            let texture = amplitude * sin(coordinate * .pi / 3) + amplitude * 0.3 * sin(coordinate * .pi / 20)
+            for c in color { data.append(UInt8(min(255, max(0, (c + texture) * 255)))) }
+            data.append(255)
+        }}
+        return CIImage(bitmapData: Data(data), bytesPerRow: size * 4,
+                       size: CGSize(width: size, height: size), format: .RGBA8,
+                       colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!)
     }
 
     @Test func definitionEnhancesBroadStructureAndDiffersFromSharpening() {

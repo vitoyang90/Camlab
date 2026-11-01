@@ -57,7 +57,7 @@ nonisolated enum ShootingScene: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-nonisolated struct StyleAdjustment: Equatable, Sendable {
+nonisolated struct StyleAdjustment: Equatable, Codable, Sendable {
     var contrast = 1.0
     var saturation = 1.0
     var warmth = 0.0

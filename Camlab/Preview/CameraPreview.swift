@@ -11,6 +11,9 @@ struct CameraPreview: UIViewRepresentable {
     let startupBegan: TimeInterval?
     let style: StyleAdjustment
     let running: Bool
+    let zoom: Double
+    let zoomRange: ClosedRange<Double>?
+    let onZoom: (Double) -> Void
     var onFocus: ((CGPoint) -> Void)?
 
     func makeUIView(context: Context) -> PreviewView {
@@ -22,6 +25,7 @@ struct CameraPreview: UIViewRepresentable {
         view.configurePresentation(startupID: startupID, began: startupBegan)
         view.style = style
         view.focusHandler = onFocus
+        view.configureZoom(zoom, range: running ? zoomRange : nil, onZoom: onZoom)
         view.startDrawing(running: running)
     }
 
@@ -33,9 +37,14 @@ struct CameraPreview: UIViewRepresentable {
 final class PreviewView: MTKView, MTKViewDelegate {
     var style = StyleAdjustment()
     var focusHandler: ((CGPoint) -> Void)?
+    private lazy var pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinchZoom(_:)))
+    private var currentZoom = 1.0
+    private var pinchStartZoom: Double?
+    private var zoomScale: PinchZoomRange?
+    private var zoomHandler: ((Double) -> Void)?
     private let focusBox = CAShapeLayer()
     private let service: CameraService
-    private let renderer: PreviewRenderer?
+    private var renderer: PreviewRenderer?
     private let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
     private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
     private var rotationObservation: NSKeyValueObservation?
@@ -52,15 +61,22 @@ final class PreviewView: MTKView, MTKViewDelegate {
     init(service: CameraService) {
         self.service = service
         let gpu = MTLCreateSystemDefaultDevice()
-        renderer = gpu.map { PreviewRenderer(device: $0, service: service) }
         super.init(frame: .zero, device: gpu)
         framebufferOnly = false
         colorPixelFormat = .bgra8Unorm
-        (layer as? CAMetalLayer)?.colorspace = colorSpace
+        if let gpu, let metalLayer = layer as? CAMetalLayer {
+            metalLayer.colorspace = colorSpace
+            renderer = PreviewRenderer(device: gpu, layer: metalLayer, service: service)
+        }
         preferredFramesPerSecond = 30
         isPaused = true
         delegate = self
         backgroundColor = .black
+        isMultipleTouchEnabled = true
+        addGestureRecognizer(pinch)
+        let focusTap = UITapGestureRecognizer(target: self, action: #selector(tapFocus(_:)))
+        focusTap.require(toFail: pinch)
+        addGestureRecognizer(focusTap)
         focusBox.strokeColor = UIColor.systemYellow.cgColor
         focusBox.fillColor = UIColor.clear.cgColor
         focusBox.lineWidth = 1
@@ -69,8 +85,38 @@ final class PreviewView: MTKView, MTKViewDelegate {
 
     required init(coder: NSCoder) { fatalError("Use init(service:)") }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard !isPaused, let location = touches.first?.location(in: self), let source = service.frames.image(),
+    func configureZoom(_ value: Double, range: ClosedRange<Double>?, onZoom: @escaping (Double) -> Void) {
+        currentZoom = value
+        zoomScale = range.flatMap(PinchZoomRange.init)
+        zoomHandler = onZoom
+        let enabled = zoomScale != nil
+        if pinch.isEnabled != enabled { pinch.isEnabled = enabled }
+    }
+
+    @objc private func pinchZoom(_ gesture: UIPinchGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            pinchStartZoom = currentZoom
+        case .changed, .ended:
+            break
+        default:
+            pinchStartZoom = nil
+            return
+        }
+        defer { if gesture.state == .ended { pinchStartZoom = nil } }
+        guard let start = pinchStartZoom, let zoomScale, !isPaused,
+              gesture.scale.isFinite, gesture.scale > 0 else { return }
+        // The recognizer reports cumulative scale from the start of this pinch.
+        let next = zoomScale.magnification(clamping: start * Double(gesture.scale))
+        if next != currentZoom {
+            currentZoom = next
+            zoomHandler?(next)
+        }
+    }
+
+    @objc private func tapFocus(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: self)
+        guard !isPaused, let source = service.frames.image(),
               let point = PreviewGeometry.sensorPoint(sourceExtent: source.extent, clockwiseDegrees: previewRotation,
                                                       mirrored: mirrorPreview, viewport: bounds.size, touch: location) else { return }
         focusBox.path = UIBezierPath(rect: CGRect(x: location.x - 24, y: location.y - 24, width: 48, height: 48)).cgPath
@@ -86,6 +132,8 @@ final class PreviewView: MTKView, MTKViewDelegate {
 
     func configurePresentation(startupID: UUID?, began: TimeInterval?) {
         guard startupID != currentStartupID else { return }
+        pinchStartZoom = nil
+        pinch.isEnabled = false
         currentStartupID = startupID
         startupBegan = began
         needsFirstDraw = startupID != nil
@@ -95,6 +143,7 @@ final class PreviewView: MTKView, MTKViewDelegate {
     }
 
     func startDrawing(running: Bool) {
+        renderer?.setActivePreview(running ? currentStartupID : nil)
         let requestDraw = running && (isPaused || needsFirstDraw)
         isPaused = !running
         guard requestDraw else { return }
@@ -110,17 +159,15 @@ final class PreviewView: MTKView, MTKViewDelegate {
     }
 
     func draw(in view: MTKView) {
-        guard let source = service.frames.image(), let renderer,
+        guard !isPaused, window?.windowScene?.activationState == .foregroundActive,
+              let id = currentStartupID,
+              let source = service.frames.image(), let renderer,
               drawableSize.width > 0, drawableSize.height > 0,
               renderer.reserveFrame() else { return }
         let began = ProcessInfo.processInfo.systemUptime
-        guard let drawable = currentDrawable else {
-            renderer.releaseFrame()
-            return
-        }
-        renderer.submit(source: source, drawable: drawable,
+        renderer.submit(source: source,
                         style: style, rotation: previewRotation, mirrored: mirrorPreview,
-                        startupID: currentStartupID, startupBegan: startupBegan, drawBegan: began)
+                        startupID: id, startupBegan: startupBegan, drawBegan: began)
     }
 
     func configureRotation(device: AVCaptureDevice?) {
@@ -152,11 +199,15 @@ final class PreviewView: MTKView, MTKViewDelegate {
     }
 
     func tearDown() {
+        renderer?.setActivePreview(nil)
         isPaused = true
         delegate = nil
         currentStartupID = nil
         needsFirstDraw = false
         focusHandler = nil
+        pinch.isEnabled = false
+        zoomHandler = nil
+        pinchStartZoom = nil
         clearRotation()
     }
 

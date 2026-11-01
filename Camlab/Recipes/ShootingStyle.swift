@@ -27,6 +27,23 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         }
     }
 
+    var suggestedScene: String {
+        switch self {
+        case .vintage: "老街、古物"
+        case .film: "午後散步"
+        case .japanese: "晴天花草"
+        case .cinema: "夜間巷弄"
+        case .mono: "逆光剪影"
+        case .portrait: "窗邊人像"
+        case .sunset: "黃昏晚霞"
+        case .cool: "海邊、港口"
+        case .vivid: "花市、美食"
+        case .faded: "薄霧山景"
+        case .street: "街頭人群"
+        case .cafe: "咖啡、甜點"
+        }
+    }
+
     var detail: String {
         switch self {
         case .vintage: "褪色暖調與淡黑位，留下懷舊日常"
@@ -61,7 +78,7 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    // Second multi-scene review: Design/StyleCalibration/comparison.html.
+    // Fifth review adds restrained, protected detail: Design/StyleCalibration/comparison.html.
     // Keep values in the existing recipe format so saved custom recipes are unchanged.
     var adjustment: RecipeAdjustment {
         let values: [AdjustmentParameter: Int]
@@ -93,6 +110,25 @@ nonisolated enum ShootingStyle: Int, CaseIterable, Identifiable, Sendable {
         }
         var result = RecipeAdjustment()
         for (parameter, value) in values { result[parameter] = value }
+        // Fine detail is strongest for architecture/landscape and restrained in
+        // soft looks. These are calibrated starting points, not sensor estimates.
+        let detail: (sharpness: Int, definition: Int)
+        switch self {
+        case .vintage: detail = (10, 0)
+        case .film: detail = (12, 0)
+        case .japanese: detail = (14, 0)
+        case .cinema: detail = (16, 4)
+        case .mono: detail = (20, 6)
+        case .portrait: detail = (8, 0)
+        case .sunset: detail = (14, 2)
+        case .cool: detail = (18, 4)
+        case .vivid: detail = (22, 6)
+        case .faded: detail = (8, 0)
+        case .street: detail = (24, 8)
+        case .cafe: detail = (14, 4)
+        }
+        result[.sharpness] = detail.sharpness
+        result[.definition] = detail.definition
         return result
     }
 

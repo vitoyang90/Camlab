@@ -24,6 +24,12 @@ nonisolated struct CameraSettings: Sendable {
     var zoom = "1"
     var exposureBias = "0"
 
+    /// Auto-metered values can change every frame without being a new request.
+    /// Compare validated requests, not their string formatting or auto readback.
+    func requiresApplication(comparedTo readback: Self, capabilities: CameraCapabilities) throws -> Bool {
+        try validated(for: capabilities) != readback.validated(for: capabilities)
+    }
+
     func validated(for capabilities: CameraCapabilities) throws -> ValidatedSettings {
         let exposure = !automaticExposure && capabilities.manualExposure
         let manualFocus = !automaticFocus && capabilities.manualFocus
@@ -74,7 +80,7 @@ nonisolated struct CameraSettings: Sendable {
     }
 }
 
-nonisolated struct ValidatedSettings: Sendable {
+nonisolated struct ValidatedSettings: Sendable, Equatable {
     let iso: Double?
     let shutter: Double?
     let focus: Double?

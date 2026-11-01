@@ -5,6 +5,78 @@ import XCTest
 @testable import Camlab
 
 final class PhotoLibraryIntegrationTests: XCTestCase {
+    @MainActor func testInterruptedSaveReusesTheSameAssetAcrossRelaunchAndConcurrentRetry() async throws {
+        #if targetEnvironment(simulator)
+        let permission = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
+        guard permission == .authorized || permission == .limited else { throw XCTSkip("需要模擬器相簿權限") }
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let processor = PhotoProcessor(storageDirectory: folder)
+        let format = UIGraphicsImageRendererFormat(); format.scale = 1
+        let original = UIGraphicsImageRenderer(size: CGSize(width: 40, height: 30), format: format).pngData {
+            UIColor.blue.setFill(); $0.fill(CGRect(x: 0, y: 0, width: 40, height: 30))
+        }
+        let photo = try await processor.process(original, style: StyleAdjustment())
+        async let first = PhotoLibrarySaver.save(photo, processor: processor)
+        async let second = PhotoLibrarySaver.save(photo, processor: processor)
+        let (saved, same) = try await (first, second)
+        let identifier = try XCTUnwrap(saved.assetIdentifier)
+        XCTAssertEqual(identifier, same.assetIdentifier)
+
+        // Photos committed, but Capture.json still has no asset ID and the
+        // pre-commit journal is all a newly launched process can see.
+        let manifest = photo.originalURL.deletingLastPathComponent().appendingPathComponent("Capture.json")
+        try JSONEncoder().encode(photo).write(to: manifest, options: .atomic)
+        try PhotoLibraryJournal(phase: .creating, assetIdentifier: identifier).write(for: photo)
+        let restored = PhotoProcessor(storageDirectory: folder)
+        let restoredPending = await restored.pending()
+        let pending = try XCTUnwrap(restoredPending.first)
+        let recovered = try await PhotoLibrarySaver.save(pending, processor: restored)
+        XCTAssertEqual(recovered.assetIdentifier, identifier)
+
+        // Also reconcile the fallback marker if the identifier write itself was
+        // interrupted. Never issue another creation request for this photo.
+        try JSONEncoder().encode(photo).write(to: manifest, options: .atomic)
+        try PhotoLibraryJournal(phase: .creating).write(for: photo)
+        let reconciled = try await PhotoLibrarySaver.save(photo, processor: restored)
+        XCTAssertEqual(reconciled.assetIdentifier, identifier)
+        XCTAssertEqual(try PhotoLibraryJournal.read(for: photo)?.phase, .finished)
+        // A finished journal must not upload local content again, even if only
+        // cleanup was interrupted and that local content is now unavailable.
+        try Data("must not be uploaded".utf8).write(to: photo.fileURL, options: .atomic)
+        let finished = try await PhotoLibrarySaver.save(photo, processor: restored)
+        XCTAssertEqual(finished.assetIdentifier, identifier)
+        let library = try await PhotoLibrarySaver.load(identifier)
+        XCTAssertEqual(library.original, original)
+
+        let uncertain = try await processor.process(original, style: StyleAdjustment())
+        try PhotoLibraryJournal(phase: .creating).write(for: uncertain)
+        do {
+            _ = try await PhotoLibrarySaver.save(uncertain, processor: processor)
+            XCTFail("An unresolved creation must not be replayed")
+        } catch { XCTAssertTrue(error is CameraFailure) }
+
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "creationDate >= %@ AND creationDate <= %@",
+            photo.createdAt.addingTimeInterval(-1) as NSDate, uncertain.createdAt.addingTimeInterval(1) as NSDate)
+        let assets = PHAsset.fetchAssets(with: .image, options: options)
+        var matches = 0, uncertainMatches = 0
+        assets.enumerateObjects { asset, _, _ in
+            if PHAssetResource.assetResources(for: asset).contains(where: { $0.originalFilename.hasPrefix("Camlab-\(photo.id.uuidString).") }) { matches += 1 }
+            if PHAssetResource.assetResources(for: asset).contains(where: { $0.originalFilename.hasPrefix("Camlab-\(uncertain.id.uuidString).") }) { uncertainMatches += 1 }
+        }
+        XCTAssertEqual(matches, 1)
+        XCTAssertEqual(uncertainMatches, 0)
+        try await restored.complete(finished)
+        let remaining = await restored.pending()
+        XCTAssertEqual(remaining.map(\.id), [uncertain.id])
+        let created = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
+        try await PHPhotoLibrary.shared().performChanges { PHAssetChangeRequest.deleteAssets(created) }
+        #else
+        throw XCTSkip("只在模擬器執行相簿整合測試")
+        #endif
+    }
+
     @MainActor func testOriginalAndRecipeSurviveEditingTheSameLibraryAsset() async throws {
         #if targetEnvironment(simulator)
         print("Photos integration host: \(Bundle.main.bundleIdentifier ?? "unknown")")
@@ -48,7 +120,19 @@ final class PhotoLibraryIntegrationTests: XCTestCase {
         try await processor.complete(updated)
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
         XCTAssertEqual(assets.count, 1)
-        try await PHPhotoLibrary.shared().performChanges { PHAssetChangeRequest.deleteAssets(assets) }
+        let other = try await processor.process(original, style: StyleAdjustment())
+        let savedOther = try await PhotoLibrarySaver.save(other, processor: processor)
+        let otherID = try XCTUnwrap(savedOther.assetIdentifier)
+        XCTAssertNotEqual(identifier, otherID)
+        do {
+            try await PhotoLibrarySaver.deleteAssets([identifier, UUID().uuidString])
+            XCTFail("An inaccessible selection must leave the entire batch untouched")
+        } catch { XCTAssertTrue(error is CameraFailure) }
+        XCTAssertEqual(PHAsset.fetchAssets(withLocalIdentifiers: [identifier, otherID], options: nil).count, 2)
+        try await PhotoLibrarySaver.deleteAssets([identifier, otherID])
+        XCTAssertEqual(PHAsset.fetchAssets(withLocalIdentifiers: [otherID], options: nil).count, 0)
+        XCTAssertEqual(PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil).count, 0)
+        XCTAssertNil(PhotoLibrarySaver.lastAssetIdentifier)
         #else
         throw XCTSkip("只在模擬器執行相簿整合測試")
         #endif

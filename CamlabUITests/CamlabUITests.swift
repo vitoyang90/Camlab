@@ -1,31 +1,57 @@
 import XCTest
 
 final class CamlabUITests: XCTestCase {
+    @MainActor func testReturningFromBackgroundKeepsCameraUIResponsive() throws {
+        let app = launchPortrait()
+        for _ in 0..<3 {
+            XCUIDevice.shared.press(.home)
+            app.activate()
+            XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
+            let grid = app.buttons["quickGrid"]
+            XCTAssertTrue(grid.waitForExistence(timeout: 5))
+            let before = grid.value as? String
+            grid.tap()
+            XCTAssertNotEqual(grid.value as? String, before)
+            #if targetEnvironment(simulator)
+            // A completed discovery on return, rather than a stuck startup spinner.
+            XCTAssertTrue(app.staticTexts["cameraError"].waitForExistence(timeout: 5))
+            #endif
+        }
+    }
+
     override func setUpWithError() throws { continueAfterFailure = false }
 
     @MainActor func testBuiltInShootingStylesCanBeSelectedInBothOrientations() throws {
         let app = launchPortrait(native: true)
         chooseNatural(app)
-        let vintage = app.buttons["套用復古"]
-        XCTAssertTrue(vintage.waitForExistence(timeout: 5))
-        vintage.tap()
+        let toggle = app.buttons["openRecipes"]
+        XCTAssertLessThanOrEqual(toggle.frame.width, 44)
+        let viewfinder = app.otherElements["cameraViewfinder"].firstMatch
+        XCTAssertLessThan(abs(toggle.frame.minX - viewfinder.frame.minX), 12)
+        chooseStyle("復古", scene: "老街、古物", in: app)
+        app.buttons["adjustControls"].tap()
         XCTAssertTrue(app.buttons["comparePreview"].isEnabled)
+        app.buttons["收起調整"].tap()
         XCTAssertEqual(app.buttons["openRecipes"].value as? String, "復古")
         XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
-        attach(app, "風格拍攝-復古快捷列")
+        attach(app, "風格拍攝-精簡主畫面")
 
-        app.buttons["allShootingStyles"].tap()
-        let names = ["復古", "暖調底片", "日系清透", "電影", "經典黑白", "柔光人像", "夕陽", "冷調", "鮮明", "霧感", "城市街拍", "咖啡暖棕"]
-        for name in names {
-            let button = app.buttons["recipe-\(name)"]
-            for _ in 0..<8 {
-                if button.isHittable { break }
-                app.scrollViews["shootingStyleList"].swipeUp()
-            }
-            XCTAssertTrue(button.isHittable, name)
-        }
-        app.buttons["recipe-咖啡暖棕"].tap()
-        XCTAssertEqual(app.buttons["openRecipes"].value as? String, "咖啡暖棕")
+        toggle.tap()
+        let wheel = app.pickerWheels.firstMatch
+        XCTAssertTrue(wheel.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
+        wheel.swipeUp()
+        let switched = NSPredicate { _, _ in toggle.value as? String != "復古" }
+        expectation(for: switched, evaluatedWith: toggle)
+        waitForExpectations(timeout: 5)
+        wheel.adjust(toPickerWheelValue: "冷調 · 海邊、港口")
+        XCTAssertEqual(app.staticTexts["currentStyleName"].label, "冷調")
+        wheel.adjust(toPickerWheelValue: "咖啡暖棕 · 咖啡、甜點")
+        XCTAssertEqual(toggle.value as? String, "咖啡暖棕")
+        XCTAssertEqual(app.staticTexts["currentStyleName"].label, "咖啡暖棕")
+        attach(app, "風格選單-完整名稱與適用情境")
+        viewfinder.coordinate(withNormalizedOffset: CGVector(dx: 0.85, dy: 0.4)).tap()
+        XCTAssertFalse(wheel.exists)
         app.buttons["adjustControls"].tap()
         XCTAssertEqual(app.buttons["輸入飽和度數值"].value as? String, "-16")
         XCTAssertFalse(app.buttons["更新配方"].isEnabled)
@@ -34,8 +60,7 @@ final class CamlabUITests: XCTestCase {
         defer { XCUIDevice.shared.orientation = .portrait }
         expectation(for: NSPredicate { _, _ in app.frame.width > app.frame.height }, evaluatedWith: app)
         waitForExpectations(timeout: 5)
-        app.buttons["openRecipes"].tap()
-        app.buttons["recipe-原色"].tap()
+        chooseNatural(app)
         XCTAssertEqual(app.buttons["openRecipes"].value as? String, "原色")
         XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
         attach(app, "風格拍攝-橫向原色")
@@ -99,7 +124,7 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(app.otherElements["inlineCameraControls"].waitForExistence(timeout: 5))
     }
 
-    @MainActor func testMainControlsMatchMockPositions() throws {
+    @MainActor func testMainControlsKeepTheViewfinderUncluttered() throws {
         let app = launchPortrait()
         chooseNatural(app)
         let adjust = app.buttons["adjustControls"]
@@ -112,15 +137,27 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(library.isHittable)
         XCTAssertGreaterThan(lens.frame.midX, shutter.frame.midX)
         XCTAssertEqual(shutter.frame.midX, app.frame.midX, accuracy: 24)
-        XCTAssertTrue(app.buttons["comparePreview"].exists)
+        XCTAssertFalse(app.buttons["comparePreview"].exists)
         XCTAssertTrue(app.buttons["匯入相簿照片"].exists)
         let preview = app.otherElements["cameraViewfinder"].firstMatch
         XCTAssertLessThan(preview.frame.minY, app.frame.height * 0.2)
-        XCTAssertLessThan(adjust.frame.minY - preview.frame.maxY, 95)
-        XCTAssertTrue(app.scrollViews["recipeShortcuts"].exists)
+        XCTAssertLessThanOrEqual(adjust.frame.maxY, preview.frame.minY)
+        XCTAssertFalse(app.scrollViews["recipeShortcuts"].exists)
+        XCTAssertTrue(app.buttons["quickGrid"].isHittable)
+        XCTAssertTrue(app.buttons["quickLevel"].isHittable)
+        XCTAssertEqual(app.staticTexts["currentStyleName"].frame.midX, app.frame.midX, accuracy: 3)
+        XCTAssertTrue(app.buttons["cameraPreferences"].isHittable)
+        XCTAssertGreaterThanOrEqual(adjust.frame.width, 44)
         attach(app, "實際介面-直向收合")
         adjust.tap()
         XCTAssertTrue(app.otherElements["inlineCameraControls"].exists)
+        let compare = app.buttons["comparePreview"]
+        XCTAssertTrue(compare.isHittable)
+        compare.tap()
+        XCTAssertEqual(compare.label, "返回效果")
+        app.buttons["收起調整"].tap()
+        adjust.tap()
+        XCTAssertEqual(compare.label, "原圖比較")
         attach(app, "實際介面-直向調色")
         XCUIDevice.shared.orientation = .landscapeLeft
         defer { XCUIDevice.shared.orientation = .portrait }
@@ -144,7 +181,7 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(app.buttons["輸入黑點數值"].waitForExistence(timeout: 3))
     }
 
-    @MainActor func testSimulatorExplainsMissingCameraAndCanRetry() throws {
+    @MainActor func testSimulatorExplainsMissingCameraWithoutReconnectPrompt() throws {
         #if targetEnvironment(simulator)
         let app = launchPortrait()
         let error = app.staticTexts["cameraError"].firstMatch
@@ -152,8 +189,12 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(error.label.contains("實體 iPhone 或 iPad"))
         XCTAssertTrue(app.buttons["capturePhoto"].exists)
         XCTAssertFalse(app.buttons["capturePhoto"].isEnabled)
-        app.buttons["重新連線"].tap()
+        XCTAssertFalse(app.buttons["重新連線"].exists)
+        XCTAssertFalse(app.buttons["retryCamera"].exists)
+        XCUIDevice.shared.press(.home)
+        app.activate()
         XCTAssertTrue(error.waitForExistence(timeout: 10))
+        XCTAssertFalse(app.buttons["retryCamera"].exists)
         #else
         throw XCTSkip("模擬器限定")
         #endif
@@ -172,12 +213,9 @@ final class CamlabUITests: XCTestCase {
         app.buttons["調整參數"].tap()
         XCTAssertEqual(app.buttons["輸入飽和度數值"].value as? String, "20")
         XCTAssertTrue(app.buttons["openRecipes"].exists)
-        app.buttons["選擇配方"].tap()
-        XCTAssertTrue(app.buttons["recipe-\(name)"].exists)
-        app.buttons["recipe-原色"].tap()
+        chooseNatural(app)
         XCTAssertEqual(app.buttons["輸入飽和度數值"].value as? String, "0")
-        app.buttons["選擇配方"].tap()
-        app.buttons["recipe-\(name)"].tap()
+        chooseStyle(name, scene: "同系列續拍", in: app)
         XCTAssertEqual(app.buttons["輸入飽和度數值"].value as? String, "20")
     }
 
@@ -190,7 +228,11 @@ final class CamlabUITests: XCTestCase {
         let controls = app.otherElements["inlineCameraControls"].firstMatch
         XCTAssertTrue(preview.exists && controls.exists)
         XCTAssertGreaterThan(preview.frame.height, app.frame.height * 0.35)
-        XCTAssertLessThanOrEqual(preview.frame.maxY, controls.frame.minY + 2)
+        // Read geometry after the panel/preview transition has settled.
+        expectation(for: NSPredicate { _, _ in
+            preview.frame.maxY <= controls.frame.minY + 2
+        }, evaluatedWith: app)
+        waitForExpectations(timeout: 3)
         XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
         XCTAssertFalse(app.buttons["."].exists)
         app.buttons["2"].tap(); app.buttons["0"].tap()
@@ -220,26 +262,38 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
         attach(app, "橫向數字輸入保留預覽")
         app.buttons["完成"].tap()
-        app.buttons["收起調整"].tap()
+        app.buttons["adjustControls"].tap()
         XCTAssertGreaterThan(preview.frame.height, app.frame.height * 0.85)
     }
 
     @MainActor func testLevelGridAndZoomControlsAreReachable() throws {
         let app = launchPortrait()
-        let levelOn = app.buttons["開啟水平線"]
-        if levelOn.exists { levelOn.tap() }
-        XCTAssertTrue(app.buttons["關閉水平線"].exists)
-        app.buttons["關閉水平線"].tap()
-        XCTAssertTrue(app.buttons["開啟水平線"].exists)
-        let gridOn = app.buttons["開啟九宮格"]
-        if gridOn.exists { gridOn.tap() }
-        XCTAssertTrue(app.buttons["關閉九宮格"].exists)
-        app.buttons["openZoom"].tap()
-        XCTAssertTrue(app.otherElements["inlineCameraControls"].exists)
-        XCTAssertTrue(app.buttons["輸入變焦數值"].exists)
-        #if targetEnvironment(simulator)
-        XCTAssertTrue(app.staticTexts["10×"].exists)
-        #endif
+        let quickGrid = app.buttons["quickGrid"], quickLevel = app.buttons["quickLevel"]
+        let initialGrid = quickGrid.value as? String, initialLevel = quickLevel.value as? String
+        quickGrid.tap(); quickLevel.tap()
+        XCTAssertNotEqual(quickGrid.value as? String, initialGrid)
+        XCTAssertNotEqual(quickLevel.value as? String, initialLevel)
+        app.buttons["cameraPreferences"].tap()
+        let level = app.switches["levelToggle"]
+        let grid = app.switches["gridToggle"]
+        XCTAssertTrue(level.waitForExistence(timeout: 5))
+        let oldLevel = level.value as? String
+        level.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        XCTAssertNotEqual(level.value as? String, oldLevel)
+        let oldGrid = grid.value as? String
+        grid.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        XCTAssertNotEqual(grid.value as? String, oldGrid)
+        app.buttons["完成"].tap()
+        app.buttons["cameraPreferences"].tap()
+        XCTAssertNotEqual(level.value as? String, oldLevel)
+        XCTAssertNotEqual(grid.value as? String, oldGrid)
+        app.buttons["完成"].tap()
+        XCTAssertEqual(quickGrid.value as? String, initialGrid)
+        XCTAssertEqual(quickLevel.value as? String, initialLevel)
+        XCTAssertTrue(app.buttons["變焦 1 倍"].exists)
+        XCTAssertFalse(app.sliders["viewfinderZoomSlider"].exists)
+        XCTAssertFalse(app.otherElements["inlineCameraControls"].exists)
+        XCTAssertTrue(app.buttons["capturePhoto"].isHittable)
         XCTAssertTrue(app.buttons["匯入相簿照片"].exists)
     }
 
@@ -249,10 +303,8 @@ final class CamlabUITests: XCTestCase {
         #endif
         let app = launchPortrait()
         app.buttons["匯入相簿照片"].tap()
-        let photo = app.images["PXGGridLayout-Info"].firstMatch
+        let photo = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "libraryPhoto-")).firstMatch
         XCTAssertTrue(photo.waitForExistence(timeout: 10), app.debugDescription)
-        // The system picker exposes thumbnail frames but may report no hit point
-        // across its remote accessibility process. Tap the resolved frame center.
         photo.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(app.buttons["closePhotoEditor"].waitForExistence(timeout: 15))
         defer { XCUIDevice.shared.orientation = .portrait }
@@ -295,15 +347,122 @@ final class CamlabUITests: XCTestCase {
         XCTAssertTrue(app.buttons["capturePhoto"].waitForExistence(timeout: 10))
     }
 
+    @MainActor func testDraggingAtLibraryEdgeContinuesSelectingAfterScrolling() throws {
+        #if !targetEnvironment(simulator)
+        throw XCTSkip("只使用模擬器的相簿")
+        #endif
+        let app = launchPortrait()
+        app.buttons["photoLibrary"].tap()
+        app.buttons["selectLibraryPhotos"].tap()
+        XCUIDevice.shared.orientation = .landscapeLeft
+        defer { XCUIDevice.shared.orientation = .portrait }
+        expectation(for: NSPredicate { _, _ in app.frame.width > app.frame.height }, evaluatedWith: app)
+        waitForExpectations(timeout: 5)
+        let scroll = app.scrollViews["photoLibraryScroll"]
+        let photos = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "libraryPhoto-"))
+        XCTAssertTrue(photos.element(boundBy: 5).waitForExistence(timeout: 10))
+        let bottom = app.buttons["deleteSelectedPhotos"].frame.minY - 12
+        let top = app.navigationBars.firstMatch.frame.maxY
+        let viewport = CGRect(x: scroll.frame.minX, y: top, width: scroll.frame.width, height: bottom - top)
+        let initiallyVisible = photos.allElementsBoundByIndex.filter {
+            viewport.contains(CGPoint(x: $0.frame.midX, y: $0.frame.midY))
+        }
+        let first = try XCTUnwrap(initiallyVisible.first)
+        let last = try XCTUnwrap(initiallyVisible.last)
+        let startY = first.frame.minY
+        let start = first.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let edge = scroll.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+            .withOffset(CGVector(dx: last.frame.midX - scroll.frame.minX, dy: bottom - scroll.frame.minY))
+        start.press(forDuration: 0.05, thenDragTo: edge, withVelocity: .slow, thenHoldForDuration: 2)
+        let remove = app.buttons["deleteSelectedPhotos"]
+        let count = Int(remove.label.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+        XCTAssertGreaterThan(count, initiallyVisible.count)
+        XCTAssertFalse(first.exists && first.frame.minY == startY)
+        app.buttons["完成"].tap()
+    }
+
+    @MainActor func testSelectionModeDragSelectsAndDeselectsPhotoRanges() throws {
+        #if !targetEnvironment(simulator)
+        throw XCTSkip("只使用模擬器的相簿")
+        #endif
+        let app = launchPortrait()
+        app.buttons["photoLibrary"].tap()
+        app.buttons["selectLibraryPhotos"].tap()
+        let photos = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "libraryPhoto-"))
+        XCTAssertTrue(photos.element(boundBy: 5).waitForExistence(timeout: 10))
+        let first = photos.element(boundBy: 0).coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let sixth = photos.element(boundBy: 5).coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        first.press(forDuration: 0.05, thenDragTo: sixth)
+        let remove = app.buttons["deleteSelectedPhotos"]
+        XCTAssertEqual(remove.label, "刪除 6 張照片")
+        XCTAssertFalse(app.buttons["closePhotoEditor"].exists)
+        for index in 0..<6 { XCTAssertEqual(photos.element(boundBy: index).value as? String, "已選取") }
+        let third = photos.element(boundBy: 2).coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        sixth.press(forDuration: 0.05, thenDragTo: third)
+        XCTAssertEqual(remove.label, "刪除 2 張照片")
+        let initialY = photos.element(boundBy: 0).frame.minY
+        app.scrollViews["photoLibraryScroll"].swipeUp()
+        XCTAssertEqual(remove.label, "刪除 2 張照片")
+        XCTAssertNotEqual(photos.element(boundBy: 0).frame.minY, initialY)
+        app.buttons["完成"].tap()
+    }
+
+    @MainActor func testCancellingBatchDeletionKeepsTheSelectedPhotos() throws {
+        #if !targetEnvironment(simulator)
+        throw XCTSkip("只使用模擬器的相簿")
+        #endif
+        let app = launchPortrait()
+        app.buttons["photoLibrary"].tap()
+        app.buttons["selectLibraryPhotos"].tap()
+        let remove = app.buttons["deleteSelectedPhotos"]
+        XCTAssertTrue(remove.waitForExistence(timeout: 5))
+        XCTAssertFalse(remove.isEnabled)
+        let thumbnails = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "libraryPhoto-"))
+        XCTAssertTrue(thumbnails.element(boundBy: 1).waitForExistence(timeout: 10))
+        for index in 0..<2 {
+            thumbnails.element(boundBy: index).coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        }
+        XCTAssertEqual(remove.label, "刪除 2 張照片")
+        remove.tap()
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let deny = springboard.alerts.buttons.matching(NSPredicate(format: "label IN %@", ["Don’t Allow", "Don't Allow", "不允許"])).firstMatch
+        XCTAssertTrue(deny.waitForExistence(timeout: 8))
+        deny.tap()
+        XCTAssertEqual(remove.label, "刪除 2 張照片")
+        XCTAssertTrue(remove.isEnabled)
+        app.buttons["取消多選"].tap()
+        XCTAssertFalse(remove.exists)
+        let previewedIdentifier = thumbnails.element(boundBy: 0).identifier
+        thumbnails.element(boundBy: 0).press(forDuration: 0.6)
+        XCTAssertTrue(app.buttons["開啟照片"].waitForExistence(timeout: 5))
+        XCTAssertFalse(remove.exists)
+        app.buttons["deletePreviewPhoto"].tap()
+        XCTAssertTrue(deny.waitForExistence(timeout: 8))
+        deny.tap()
+        XCTAssertTrue(app.buttons[previewedIdentifier].waitForExistence(timeout: 5))
+        XCTAssertFalse(remove.exists)
+        app.buttons["selectLibraryPhotos"].tap()
+        thumbnails.element(boundBy: 0).tap()
+        XCTAssertEqual(remove.label, "刪除 1 張照片")
+        XCTAssertFalse(app.buttons["closePhotoEditor"].exists)
+        thumbnails.element(boundBy: 1).tap()
+        XCTAssertEqual(remove.label, "刪除 2 張照片")
+        thumbnails.element(boundBy: 0).tap()
+        XCTAssertEqual(remove.label, "刪除 1 張照片")
+        app.buttons["完成"].tap()
+        XCTAssertTrue(app.buttons["photoLibrary"].isHittable)
+    }
+
     @MainActor func testNativePhotoFlowPreservesSystemVersionAndFitsBothOrientations() throws {
         #if !targetEnvironment(simulator)
         throw XCTSkip("只使用模擬器相簿中的測試圖片")
         #endif
         let app = launchPortrait(native: true)
+        app.buttons["adjustControls"].tap()
         XCTAssertEqual(app.buttons["comparePreview"].label, "原色預覽 · 原生調整")
         XCTAssertFalse(app.buttons["comparePreview"].isEnabled)
         app.buttons["匯入相簿照片"].tap()
-        let photo = app.images["PXGGridLayout-Info"].firstMatch
+        let photo = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "libraryPhoto-")).firstMatch
         XCTAssertTrue(photo.waitForExistence(timeout: 10))
         photo.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(app.buttons["closeNativePhoto"].waitForExistence(timeout: 15))
@@ -326,6 +485,12 @@ final class CamlabUITests: XCTestCase {
             attach(app, orientation.isLandscape ? "原生照片流程-橫向" : "原生照片流程-直向")
         }
         if app.buttons["refreshNativePhoto"].isEnabled {
+            app.buttons["deleteCurrentPhoto"].tap()
+            let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+            let deny = springboard.alerts.buttons.matching(NSPredicate(format: "label IN %@", ["Don’t Allow", "Don't Allow", "不允許"])).firstMatch
+            XCTAssertTrue(deny.waitForExistence(timeout: 8))
+            deny.tap()
+            XCTAssertTrue(app.buttons["shareNativePhoto"].isHittable)
             app.buttons["refreshNativePhoto"].tap()
             expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: share)
             waitForExpectations(timeout: 15)
@@ -353,8 +518,20 @@ final class CamlabUITests: XCTestCase {
     }
 
     @MainActor private func chooseNatural(_ app: XCUIApplication) {
-        XCTAssertTrue(app.buttons["選擇配方"].waitForExistence(timeout: 10))
-        app.buttons["選擇配方"].tap(); app.buttons["recipe-原色"].tap()
+        chooseStyle("原色", scene: "日常紀錄", in: app)
+    }
+
+    @MainActor private func chooseStyle(_ name: String, scene: String, in app: XCUIApplication) {
+        let toggle = app.buttons["openRecipes"]
+        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
+        toggle.tap()
+        let wheel = app.pickerWheels.firstMatch
+        XCTAssertTrue(wheel.waitForExistence(timeout: 5))
+        let option = "\(name) · \(scene)"
+        if wheel.value as? String != option { wheel.adjust(toPickerWheelValue: option) }
+        XCTAssertEqual(toggle.value as? String, name)
+        toggle.tap()
+        XCTAssertFalse(wheel.exists)
     }
     @MainActor private func enterSaturation(_ app: XCUIApplication, digits: [String]) {
         app.buttons["輸入飽和度數值"].tap()

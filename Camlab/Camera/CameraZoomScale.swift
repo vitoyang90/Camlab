@@ -1,5 +1,22 @@
 import Foundation
 
+/// Continuous magnification for a two-finger pinch on the preview.
+nonisolated struct PinchZoomRange {
+    let range: ClosedRange<Double>
+
+    init?(_ range: ClosedRange<Double>) {
+        guard range.lowerBound.isFinite, range.upperBound.isFinite,
+              range.lowerBound > 0, range.upperBound > range.lowerBound else { return nil }
+        self.range = range
+    }
+
+    func magnification(clamping value: Double) -> Double {
+        if value <= range.lowerBound { return range.lowerBound }
+        if value >= range.upperBound { return range.upperBound }
+        return min(range.upperBound, max(range.lowerBound, (value * 10).rounded() / 10))
+    }
+}
+
 /// UI and draft values use display magnification; only the service uses hardware factors.
 nonisolated struct CameraZoomScale {
     let hardwareRange: ClosedRange<Double>

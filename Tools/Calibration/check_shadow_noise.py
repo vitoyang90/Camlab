@@ -69,13 +69,13 @@ for key in ["chart", "portrait", "night"] {
 
 def report():
     metrics = []
-    sheet = Image.new('RGB', (1600, 3 * 340 + 100), '#171717')
+    sheet = Image.new('RGB', (2000, 3 * 340 + 100), '#171717')
     draw = ImageDraw.Draw(sheet)
     for row, key in enumerate(['chart', 'portrait', 'night']):
         reference = np.asarray(Image.open(OUT / f'{key}-clean.png').convert('RGB'), dtype=float)
         lum = reference @ np.array([.2126, .7152, .0722])
         mask = (lum > 8) & (lum < 70)
-        for phase in ['round3', 'after']:
+        for phase in ['round3', 'round4', 'after']:
             clean = np.asarray(Image.open(OUT / f'{key}-{phase}-clean.jpg').convert('RGB'), dtype=float)
             noisy = np.asarray(Image.open(OUT / f'{key}-{phase}-noisy.jpg').convert('RGB'), dtype=float)
             delta = noisy - clean
@@ -86,7 +86,8 @@ def report():
                                 chroma_rmse=float(np.sqrt((chroma[mask]**2).mean()))))
         paths = [(f'{key}-after-clean.jpg', 'Clean reference / current'),
                  (f'{key}-noisy.png', 'Synthetic noisy input'),
-                 (f'{key}-round3-noisy.jpg', 'Round 3'), (f'{key}-after-noisy.jpg', 'Round 4')]
+                 (f'{key}-round3-noisy.jpg', 'Round 3'), (f'{key}-round4-noisy.jpg', 'Round 4'),
+                 (f'{key}-after-noisy.jpg', 'Round 5 / current')]
         for col, (filename, label) in enumerate(paths):
             image = Image.open(OUT / filename).convert('RGB')
             image.thumbnail((390, 300))
@@ -106,6 +107,11 @@ def report():
         old, new = [next(r for r in metrics if r['scene'] == key and r['phase'] == p) for p in ['round3', 'after']]
         assert new['chroma_rmse'] < old['chroma_rmse'] * .95, (key, old, new)
         assert new['luma_rmse'] < old['luma_rmse'] * 1.02, (key, old, new)
+        previous = next(r for r in metrics if r['scene'] == key and r['phase'] == 'round4')
+        # Adding detail must also retain the preceding denoising result, within
+        # 2% RMSE for this fixed corpus. This is not a sensor noise benchmark.
+        assert new['chroma_rmse'] < previous['chroma_rmse'] * 1.02, (key, previous, new)
+        assert new['luma_rmse'] < previous['luma_rmse'] * 1.02, (key, previous, new)
         print(key, 'chroma RMSE', round(old['chroma_rmse'], 3), '->', round(new['chroma_rmse'], 3),
               'luma RMSE', round(old['luma_rmse'], 3), '->', round(new['luma_rmse'], 3))
 
@@ -113,5 +119,6 @@ def report():
 if __name__ == '__main__':
     fixtures()
     render('round3')
+    render('round4')
     render('after')
     report()

@@ -82,6 +82,63 @@ nonisolated enum RecipeColorPipeline {
         }
         """)
 
+    // Enhance luminance only. Small residuals (noise/flat skin) and large
+    // residuals (high-contrast edges that would halo) receive less gain.
+    static let detailKernel = CIColorKernel(source: """
+        kernel vec4 protectedDetail(__sample original, __sample fine, __sample broad,
+                                    __sample reference, __sample skin,
+                                    float sharpness, float definition) {
+            vec4 c = unpremultiply(original);
+            vec3 weights = vec3(0.2126, 0.7152, 0.0722);
+            float y = dot(c.rgb, weights);
+            float sourceY = dot(unpremultiply(reference).rgb, weights);
+            float small = y - dot(unpremultiply(fine).rgb, weights);
+            float large = y - dot(unpremultiply(broad).rgb, weights);
+            float fineGate = smoothstep(0.003, 0.012, abs(small))
+                * (1.0 - smoothstep(0.045, 0.14, abs(small)));
+            float broadGate = smoothstep(0.004, 0.018, abs(large))
+                * (1.0 - smoothstep(0.06, 0.18, abs(large)));
+            // Consult the source too: lifted shadows should not become eligible
+            // for strong sharpening merely because the recipe brightened them.
+            float tone = smoothstep(0.12, 0.38, min(y, sourceY))
+                * (1.0 - smoothstep(0.80, 0.98, y));
+            float protection = 1.0 - 0.65 * skin.r;
+            float delta = (small * fineGate * sharpness * 1.3
+                + large * broadGate * definition * 0.65) * tone * protection;
+            // Soft bound on contrast gain, then retain half the RGB headroom.
+            // Existing out-of-gamut values are not clamped or recolored here.
+            delta = delta / (1.0 + abs(delta) / 0.035);
+            float hi = max(c.r, max(c.g, c.b));
+            float lo = min(c.r, min(c.g, c.b));
+            delta = clamp(delta, -max(0.0, lo) * 0.5, max(0.0, 1.0 - hi) * 0.5);
+            return premultiply(vec4(c.rgb + vec3(delta), c.a));
+        }
+        """)
+
+    static func enhancingDetails(_ image: CIImage, reference: CIImage,
+                                 sharpness: Double, definition: Double) -> CIImage {
+        let sharpness = min(1, max(0, sharpness))
+        let definition = min(1, max(0, definition))
+        guard sharpness > 0 || definition > 0 else { return image }
+        let extent = image.extent
+        let scale = max(0.1, min(extent.width, extent.height) / 1080)
+        let perceptual = image.applyingFilter("CILinearToSRGBToneCurve")
+        let original = reference.applyingFilter("CILinearToSRGBToneCurve")
+        guard let skin = skinMaskKernel?.apply(extent: extent, arguments: [original]) else { return image }
+        func blur(_ radius: Double) -> CIImage {
+            perceptual.clampedToExtent().applyingFilter("CIGaussianBlur", parameters: [
+                kCIInputRadiusKey: radius * scale
+            ]).cropped(to: extent)
+        }
+        // Relative radii preserve the apparent detail scale across preview and
+        // full-size export. Skip each unused blur; zero settings are an identity.
+        let result = detailKernel?.apply(extent: extent, arguments: [
+            perceptual, sharpness > 0 ? blur(2) : perceptual,
+            definition > 0 ? blur(10) : perceptual, original, skin, sharpness, definition
+        ]) ?? perceptual
+        return result.applyingFilter("CISRGBToneCurveToLinear").cropped(to: extent)
+    }
+
     // Work on the original signal before exposure and shadow gain amplify noise.
     // Automatic processing is confined to shadows; the explicit slider can also
     // reduce noise in brighter regions. A zero recipe stays an exact bypass.

@@ -7,6 +7,7 @@
         "highlights" : -18,
         "saturation" : -22,
         "shadows" : 8,
+        "sharpness" : 10,
         "tint" : 4,
         "vignette" : 12,
         "warmth" : 28
@@ -23,6 +24,7 @@
         "highlights" : -22,
         "saturation" : -10,
         "shadows" : 6,
+        "sharpness" : 12,
         "tint" : 4,
         "warmth" : 18
       }
@@ -39,6 +41,7 @@
         "highlights" : -20,
         "saturation" : -10,
         "shadows" : 12,
+        "sharpness" : 14,
         "warmth" : -4
       }
     },
@@ -50,9 +53,11 @@
       "values" : {
         "blackPoint" : 8,
         "contrast" : 22,
+        "definition" : 4,
         "highlights" : -24,
         "saturation" : -18,
         "shadows" : 20,
+        "sharpness" : 16,
         "tint" : -4,
         "vignette" : 12,
         "warmth" : -18
@@ -66,9 +71,11 @@
       "values" : {
         "blackPoint" : 6,
         "contrast" : 22,
+        "definition" : 6,
         "highlights" : -18,
         "saturation" : -100,
-        "shadows" : 18
+        "shadows" : 18,
+        "sharpness" : 20
       }
     },
     "id" : "CAAB0000-0000-4000-8000-000000000005",
@@ -82,6 +89,7 @@
         "highlights" : -20,
         "saturation" : -4,
         "shadows" : 22,
+        "sharpness" : 8,
         "tint" : 4,
         "warmth" : 4
       }
@@ -93,9 +101,11 @@
     "adjustment" : {
       "values" : {
         "contrast" : 8,
+        "definition" : 2,
         "highlights" : -24,
         "saturation" : 2,
         "shadows" : 6,
+        "sharpness" : 14,
         "tint" : 4,
         "vibrance" : 10,
         "warmth" : 26
@@ -109,8 +119,10 @@
       "values" : {
         "brightness" : 2,
         "contrast" : 6,
+        "definition" : 4,
         "highlights" : -14,
         "shadows" : 6,
+        "sharpness" : 18,
         "vibrance" : 6,
         "warmth" : -26
       }
@@ -123,9 +135,11 @@
       "values" : {
         "blackPoint" : 4,
         "contrast" : 14,
+        "definition" : 6,
         "highlights" : -22,
         "saturation" : 12,
         "shadows" : 8,
+        "sharpness" : 22,
         "vibrance" : 18
       }
     },
@@ -141,6 +155,7 @@
         "highlights" : -16,
         "saturation" : -24,
         "shadows" : 4,
+        "sharpness" : 8,
         "warmth" : -4
       }
     },
@@ -152,9 +167,11 @@
       "values" : {
         "blackPoint" : 12,
         "contrast" : 28,
+        "definition" : 8,
         "highlights" : -20,
         "saturation" : -14,
         "shadows" : 18,
+        "sharpness" : 24,
         "warmth" : -6
       }
     },
@@ -166,9 +183,11 @@
       "values" : {
         "blackPoint" : 6,
         "contrast" : 16,
+        "definition" : 4,
         "highlights" : -22,
         "saturation" : -16,
         "shadows" : 10,
+        "sharpness" : 14,
         "tint" : 4,
         "vignette" : 18,
         "warmth" : 30

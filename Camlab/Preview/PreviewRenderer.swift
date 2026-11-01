@@ -1,10 +1,10 @@
 @preconcurrency import MetalKit
 import CoreImage
 import OSLog
-import QuartzCore
+@preconcurrency import QuartzCore
 
-/// UI hands over one immutable frame and its drawable. All Core Image setup
-/// and encoding runs on queue; GPU completion releases the frame reservation.
+/// Drawable acquisition and encoding run off the UI thread. GPU completion
+/// releases the reservation for the next frame.
 nonisolated final class PreviewRenderer: @unchecked Sendable {
     private nonisolated struct Frame: @unchecked Sendable {
         let source: CIImage
@@ -16,6 +16,7 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
         let startupID: UUID?
         let startupBegan: TimeInterval?
         let drawBegan: TimeInterval
+        let acquisitionBegan: TimeInterval
         let acquiredAt: TimeInterval
     }
 
@@ -25,6 +26,7 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
     }
 
     private let device: MTLDevice
+    private let layer: CAMetalLayer
     private let service: CameraService
     private let queue = DispatchQueue(label: "Camlab.previewRendering", qos: .userInitiated)
     private let inFlight = DispatchSemaphore(value: 1)
@@ -33,9 +35,20 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
     private var storedResources: Resources?
     private var submittedStartupID: UUID?
     private let presentation = PreviewPresentationTracker()
+    private let stateLock = NSLock()
+    private var activeID: UUID?
 
-    init(device: MTLDevice, service: CameraService) {
+    func setActivePreview(_ id: UUID?) {
+        stateLock.withLock { activeID = id }
+    }
+
+    private func isActive(_ id: UUID?) -> Bool {
+        stateLock.withLock { id != nil && activeID == id }
+    }
+
+    init(device: MTLDevice, layer: CAMetalLayer, service: CameraService) {
         self.device = device
+        self.layer = layer
         self.service = service
         queue.async { _ = self.resources() }
     }
@@ -58,17 +71,24 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
     func reserveFrame() -> Bool { inFlight.wait(timeout: .now()) == .success }
     func releaseFrame() { inFlight.signal() }
 
-    func submit(source: CIImage, drawable: CAMetalDrawable,
+    func submit(source: CIImage,
                 style: StyleAdjustment, rotation: CGFloat, mirrored: Bool,
-                startupID: UUID?, startupBegan: TimeInterval?, drawBegan: TimeInterval) {
-        // During rotation MTKView.drawableSize can already describe the next
-        // surface while currentDrawable still owns a texture of the old size.
-        let size = CGSize(width: drawable.texture.width, height: drawable.texture.height)
-        let frame = Frame(source: source, drawable: drawable, size: size, style: style,
-                          rotation: rotation, mirrored: mirrored, startupID: startupID,
-                          startupBegan: startupBegan, drawBegan: drawBegan, acquiredAt: ProcessInfo.processInfo.systemUptime)
+                startupID: UUID, startupBegan: TimeInterval?, drawBegan: TimeInterval) {
         queue.async {
-            autoreleasepool { self.render(frame) }
+            autoreleasepool {
+                // A drawable may be unavailable while the scene is leaving or
+                // returning. Waiting here must never block lifecycle events.
+                let acquisitionBegan = ProcessInfo.processInfo.systemUptime
+                guard self.isActive(startupID), let drawable = self.layer.nextDrawable(), self.isActive(startupID) else {
+                    self.releaseFrame()
+                    return
+                }
+                let size = CGSize(width: drawable.texture.width, height: drawable.texture.height)
+                self.render(Frame(source: source, drawable: drawable, size: size, style: style,
+                                  rotation: rotation, mirrored: mirrored, startupID: startupID,
+                                  startupBegan: startupBegan, drawBegan: drawBegan, acquisitionBegan: acquisitionBegan,
+                                  acquiredAt: ProcessInfo.processInfo.systemUptime))
+            }
         }
     }
 
@@ -91,6 +111,7 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
         resources.context.render(positioned.composited(over: background), to: frame.drawable.texture,
                                  commandBuffer: command, bounds: bounds, colorSpace: colorSpace)
         let encodedAt = ProcessInfo.processInfo.systemUptime
+        guard isActive(frame.startupID) else { releaseFrame(); return }
         let first = frame.startupID != nil && frame.startupID != submittedStartupID
         let semaphore = inFlight
         let logger = logger
@@ -107,7 +128,7 @@ nonisolated final class PreviewRenderer: @unchecked Sendable {
             if let startupBegan = frame.startupBegan {
                 logger.info("Preview first draw began after \(frame.drawBegan - startupBegan, privacy: .public) seconds; command ready after \(encodedAt - startupBegan, privacy: .public) seconds")
             }
-            logger.info("Preview first drawable acquisition took \(frame.acquiredAt - frame.drawBegan, privacy: .public) seconds; render queue wait \(began - frame.acquiredAt, privacy: .public) seconds; encoding \(encodedAt - began, privacy: .public) seconds")
+            logger.info("Preview first drawable acquisition took \(frame.acquiredAt - frame.acquisitionBegan, privacy: .public) seconds; render queue wait \(frame.acquisitionBegan - frame.drawBegan, privacy: .public) seconds; encoding \(encodedAt - began, privacy: .public) seconds")
         }
         if let startupID = frame.startupID, presentation.shouldObserve(startupID) {
             #if !targetEnvironment(simulator)
